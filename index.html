@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v11</title>
+<title>증강 부루마블 v12</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -437,6 +437,23 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 #augModal .rr1{min-width:250px;min-height:50px;font-size:16px}
 #augModal .rr1:disabled{opacity:.8}
 #augModal .rrhint{color:#e9ecef;font-size:16px;opacity:.85}
+
+/* ===== v12: 로그·채팅 분리 ===== */
+#plist{flex:1 1 auto;min-height:0;overflow:auto}
+.panes{flex:0 0 300px!important}
+.panes{flex:1;display:flex;gap:8px;min-height:0}
+.pane{flex:1;display:flex;flex-direction:column;min-height:0;background:#ffffffd9;border-radius:14px;box-shadow:0 3px 0 #e2dccb;overflow:hidden}
+.pane .ph{font-weight:900;font-size:15px;color:#3b2f7a;padding:7px 12px;background:#f3f0ff;border-bottom:1px solid #e6e0f5}
+.pane #log{flex:1;border-radius:0;box-shadow:none;background:transparent;min-height:0}
+.chatpane{flex:.85}
+#chatlog{flex:1;overflow:auto;padding:8px 10px;font-size:14.5px;line-height:1.5;color:#2b2b3a;min-height:0}
+#chatlog div{padding:2px 0;word-break:break-all}
+#chatlog div.sys{color:#8a83a0;font-size:13px}
+.chatin{display:flex;gap:6px;padding:7px;border-top:1px solid #eee}
+.chatin input{flex:1;min-width:0;font-size:15px;padding:8px 10px;border-radius:10px;border:2px solid #e0dbef;font-family:inherit;outline:none}
+.chatin input:focus{border-color:#845ef7}
+.chatin .btn{min-width:64px;min-height:40px;padding:6px 10px;font-size:15px;border-bottom-width:4px}
+.pcard .augs{margin-bottom:0}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -455,7 +472,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v11</div>
+    <div class="ver">v12</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -486,9 +503,9 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
     <div id="boardWrap"><div id="board"></div></div><div id="tokLayer"></div>
     <div id="side">
       <div id="plist" style="display:flex;flex-direction:column;gap:8px"></div>
-      <div id="log"></div>
+      <div class="panes"><div class="pane"><div class="ph">📜 게임 로그</div><div id="log"></div></div><div class="pane chatpane"><div class="ph">💬 채팅</div><div id="chatlog"></div><div class="chatin"><input id="chatInput" maxlength="80" placeholder="메시지 입력 후 Enter" onkeydown="if(event.key==='Enter')sendChat()"><button class="btn" onclick="sendChat()">전송</button></div></div></div>
       <div id="sidebtns">
-        <button class="btn gray" onclick="showDex()">증강 도감</button><button class="btn gray" onclick="showDex('syn')">시너지</button>
+        <button class="btn gray" onclick="showDex()">증강 도감</button>
         <button class="btn gray" onclick="showHelp()">규칙</button>
         <button class="btn gray" onclick="toggleFast()" id="fastBtn">AI 빠르게: OFF</button>
         <button class="btn gray" onclick="if(confirm('메인으로 나갈까요?'))location.reload()">나가기</button>
@@ -1136,70 +1153,33 @@ A('시작 자금','S',['경제'],'즉시 300 획득',{startCash:300});
 A('출석 체크','S',['경제','방어'],'월급 +40, 내는 통행료 -3%',{salary:40,tollOut:3});
 A('리모델링','S',['건설'],'랜드마크 건설비 -20%',{lmDisc:20});
 A('부동산 앱','S',['건설','경제'],'구매가 -8%, 건설비 -5%',{buyDisc:8,buildDisc:5});
+A('보험 설계사','S',['방어'],'통행료를 300 넘게 내면 20%를 은행에서 돌려받음',{insure:20});
 A('급매 전문','S',['방어'],'파산 위기 매각 시 매각가 +15%',{sellRate:15});
 // 골드
-A('연봉 협상','G',['경제'],'월급 +150',{salary:150});
-A('복리의 마법','G',['경제'],'출발 칸 통과 시 보유 현금의 5% 이자 (최대 150)',{interest:5});
-A('건설 붐','G',['건설'],'건설비 -20%',{buildDisc:20});
-A('갑질 협상','G',['인수'],'인수 비용 -20%, 인수 시 비용의 10%를 은행에서 환급',{toCost:20,toBonus:10});
-A('철벽 등기','G',['방어'],'상대의 인수 시도를 2회 막음 (충전형)',{toProt:2});
-A('파산 보험','G',['방어'],'파산할 상황에서 1회 빚 탕감 (충전형)',{shield:1});
-A('블랙잭','G',['도박'],'통행료를 받을 때 50%로 ×1.8, 50%로 ×0.6',{tollGamble:1});
-A('한탕주의','G',['도박'],'월급이 50%로 ×2.5, 50%로 ×0.3',{lapGamble:1});
-A('조작된 주사위','G',['이동'],'더블 확률 +12%, 합 4 이하 자동 재굴림',{dbl:12,lowReroll:1});
-A('관광 재벌','G',['관광'],'관광지 통행료 수입 +50%',{tourIn:50});
-A('바가지','G',['경제'],'받는 통행료 +15%',{tollIn:15});
-A('텃세','G',['방해'],'다른 플레이어끼리 통행료가 오가면 8%를 은행에서 받음',{rentSkim:8});
-A('페스티벌 황제','G',['축제'],'축제 땅 통행료 배율 +1',{festX:1});
-A('점쟁이 예언','G',['이동'],'나쁜 황금열쇠 카드를 뽑으면 1회 다시 뽑음',{keyGood:1});
-A('강원 스키 성수기','G',['테마','경제'],'[강원 땅 보유 시] 받는 통행료 +30%',{tollIn:30},'sub');
-A('세종 행정수도','G',['테마','방해'],'[충청 땅 보유 시] 받는 통행료 +10%, 소매치기 6%',{tollIn:10,rentSkim:6},'fps');
-A('남도 외상 장부','G',['테마','방어'],'[전라 땅 보유 시] 한 바퀴에 1회, 외상으로 통행료 면제',{liarFree:1},'liar');
-A('경상 재벌 합병','G',['테마','인수'],'[경상 땅 보유 시] 인수 비용 -25%',{toCost:25},'bump');
-A('부산 국제영화제','G',['테마','경제'],'[부산·울산 땅 보유 시] 월급 +120',{salary:120},'ani');
-A('경기 신도시 개발','G',['테마','경제'],'[경기 땅 보유 시] 받는 통행료 +20%, 무인도 즉시 탈출',{tollIn:20,islandOut:1},'rsv');
-A('여의도 주식 단타','G',['테마','도박'],'[서울 땅 보유 시] 받는 통행료 +10%, 블랙잭 효과',{tollIn:10,tollGamble:1},'tax');
-A('조기 착공','G',['건설'],'건설비 -10%, 랜드마크 건설비 -30%',{buildDisc:10,lmDisc:30});
-A('손절 전문가','G',['방어'],'파산 위기 매각가 +25%, 내는 통행료 -5%',{sellRate:25,tollOut:5});
-A('투기 세력','G',['도박','경제'],'즉시 0~900 랜덤 획득, 받는 통행료 +5%',{lottery:2,tollIn:5});
 // 프리즘
-A('건물주','P',['경제'],'월급 +200, 받는 통행료 +15%',{salary:200,tollIn:15});
-A('월스트리트','P',['경제'],'출발 칸 통과 시 이자 8% (최대 150), 구매가 -15%',{interest:8,buyDisc:15});
-A('재개발 조합','P',['건설'],'건설비 -30%, 랜드마크 건설비 -30%',{buildDisc:30,lmDisc:30});
-A('기업 사냥꾼','P',['인수'],'인수 비용 -35%, 인수 시 20% 환급',{toCost:35,toBonus:20});
-A('불사조','P',['방어'],'파산할 상황에서 2회 빚 탕감 (충전형)',{shield:2});
-A('올인','P',['도박'],'한탕주의 + 블랙잭 효과, 받는 통행료 +10%',{lapGamble:1,tollGamble:1,tollIn:10});
-A('순간이동 장치','P',['이동'],'더블 확률 +20%, 합 4 이하 자동 재굴림',{dbl:20,lowReroll:1});
-A('관광 독점','P',['관광'],'관광지 수입 +80%, 구매가 -10%',{tourIn:80,buyDisc:10});
-A('조세 회피처','P',['방어'],'내가 내는 통행료 -25%',{tollOut:25});
-A('통행료 폭탄','P',['경제'],'받는 통행료 +35%',{tollIn:35});
-A('축제의 신','P',['축제'],'축제 땅 배율 +1.5, 받는 통행료 +10%',{festX:1.5,tollIn:10});
-A('그림자 정부','P',['방해'],'다른 플레이어끼리 통행료가 오가면 15%를 은행에서 받음',{rentSkim:15});
-A('마스터 키','P',['이동','경제'],'점쟁이 예언 효과, 월급 +100, 더블 +8%',{keyGood:1,salary:100,dbl:8});
-A('전국 일주','P',['테마'],'[4개 이상 게임 그룹의 땅 보유 시] 받는 통행료 +40%',{tollIn:40},null,p=>groupsOwned(p)>=4);
-A('완판 신화','P',['건설','방어'],'건설비 -20%, 인수 2회 방어',{buildDisc:20,toProt:2});
 // 주사위 컨트롤 증강
 A('손목 스냅','S',['컨트롤'],'주사위 컨트롤 확률 +8%p',{ctrl:8});
 A('집중 모드','S',['컨트롤','이동'],'주사위 컨트롤 +5%p, 더블 확률 +4%',{ctrl:5,dbl:4});
-A('프로 게이머','G',['컨트롤'],'주사위 컨트롤 확률 +15%p',{ctrl:15});
-A('정밀 조준','G',['컨트롤','경제'],'주사위 컨트롤 +10%p, 월급 +80',{ctrl:10,salary:80});
-A('신의 손','P',['컨트롤'],'주사위 컨트롤 확률 +28%p',{ctrl:28});
-A('타짜','P',['컨트롤','도박'],'주사위 컨트롤 +18%p, 블랙잭 효과',{ctrl:18,tollGamble:1});
+// ---- 골드: 발동·특수 효과 ----
+A('반쪽 주사위','G',['이동'],'[액티브 · 쿨 3라운드] 주사위 1개만 굴려 1~6칸만 이동',{act:'half'});
+A('역주행','G',['이동'],'[액티브 · 쿨 4라운드] 이번 이동을 뒤로 감 (거꾸로 출발 칸을 지나면 월급 없음)',{act:'back'});
+A('정전','G',['방해'],'[액티브 · 2회] 상대 땅 하나를 이번·다음 라운드 동안 통행료 0으로 만듦',{act:'blackout'});
+A('체인지','G',['인수'],'[액티브 · 1회] 내 땅과 상대 땅(랜드마크 제외)을 맞바꿈. 투자액 차이는 현금으로 정산',{act:'swap'});
+A('방어막 돔','G',['방어'],'[자동 · 2회] 통행료를 내야 할 때 1번 0으로 막아 줌',{dome:2});
+A('탈옥 전문가','G',['이동'],'[자동] 무인도에 가면 바로 탈출하고, 다음 턴에 원하는 칸으로 이동',{jailbreak:1});
+A('재건축','G',['방해'],'[선택 · 쿨 3라운드] 상대 땅에 멈추면 통행료 대신 그 땅 건물을 1단계 부숨',{rebuild:1});
+A('홀짝 선언','G',['도박'],'[매 굴림] 굴리기 전에 홀/짝을 선언, 맞히면 월급의 50% 보너스',{oddeven:1});
+// ---- 프리즘: 판도를 바꾸는 효과 ----
+A('트리플 다이스','P',['이동'],'[액티브 · 2회] 주사위 3개를 굴려 원하는 2개를 고름. 3개가 같은 눈이면 보너스 턴',{act:'triple'});
+A('운명 조작','P',['이동'],'[액티브 · 1회] 원하는 눈(2~12)을 그대로 지정해서 이동',{act:'fate'});
+A('수배령','P',['방해'],'[액티브 · 2회] 상대 1명과 숫자(1~6)를 정하고 주사위 1개를 굴림. 맞히면 그 상대를 무인도로, 틀리면 100 지불',{act:'wanted'});
+A('블랙홀','P',['방해'],'[액티브 · 1회] 내 땅에 블랙홀 설치 — 상대가 걸리면 통행료 ×2를 내고 무인도로 빨려감',{act:'blackhole'});
+A('천사 카드','P',['방어'],'[자동 · 1회] 통행료가 내 현금의 50%를 넘으면 면제받고, 그 땅을 반값에 인수',{angel:1});
+A('꼴찌의 반란','P',['경제'],'[자동] 꼴찌인 채로 출발 칸을 지나면 1등의 현금 15%를 빼앗아 옴',{rebel:1});
+A('신도시 개발','P',['건설'],'[액티브 · 1회] 바퀴 제한을 무시하고 내 땅 하나에 랜드마크를 무료로 바로 건설',{act:'newtown'});
 
 // ---- 시너지 ----
-const SYN={
- '경제':[[2,{salary:50},'월급 +50'],[3,{salary:120},'월급 +120'],[4,{salary:200},'월급 +200']],
- '건설':[[2,{buildDisc:10},'건설비 -10%'],[3,{buildDisc:20},'건설비 -20%'],[4,{buildDisc:30},'건설비 -30%']],
- '인수':[[2,{toCost:10},'인수비 -10%'],[3,{toCost:20,toBonus:10},'인수비 -20%, 환급 10%'],[4,{toCost:30,toBonus:20},'인수비 -30%, 환급 20%']],
- '방어':[[2,{tollOut:5},'내는 통행료 -5%'],[3,{tollOut:10},'-10%'],[4,{tollOut:18},'-18%']],
- '도박':[[2,{tollIn:5},'받는 통행료 +5%'],[3,{tollIn:12},'+12%'],[4,{tollIn:20},'+20%']],
- '이동':[[2,{dbl:5},'더블 +5%'],[3,{dbl:10},'더블 +10%'],[4,{dbl:15},'더블 +15%']],
- '방해':[[2,{rentSkim:3},'소매치기 +3%'],[3,{rentSkim:6},'+6%'],[4,{rentSkim:10},'+10%']],
- '관광':[[2,{tourIn:15},'관광 +15%'],[3,{tourIn:30},'+30%'],[4,{tourIn:50},'+50%']],
- '테마':[[2,{tollIn:5},'받는 통행료 +5%'],[3,{tollIn:10},'+10%'],[4,{tollIn:15},'+15%']],
- '축제':[[2,{festX:0.5},'축제 배율 +0.5'],[3,{festX:1},'+1']],
- '컨트롤':[[2,{ctrl:5},'컨트롤 +5%p'],[3,{ctrl:10},'컨트롤 +10%p'],[4,{ctrl:18},'컨트롤 +18%p']]
-};
+const SYN={}; // 시너지 시스템 제거 (v12)
 const CAPS={tollIn:100,tollOut:50,buyDisc:50,buildDisc:50,lmDisc:50,toCost:50,toBonus:30,dbl:30,interest:10,rentSkim:20,tourIn:120,sellRate:40,festX:3,ctrl:50};
 
 // ---- 황금열쇠 카드 ----
@@ -1239,7 +1219,7 @@ function ownsGroup(p,g){return G.cells.some((c,i)=>CELLS[i].g===g&&c.owner===p.i
 function groupsOwned(p){return Object.keys(GROUPS).filter(g=>ownsGroup(p,g)).length}
 function synCounts(p){const c={};for(const id of p.augs)for(const t of AUGS[id].tags)c[t]=(c[t]||0)+1;return c}
 function mods(p){
-  const m={salary:0,tollIn:0,tollOut:0,buyDisc:0,buildDisc:0,lmDisc:0,toCost:0,toBonus:0,dbl:0,interest:0,tourIn:0,festX:0,rentSkim:0,sellRate:0,lowReroll:0,islandOut:0,keyGood:0,lapGamble:0,tollGamble:0,liarFree:0,ctrl:0};
+  const m={salary:0,tollIn:0,tollOut:0,buyDisc:0,buildDisc:0,lmDisc:0,toCost:0,toBonus:0,dbl:0,interest:0,tourIn:0,festX:0,rentSkim:0,sellRate:0,lowReroll:0,islandOut:0,keyGood:0,lapGamble:0,tollGamble:0,liarFree:0,ctrl:0,insure:0,jailbreak:0,rebuild:0,oddeven:0,rebel:0};
   const add=o=>{for(const k in o)if(k in m)m[k]+=o[k]};
   for(const id of p.augs){const a=AUGS[id];if(a.cond&&!a.cond(p))continue;add(a.m)}
   const sc=synCounts(p);
@@ -1374,6 +1354,8 @@ function renderPlayers(){
     const m=mods(p),sc=synCounts(p);
     const st=[];if(p.toProt)st.push(`🛡️ 인수방어 ${p.toProt}`);if(p.shield)st.push(`💖 파산방지 ${p.shield}`);if(p.island)st.push(`🏝️ 무인도 ${p.island}`);if(p.express)st.push('🚀 우주여행 대기');if(m.liarFree&&p.liarCharge)st.push('📒 외상 1');
     st.push(`🎯 컨트롤 ${ctrlChance(p)}%`);
+    if(p.dome)st.push(`🛡️ 돔 ${p.dome}`);if(p.angel)st.push('😇 천사 1');
+    if(p.acts)for(const k in p.acts){if(!ACT[k])continue;const s=p.acts[k];if(ACT[k].uses&&s.uses<=0)continue;st.push(ACT[k].uses?`${ACT[k].n} ${s.uses}회`:(s.ready>G.round?`${ACT[k].n} 쿨 ${s.ready-G.round}`:`${ACT[k].n} 준비`))}
     setIf(el.querySelector('.meta'),`<span>총자산 <b>${asset(p).toLocaleString()}</b></span><span>땅 <b>${G.cells.filter(c=>c.owner===p.id).length}</b>칸</span><span>${p.laps+1}바퀴째</span>${st.map(x=>`<span>${x}</span>`).join('')}${p.alive?'':'<span>파산</span>'}`);
     setIf(el.querySelector('.augs'),p.augs.map(id=>{const a=AUGS[id];const off=a.cond&&!a.cond(p);return `<span class="aug ${a.t}${off?' off':''}" data-tip="${esc(`<b>${a.n}</b> (${TIER_NAME[a.t]})<br>${a.d}<br><i>${a.tags.map(t=>(SYN_IC[t]||'')+'#'+t).join(' ')}</i>${off?'<br><span style=color:#ff9>조건 미충족 — 비활성</span>':''}`)}"><i>${SYN_IC[a.tags[0]]||'✨'}</i>${a.n}</span>`}).join('')||'<span class="noaug">증강 없음</span>');
     setIf(el.querySelector('.syns'),Object.keys(sc).filter(t=>SYN[t]).sort((x,y)=>sc[y]-sc[x]).map(t=>{const lvl=synLv(p,t);const tip=SYN[t].map((x,k)=>`${k<lvl?'✅':'⬜'} ${x[0]}개: ${x[2]}`).join('<br>');return `<span class="syn${lvl?'':' lo'}${p._synFlash===t?' pop':''}" data-tip="${esc(`<b>${SYN_IC[t]} #${t} 시너지</b> — ${SYN_DESC[t]||''}<br>${tip}`)}"><i>${SYN_IC[t]||'#'}</i>${t} ${sc[t]}<small>/${SYN[t][SYN[t].length-1][0]}</small></span>`}).join(''));
@@ -1558,6 +1540,10 @@ function hostOnData(conn,d){
     conn._name=String(d.name||'플레이어').slice(0,8);
     if(!NET.conns.includes(conn))NET.conns.push(conn);
     NET.lobby.push({name:conn._name,peer:conn.peer});lobbySync();
+  }else if(d.t==='chat'){
+    const now=Date.now();if(conn._lc&&now-conn._lc<600)return;conn._lc=now;
+    const p=G&&G.players.find(q=>q.remote===conn.peer);const name=p?p.name:(conn._name||'플레이어'),color=p?p.color:'#555';const text=String(d.text||'').slice(0,80);
+    if(!text)return;chatAdd(name,color,text);bcast({t:'chat',name,color,text});
   }else if(d.t==='ans'){const r=NET.pending[d.rid];if(r){delete NET.pending[d.rid];clearTimeout(r.to);r.res(d.v)}}
 }
 function hostOnClose(conn){
@@ -1617,7 +1603,7 @@ async function startMulti(){
   const pers=[...PERS].sort(()=>Math.random()-0.5);
   const players=NET.lobby.map((x,k)=>({id:k,name:x.name,human:true,remote:x.peer||null,color:COLORS[k]}));
   for(let k=players.length;k<total;k++){const pr=pers[k];players.push({id:k,name:`${pr.n} ${AI_NAMES[k]}`,human:false,remote:null,pers:pr,color:COLORS[k]})}
-  players.forEach(p=>Object.assign(p,{cash:START_CASH,pos:0,alive:true,augs:[],toProt:0,shield:0,island:0,express:false,laps:0,picks:0,pending:1,liarCharge:1,stats:{tollIn:0,tollOut:0,bigTO:0,toCnt:0,gambleLoss:0}}));
+  players.forEach(p=>Object.assign(p,{cash:START_CASH,pos:0,alive:true,augs:[],toProt:0,shield:0,island:0,express:false,laps:0,picks:0,pending:1,liarCharge:1,acts:{},dome:0,angel:0,stats:{tollIn:0,tollOut:0,bigTO:0,toCnt:0,gambleLoss:0}}));
   G={players,cells:CELLS.map(()=>({owner:-1,level:0,invested:0})),turn:0,round:1,limit:+document.getElementById('optLimM').value,pot:0,fest:-1,over:false,pickSet:null};
   installHostProxies();
   NET.conns.forEach(c=>{const p=G.players.find(q=>q.remote===c.peer);if(p)c.send({t:'start',you:p.id})});
@@ -1682,6 +1668,7 @@ function installHostProxies(){
 function clientOnData(d){
   switch(d.t){
     case 'hb':break;
+    case 'chat':chatAdd(d.name,d.color,d.text);break;
     case 'lobby':NET.lobby=d.list.map(n=>({name:n}));NET.code=d.code;showRoom();break;
     case 'deny':lobMsg(d.msg);break;
     case 'start':NET.myId=d.you;break;
@@ -1763,8 +1750,8 @@ function rollPrompt(p,first,text){
     const end=()=>{if(!holding||done)return;done=true;cancelAnimationFrame(raf);btn.classList.remove('hold');
       window.removeEventListener('pointerup',end);window.removeEventListener('keyup',ku);window.removeEventListener('keydown',kd);
       setTimeout(()=>{bb.innerHTML='';document.getElementById('ptext').innerHTML='';res(Math.max(0,Math.min(1,power)))},180)};
-    const kd=e=>{if(e.code==='Space'&&!e.repeat){start(e)}};
-    const ku=e=>{if(e.code==='Space')end()};
+    const kd=e=>{if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='Space'&&!e.repeat){start(e)}};
+    const ku=e=>{if(e.target&&e.target.tagName==='INPUT')return;if(e.code==='Space')end()};
     btn.addEventListener('pointerdown',start);window.addEventListener('pointerup',end);
     window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
   });
@@ -1786,6 +1773,145 @@ function aiPower(p){
   return Math.max(0,Math.min(1,(best-2)/10+(Math.random()-.5)*0.08));
 }
 
+// ================= 액티브·자동 증강 시스템 =================
+const PICK_EVERY=5;
+const ACT={
+  half:{n:'🎲 반쪽 주사위',cd:3}, back:{n:'↩️ 역주행',cd:4},
+  blackout:{n:'🔌 정전',uses:2}, swap:{n:'🔄 체인지',uses:1},
+  triple:{n:'🎲 트리플 다이스',uses:2}, fate:{n:'🔮 운명 조작',uses:1},
+  wanted:{n:'🚨 수배령',uses:2}, blackhole:{n:'🕳️ 블랙홀',uses:1}, newtown:{n:'🏙️ 신도시 개발',uses:1}
+};
+const myLands=(p,f)=>G.cells.map((c,i)=>i).filter(i=>G.cells[i].owner===p.id&&CELLS[i].t==='land'&&(!f||f(G.cells[i])));
+const oppLands=(p,f)=>G.cells.map((c,i)=>i).filter(i=>{const c=G.cells[i];return c.owner>=0&&c.owner!==p.id&&G.players[c.owner].alive&&CELLS[i].t==='land'&&(!f||f(c))});
+function actAvail(p,k){
+  const s=p.acts&&p.acts[k];if(!s)return false;
+  if(ACT[k].uses&&s.uses<=0)return false;
+  if(s.ready>G.round)return false;
+  if(k==='blackout')return oppLands(p).length>0;
+  if(k==='swap')return myLands(p,c=>c.level<4).length>0&&oppLands(p,c=>c.level<4).length>0;
+  if(k==='blackhole')return myLands(p).length>0;
+  if(k==='newtown')return myLands(p,c=>c.level<4).length>0;
+  if(k==='wanted')return alive().length>1;
+  return true;
+}
+function actLabel(p,k){const s=p.acts[k];return `${ACT[k].n} ${ACT[k].uses?`(${s.uses}회 남음)`:`(쿨 ${ACT[k].cd}라운드)`}`}
+function splitSum(n){const lo=Math.max(1,n-6),hi=Math.min(6,n-1);const a=lo+rnd(hi-lo+1);return[a,n-a]}
+function stepValue(p,s,back){
+  const i=((p.pos+(back?-s:s))%N+N)%N,cell=CELLS[i],c=G.cells[i];let v=0;
+  if(cell.t==='land'||cell.t==='tour'){
+    if(c.owner<0)v=p.cash>buyCost(p,i)?cell.price:0;
+    else if(c.owner===p.id)v=cell.t==='land'&&c.level<4?cell.price*0.8:10;
+    else v=-baseToll(i);
+  }else if(cell.t==='key')v=40;else if(cell.t==='fest')v=G.pot+50;else if(cell.t==='island')v=-150;else if(cell.t==='qa')v=-QA_FINE;else if(cell.t==='express')v=60;
+  if(!back&&p.pos+s>=N)v+=SALARY;
+  return v;
+}
+function aiBestSteps(p,lo,hi){let best=lo,bs=-1e9;for(let s=lo;s<=hi;s++){const v=stepValue(p,s)+Math.random()*10;if(v>bs){bs=v;best=s}}return[best,bs]}
+function aiPickAct(p,av){
+  const has=k=>av.includes(k);
+  if(has('newtown'))return 'newtown';
+  if(has('blackhole'))return 'blackhole';
+  if(has('wanted')&&Math.random()<0.35)return 'wanted';
+  if(has('blackout')&&Math.random()<0.3)return 'blackout';
+  if(has('swap')&&Math.random()<0.35){const mine=myLands(p,c=>c.level<4),th=oppLands(p,c=>c.level<4);const a=Math.min(...mine.map(i=>G.cells[i].invested)),b=Math.max(...th.map(i=>G.cells[i].invested));if(b-a>150&&p.cash>b-a+200)return 'swap'}
+  if(has('fate')&&aiBestSteps(p,2,12)[1]>220&&Math.random()<0.6)return 'fate';
+  if(has('triple')&&Math.random()<0.35)return 'triple';
+  if(has('half')&&aiBestSteps(p,1,6)[1]>aiBestSteps(p,2,12)[1]&&Math.random()<0.5)return 'half';
+  if(has('back')&&Math.random()<0.08)return 'back';
+  return null;
+}
+async function preRoll(p){
+  while(true){
+    if(G.over||!p.alive)return{mode:'none'};
+    const av=Object.keys(ACT).filter(k=>actAvail(p,k));
+    if(!av.length)return{mode:'normal'};
+    let k;
+    if(p.human){k=await ask('⚡ 쓸 수 있는 액티브 증강이 있어요',[...av.map(k=>({label:actLabel(p,k),v:k})),{label:'🎲 주사위 굴리기로',v:'roll',cls:'gold'}]);if(k==='roll')return{mode:'normal'}}
+    else{k=aiPickAct(p,av);if(!k)return{mode:'normal'};await sleep(250)}
+    const r=await useActive(p,k);
+    render();
+    if(r)return r;
+  }
+}
+async function useActive(p,k){
+  const s=p.acts[k];
+  const spend=()=>{if(ACT[k].uses)s.uses--;if(ACT[k].cd)s.ready=G.round+ACT[k].cd};
+  const nm=ACT[k].n;
+  if(k==='half'||k==='back'||k==='triple'){spend();log(`⚡ ${pname(p)} ${nm} 사용!`);await FX.banner(nm,'syn');return{mode:k}}
+  if(k==='fate'){
+    let n;
+    if(p.human)n=await ask('🔮 운명 조작 — 원하는 눈을 고르세요',[2,3,4,5,6,7,8,9,10,11,12].map(x=>({label:`${x} → ${CELLS[(p.pos+x)%N].n}`,v:x})));
+    else n=aiBestSteps(p,2,12)[0];
+    spend();log(`⚡ ${pname(p)} 🔮 운명 조작 사용! → ${n}칸`);await FX.banner('🔮 운명 조작!','syn');return{mode:'fate',n};
+  }
+  if(k==='blackout'){
+    const list=oppLands(p);
+    const i=p.human?await pickCell(p,list,'🔌 정전시킬 상대 땅을 클릭하세요'):list.sort((a,b)=>baseToll(b)-baseToll(a))[0];
+    G.blackout=G.blackout||{};G.blackout[i]=G.round+1;spend();
+    log(`⚡ 🔌 ${pname(p)}, ${CELLS[i].n} 정전! (${G.round+1}라운드까지 통행료 0)`);await FX.stamp(i,'정전!');return null;
+  }
+  if(k==='swap'){
+    const mine=myLands(p,c=>c.level<4),th=oppLands(p,c=>c.level<4);
+    let a,b;
+    if(p.human){a=await pickCell(p,mine,'🔄 체인지 — 내줄 내 땅을 클릭하세요');b=await pickCell(p,th,'🔄 체인지 — 가져올 상대 땅을 클릭하세요')}
+    else{a=mine.sort((x,y)=>G.cells[x].invested-G.cells[y].invested)[0];b=th.sort((x,y)=>G.cells[y].invested-G.cells[x].invested)[0]}
+    const other=G.players[G.cells[b].owner];const diff=G.cells[b].invested-G.cells[a].invested;
+    if(diff>0&&p.cash<diff){toast('현금이 부족해서 체인지를 못 했어요','#ffb3b3');return null}
+    if(diff>0)await pay(p,diff,other);else if(diff<0)await pay(other,-diff,p);
+    G.cells[a].owner=other.id;G.cells[b].owner=p.id;spend();
+    log(`⚡ 🔄 ${pname(p)} 체인지! ${CELLS[a].n} ↔ ${pname(other)}의 ${CELLS[b].n} (정산 ${Math.abs(diff)})`);
+    render();await FX.stamp(b,'체인지!');aiSay(other,['내 땅 돌려내!!','이게 되네…','체인지 실화냐']);return null;
+  }
+  if(k==='wanted'){
+    const targets=alive().filter(q=>q!==p);
+    let tg,num;
+    if(p.human){tg=G.players[await ask('🚨 수배령 — 누구를 노릴까요?',targets.map(q=>({label:q.name,v:q.id})))];num=await ask(`🚨 ${tg.name} 수배 — 숫자를 고르세요 (1~6)`,[1,2,3,4,5,6].map(x=>({label:String(x),v:x})))}
+    else{tg=targets.sort((a,b)=>asset(b)-asset(a))[0];num=rnd(6)+1}
+    spend();
+    const d=rnd(6)+1;
+    log(`⚡ 🚨 ${pname(p)} 수배령! 대상 ${pname(tg)} · 선택 숫자 ${num}`);
+    await FX.dice(d,d);
+    if(d===num){await FX.banner('🚨 체포 성공!','warn');log(`🚨 주사위 ${d} — 적중! ${pname(tg)} 무인도로 연행`);await goIsland(tg);aiSay(tg,['억울합니다!!','이건 무효야','ㅠㅠ 감옥행'])}
+    else{log(`🚨 주사위 ${d} — 빗나감… ${pname(p)} 100 지불`);toast(`수배 실패 (${d})`,'#ffb3b3');const v=await pay(p,100,null);G.pot+=v}
+    render();return null;
+  }
+  if(k==='blackhole'){
+    const list=myLands(p);
+    const i=p.human?await pickCell(p,list,'🕳️ 블랙홀을 설치할 내 땅을 클릭하세요'):list.sort((a,b)=>baseToll(b)-baseToll(a))[0];
+    G.blackhole={i,owner:p.id};spend();log(`⚡ 🕳️ ${pname(p)}, ${CELLS[i].n}에 블랙홀 설치!`);render();await FX.stamp(i,'블랙홀');return null;
+  }
+  if(k==='newtown'){
+    const list=myLands(p,c=>c.level<4);
+    const i=p.human?await pickCell(p,list,'🏙️ 랜드마크를 바로 지을 내 땅을 클릭하세요'):list.sort((a,b)=>CELLS[b].price-CELLS[a].price)[0];
+    const c=G.cells[i];for(let lv=c.level+1;lv<=4;lv++)c.invested+=Math.round(CELLS[i].price*BUILD_K[lv]);c.level=4;spend();
+    log(`⚡ 🏙️ ${pname(p)} 신도시 개발! ${CELLS[i].n} 랜드마크 즉시 완공`);render();await FX.build(i,4);checkWin();return null;
+  }
+  return null;
+}
+async function moveBack(p,n){for(let k=0;k<n;k++){p.pos=(p.pos-1+N)%N;renderCells();await FX.hop(p,150)}render()}
+async function groupPick(){
+  const ps=alive();ps.forEach(p=>p.pending=0);
+  log(`✨ <b>${G.round}라운드 — 전원 증강 선택!</b>`);
+  await FX.banner('✨ 증강 선택 시간!','syn');
+  await Promise.all(ps.map(p=>doPick(p,true)));
+  render();
+}
+// ================= 채팅 =================
+function escH(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function chatAdd(name,color,text,sys){const el=document.getElementById('chatlog');if(!el)return;const d=document.createElement('div');d.className=sys?'sys':'';d.innerHTML=sys?escH(text):`<b style="color:${color}">${escH(name)}</b> ${escH(text)}`;el.appendChild(d);el.scrollTop=el.scrollHeight;while(el.children.length>80)el.firstChild.remove()}
+function sendChat(){
+  const inp=document.getElementById('chatInput');const v=inp.value.trim().slice(0,80);if(!v)return;inp.value='';
+  if(NET.mode==='client'){if(NET.hostConn&&NET.hostConn.open)NET.hostConn.send({t:'chat',text:v});return}
+  const me=G&&G.players.find(q=>isMe(q))||{name:'나',color:'#333'};
+  chatAdd(me.name,me.color,v);
+  if(NET.mode==='host')bcast({t:'chat',name:me.name,color:me.color,text:v});
+}
+function aiSay(p,lines){
+  if(!p||p.human||!G||Math.random()<0.4)return;
+  const t=lines[rnd(lines.length)];chatAdd(p.name,p.color,t);
+  if(NET.mode==='host')bcast({t:'chat',name:p.name,color:p.color,text:t});
+}
+
 // ================= 게임 흐름 =================
 async function startSingle(){
   const nAI=+document.getElementById('optAI').value;G={};
@@ -1793,7 +1919,7 @@ async function startSingle(){
   const pers=[...PERS].sort(()=>Math.random()-0.5);
   const players=[{id:0,name:'나',human:true,color:COLORS[0]}];
   for(let k=0;k<nAI;k++){const pr=pers[k];players.push({id:k+1,name:`${pr.n} ${AI_NAMES[k]}`,human:false,pers:pr,color:COLORS[k+1]})}
-  players.forEach(p=>Object.assign(p,{cash:START_CASH,pos:0,alive:true,augs:[],toProt:0,shield:0,island:0,express:false,laps:0,picks:0,pending:1,liarCharge:1,stats:{tollIn:0,tollOut:0,bigTO:0,toCnt:0,gambleLoss:0}}));
+  players.forEach(p=>Object.assign(p,{cash:START_CASH,pos:0,alive:true,augs:[],toProt:0,shield:0,island:0,express:false,laps:0,picks:0,pending:1,liarCharge:1,acts:{},dome:0,angel:0,stats:{tollIn:0,tollOut:0,bigTO:0,toCnt:0,gambleLoss:0}}));
   G={players,cells:CELLS.map(()=>({owner:-1,level:0,invested:0})),turn:0,round:1,limit:+document.getElementById('optLim').value,pot:0,fest:-1,over:false,pickSet:null};
   document.getElementById('menu').classList.remove('on');document.getElementById('game').classList.add('on');
   buildBoard();document.getElementById('log').innerHTML='';render();
@@ -1804,17 +1930,16 @@ async function startSingle(){
 function toggleFast(){FAST=!FAST;document.getElementById('fastBtn').textContent='AI 빠르게: '+(FAST?'ON':'OFF')}
 
 async function gameLoop(){
-  // 시작 증강
-  for(const p of G.players){G.turn=p.id;render();while(p.pending>0)await doPick(p)}
+  await groupPick();
   G.turn=0;
   while(!G.over){
     const p=cur();
     if(p.alive){render();await takeTurn(p);while(p.alive&&!G.over&&p.pending>0)await doPick(p)}
     if(G.over)break;
-    // 다음 차례
-    let nt=G.turn;do{nt=(nt+1)%G.players.length;if(nt===0)G.round++}while(!G.players[nt].alive);
+    let nt=G.turn,newRound=false;do{nt=(nt+1)%G.players.length;if(nt===0){G.round++;newRound=true}}while(!G.players[nt].alive);
     G.turn=nt;
     if(G.round>G.limit){endGame('라운드 제한 도달 — 총자산 순위');break}
+    if(newRound&&(G.round-1)%PICK_EVERY===0){render();await groupPick()}
   }
 }
 
@@ -1844,20 +1969,42 @@ async function takeTurn(p){
   }
   let dbl=0;
   while(true){
-    let power;
-    if(p.human)power=await rollPrompt(p,dbl===0,p.island?`🏝️ 무인도 (${p.island}턴 남음) — 더블이면 탈출`:(dbl?'더블! 한 번 더 굴리세요':'당신의 차례입니다'));
-    else{say(`${pname(p)} 생각 중...`);await sleep(300);power=aiPower(p)}
-    const[a,b]=await rollDice(p,power);const isD=a===b;
+    let mode={mode:'normal'};
+    if(p.island===0){mode=await preRoll(p);if(mode.mode==='none'||G.over||!p.alive)return;if(p.island>0||p.express)return}
+    let oe=null;
+    if(mods(p).oddeven&&mode.mode!=='fate'){
+      if(p.human)oe=await ask('🎯 홀짝 선언! 이번 주사위 합은?',[{label:'홀',v:1},{label:'짝',v:0}]);else oe=rnd(2);
+    }
+    let a,b,isD=false;
+    if(mode.mode==='fate'){[a,b]=splitSum(mode.n);await FX.dice(a,b)}
+    else if(mode.mode==='half'){a=rnd(6)+1;b=0;await FX.dice(a,a);log(`🎲 ${pname(p)} 반쪽 주사위 → ${a}`)}
+    else if(mode.mode==='triple'){
+      const t=[rnd(6)+1,rnd(6)+1,rnd(6)+1];await FX.dice(t[0],t[1]);toast(`🎲🎲🎲 ${t.join(' · ')}`,'#e3c2ff');log(`🎲 ${pname(p)} 트리플 다이스: ${t.join(', ')}`);
+      if(t[0]===t[1]&&t[1]===t[2]){a=t[0];b=t[1];isD=true;await FX.banner('🎲 트리플!','syn')}
+      else{
+        const pairs=[[0,1],[0,2],[1,2]];let pi;
+        if(p.human)pi=await ask(`🎲 트리플 다이스 ${t.join(' · ')} — 쓸 두 개를 고르세요`,pairs.map((q,k)=>({label:`${t[q[0]]}+${t[q[1]]} = ${t[q[0]]+t[q[1]]} → ${CELLS[(p.pos+t[q[0]]+t[q[1]])%N].n}`,v:k})));
+        else{let bv=-1e9;pairs.forEach((q,k)=>{const v=stepValue(p,t[q[0]]+t[q[1]]);if(v>bv){bv=v;pi=k}})}
+        a=t[pairs[pi][0]];b=t[pairs[pi][1]];isD=a===b;await FX.dice(a,b);
+      }
+    }
+    else{
+      let power;
+      if(p.human)power=await rollPrompt(p,dbl===0,p.island?`🏝️ 무인도 (${p.island}턴 남음) — 더블이면 탈출`:(dbl?'더블! 한 번 더 굴리세요':'당신의 차례입니다'));
+      else{say(`${pname(p)} 생각 중...`);await sleep(300);power=aiPower(p)}
+      [a,b]=await rollDice(p,power);isD=a===b;
+    }
+    const sum=a+b;
+    if(oe!==null){if(sum%2===oe){const v=Math.round(SALARY*0.5);gain(p,v);log(`🎯 ${pname(p)} 홀짝 적중! (${sum}) +${v}`);toast(`🎯 홀짝 적중 +${v}`)}else log(`${pname(p)} 홀짝 실패 (${sum})`)}
     if(p.island>0){
-      if(isD){p.island=0;log(`${pname(p)} 더블! 무인도 탈출`);await FX.banner('탈출!');await moveSteps(p,a+b);await resolve(p);return}
+      if(isD){p.island=0;log(`${pname(p)} 더블! 무인도 탈출`);await FX.banner('탈출!');await moveSteps(p,sum);await resolve(p);return}
       p.island--;log(`${pname(p)} 🏝️ 탈출 실패 (${a}+${b})`);FX.wave(8);render();await sleep(300);return;
     }
     if(isD){dbl++;if(dbl===3){FX.vignette();await FX.banner('3연속 더블!','warn');log(`${pname(p)} 3연속 더블 → 무인도`);await goIsland(p);return}await FX.banner(dbl===2?'DOUBLE ×2!':'DOUBLE!')}
-    log(`${pname(p)} 🎲 ${a}+${b}=${a+b}${isD?' <b>더블!</b>':''}`);
-    await moveSteps(p,a+b);
+    log(`${pname(p)} 🎲 ${b?a+'+'+b+'=':''}${sum}${mode.mode==='back'?' (역주행)':''}${isD?' <b>더블!</b>':''}`);
+    if(mode.mode==='back')await moveBack(p,sum);else await moveSteps(p,sum);
     await resolve(p);
     if(G.over||!p.alive)return;
-    while(p.pending>0)await doPick(p);
     if(isD&&p.island===0&&!p.express){toast(`${p.name} 더블! 한 번 더`);continue}
     return;
   }
@@ -1865,7 +2012,12 @@ async function takeTurn(p){
 
 async function moveSteps(p,n){for(let k=0;k<n;k++){p.pos=(p.pos+1)%N;if(p.pos===0)passStart(p);renderCells();await FX.hop(p,150)}render()}
 async function moveTo(p,dest){while(p.pos!==dest){p.pos=(p.pos+1)%N;if(p.pos===0)passStart(p);renderCells();await FX.hop(p,90)}render()}
-async function goIsland(p){p.pos=8;await FX.fly(p,false);const m=mods(p);if(m.islandOut){log(`${pname(p)} 🏝️ 조기퇴소 증강으로 바로 탈출!`);return}p.island=ISLAND_TURNS;FX.wave(8);log(`${pname(p)} 🏝️ 무인도 (${ISLAND_TURNS}턴)`)}
+async function goIsland(p){
+  p.pos=8;await FX.fly(p,false);const m=mods(p);
+  if(m.jailbreak){p.express=true;log(`${pname(p)} 🗝️ 탈옥 전문가! 바로 탈출, 다음 턴에 원하는 칸으로`);toast(`🗝️ ${p.name} 탈옥!`,'#cfe3ff');return}
+  if(m.islandOut){log(`${pname(p)} 🏝️ 조기퇴소 증강으로 바로 탈출!`);return}
+  p.island=ISLAND_TURNS;FX.wave(8);log(`${pname(p)} 🏝️ 무인도 (${ISLAND_TURNS}턴)`)
+}
 
 function passStart(p){
   const m=mods(p);let s=SALARY+m.salary;
@@ -1873,7 +2025,9 @@ function passStart(p){
   if(m.interest)s+=Math.min(150,Math.round(p.cash*m.interest/100));
   p.cash+=s;floatAt(0,'+'+s,'#7dff8a');FX.coins(cellEl(0),cardEl(p),s);
   p.laps++;if(m.liarFree)p.liarCharge=1;
-  if(p.picks+p.pending<MAX_PICKS){p.pending++;log(`${pname(p)} 🏁 월급 ${s} · 증강 선택권 획득!`)}else log(`${pname(p)} 🏁 월급 ${s}`);
+  log(`${pname(p)} 🏁 월급 ${s}`);
+  if(m.rebel){const al=alive();if(al.length>1){const low=al.reduce((x,y)=>asset(y)<asset(x)?y:x),top=al.reduce((x,y)=>asset(y)>asset(x)?y:x);
+    if(low===p&&top!==p){const v=Math.round(top.cash*0.15);if(v>0){top.cash-=v;p.cash+=v;log(`😈 ${pname(p)} 꼴찌의 반란! ${pname(top)}의 현금 ${v} 강탈`);toast(`😈 꼴찌의 반란 +${v}`,'#ffd6a5');FX.coins(cardEl(top),cardEl(p),v);aiSay(top,['아니 왜 나한테서…','반란 진압 실패','꼴찌 무섭네'])}}}}
 }
 
 function gain(p,v){p.cash+=v;floatAt(p.pos,'+'+v,'#7dff8a');FX.coins(cellEl(p.pos),cardEl(p),v)}
@@ -1978,18 +2132,37 @@ async function payToll(p,i){
   if(om.tollGamble){if(Math.random()<0.5){t*=1.8;log(`${pname(owner)} 🃏 블랙잭! 통행료 ×1.8`)}else{t*=0.6;log(`${pname(owner)} 🃏 블랙잭 실패 ×0.6`)}}
   t*=(1-pm.tollOut/100);t=Math.round(t);
   if(pm.liarFree&&p.liarCharge){p.liarCharge=0;toast(`📒 ${p.name} 외상! 통행료 면제`,'#ffcf8a');log(`${pname(p)} 📒 외상 장부로 ${CELLS[i].n} 통행료 ${t} 면제`);t=0}
+  if(G.blackout&&G.blackout[i]>=G.round&&t>0){log(`🔌 ${CELLS[i].n} 정전 중 — 통행료 없음`);toast('🔌 정전 중이라 통행료 0','#cfe3ff');t=0}
+  const bh=G.blackhole&&G.blackhole.i===i&&G.blackhole.owner===owner.id;
+  if(bh&&t>0){t*=2;log(`🕳️ ${CELLS[i].n} 블랙홀! 통행료 ×2`);FX.vignette()}
+  if(t>0&&p.dome>0){p.dome--;toast(`🛡️ ${p.name} 방어막 돔!`,'#cfe3ff');log(`🛡️ ${pname(p)} 방어막 돔으로 통행료 ${t} 차단 (남은 ${p.dome}회)`);await FX.stamp(i,'방어!');t=0}
+  if(t>0&&pm.rebuild&&CELLS[i].t==='land'&&c.level>0&&c.level<4&&(!p.acts.rebuild||p.acts.rebuild.ready<=G.round)){
+    let yes;
+    if(p.human)yes=await ask(`🏚️ 재건축 — 통행료 ${t}을 내는 대신 ${CELLS[i].n}의 ${LV_NAMES[c.level]}을(를) 부술까요?`,[{label:`🏚️ ${LV_NAMES[c.level]} 부수기`,v:1,cls:'gold'},{label:`통행료 ${t} 내기`,v:0,cls:'gray'}]);
+    else yes=c.level>=2||t>300;
+    if(yes){c.invested=Math.max(CELLS[i].price,c.invested-Math.round(CELLS[i].price*BUILD_K[c.level]));c.level--;p.acts.rebuild={ready:G.round+3};t=0;
+      log(`🏚️ ${pname(p)} 재건축! ${CELLS[i].n} 건물 1단계 철거`);render();await FX.stamp(i,'철거!');aiSay(owner,['내 건물!!','철거반 뭐야','다시 지으면 되지 뭐'])}
+  }
+  if(t>0&&p.angel>0&&t>p.cash*0.5&&CELLS[i].t==='land'&&c.level<4){
+    p.angel--;const half=Math.round(c.invested*0.5);
+    log(`😇 ${pname(p)} 천사 카드! 통행료 ${t} 면제`);await FX.banner('😇 천사 카드!','syn');
+    if(p.cash>=half){await pay(p,half,owner);c.owner=p.id;log(`😇 ${pname(p)} ${CELLS[i].n}을(를) 반값(${half})에 인수`);render();await FX.stamp(i,'천사!');aiSay(owner,['천사가 아니라 악마잖아','반값은 너무하지'])}
+    render();return;
+  }
   if(t>0){
     if(p.human)await ask(`<b>${owner.name}</b>의 ${CELLS[i].n}! 통행료 <b>${t}</b>`,[{label:'지불',v:1}]);else await sleep(200);
     const paid=await pay(p,t,owner);
     p.stats.tollOut+=paid;owner.stats.tollIn+=paid;
     log(`${pname(p)} → ${pname(owner)} 통행료 ${paid} (${CELLS[i].n})`);
-    if(paid>=500){shakeBoard();FX.vignette()}
+    if(paid>=500){shakeBoard();FX.vignette();aiSay(p,['아 진짜…','다음엔 피한다','통행료 실화?','ㅠㅠ'])}
+    if(pm.insure&&paid>300){const v=Math.round(paid*pm.insure/100);p.cash+=v;log(`🧾 ${pname(p)} 보험금 ${v} 환급`)}
     render();
     await FX.coins(cardEl(p),cardEl(owner),paid);
     for(const q of alive())if(q!==p&&q!==owner){const sk=mods(q).rentSkim;if(sk){const v=Math.round(paid*sk/100);if(v>0){q.cash+=v;q.stats.tollIn+=v}}}
   }
   render();
   if(!p.alive||G.over)return;
+  if(bh){log(`🕳️ ${pname(p)} 블랙홀에 빨려 무인도로!`);await goIsland(p);return}
   if(CELLS[i].t==='land'&&c.level<4&&c.owner!==p.id){
     const cost=takeoverCost(p,i);
     if(p.cash>=cost){
@@ -2047,7 +2220,9 @@ function drawOneAug(p,tier,exclude){
 async function doPick(p,bonus){
   if(!bonus)p.pending--;
   const before={};for(const t in SYN)before[t]=synLv(p,t);
-  const tier=rollTier(p);let opts=drawAugs(p,tier,[]);let rerolls=1;let choice;
+  let tier=rollTier(p);let opts=drawAugs(p,tier,[]);
+  if(!opts.length){for(const t of ['P','G','S']){opts=drawAugs(p,t,[]);if(opts.length){tier=t;break}}}
+  if(!opts.length){log(`${pname(p)} 더 받을 증강이 없음`);return}let rerolls=1;let choice;
   if(p.human)choice=await augModal(p,tier,opts);
   else{
     let sc=opts.map(id=>aiAugScore(p,id));const seen=[...opts];let used=0;
@@ -2062,6 +2237,9 @@ async function doPick(p,bonus){
   if(a.m.lottery){const v=rnd(a.m.lottery===2?901:401);gain(p,v);log(`${pname(p)} 🎟️ 랜덤 획득 ${v}`)}
   if(a.m.toProt)p.toProt+=a.m.toProt;
   if(a.m.shield)p.shield+=a.m.shield;
+  if(a.m.act){p.acts=p.acts||{};p.acts[a.m.act]={uses:ACT[a.m.act].uses||0,ready:G.round}}
+  if(a.m.dome)p.dome=(p.dome||0)+a.m.dome;
+  if(a.m.angel)p.angel=(p.angel||0)+a.m.angel;
   log(`${pname(p)} ✨ <span class="aug ${a.t}">${a.n}</span> 획득 (${TIER_NAME[a.t]})`);
   if(!p.human&&a.t==='P')toast(`${p.name} 프리즘 증강: ${a.n}`,'#e3c2ff');
   const el=cardEl(p);if(el){el.animate([{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}],{duration:FX.d(350)});if(a.t!=='S'){const c=FX.center(el);FX.burst(c.x,c.y,a.t==='P'?18:10,a.t==='P'?['#ff9ff3','#7df9ff','#fff59d','#c3a6ff']:['#ffd54a','#fff'],{sp:5})}}
@@ -2076,7 +2254,7 @@ function augModal(p,tier,opts){
     const front=id=>{const a=AUGS[id];const sc=synCounts(p);
       return `<div class="acard ${a.t}"><div class="tier">${TIER_NAME[a.t]}</div><div class="an">${a.n}</div><div class="ad">${a.d}</div>
       ${a.g?`<div class="cnd">조건: ${GROUPS[a.g].n} 땅 보유 ${ownsGroup(p,a.g)?'✅':'❌ (아직 없음)'}</div>`:''}
-      <div class="tags">${a.tags.map(t=>`<span class="tg">${SYN_IC[t]||'#'} ${t} ${(sc[t]||0)?'('+sc[t]+'→'+(sc[t]+1)+')':''}</span>`).join('')}</div></div>`};
+      <div class="tags">${a.tags.map(t=>`<span class="tg">${SYN_IC[t]||'#'} ${t}</span>`).join('')}</div></div>`};
     const inner=id=>`<div class="ain"><div class="aback"><div class="aq">?</div></div>${front(id)}</div>`;
     const reveal=(w,delay)=>setTimeout(()=>{w.querySelector('.ain').classList.add('open');const a=AUGS[+w.dataset.id];const c=FX.center(w);
       if(a.t==='P')FX.burst(c.x,c.y,14,['#ff9ff3','#7df9ff','#fff59d','#c3a6ff'],{sp:7});else if(a.t==='G')FX.burst(c.x,c.y,6,['#ffd54a','#fff'],{sp:5})},delay);
@@ -2180,7 +2358,7 @@ function endGame(reason,winner){
 function showDex(tab){
   tab=tab||'aug';
   const md=document.getElementById('infoModal');
-  const tabs=`<div class="dtabs">${[['aug','✨ 증강 도감'],['syn','🔗 시너지 도감'],['prob','🎲 확률·규칙']].map(([k,n])=>`<button class="btn ${k===tab?'gold':'gray'}" onclick="showDex('${k}')">${n}</button>`).join('')}</div>`;
+  const tabs=`<div class="dtabs">${[['aug','✨ 증강 도감'],['prob','🎲 확률·규칙']].map(([k,n])=>`<button class="btn ${k===tab?'gold':'gray'}" onclick="showDex('${k}')">${n}</button>`).join('')}</div>`;
   let body='';
   if(tab==='aug'){
     body=['S','G','P'].map(t=>`<h3 class="dt${t}">${TIER_NAME[t]} (${AUGS.filter(a=>a.t===t).length}개)</h3><div class="dgrid">${AUGS.filter(a=>a.t===t).map(a=>`<div class="dcard ${a.t}"><div class="dn">${SYN_IC[a.tags[0]]||'✨'} ${a.n}</div><div class="dd">${a.d}</div><div class="dtags">${a.tags.map(x=>`<span>${SYN_IC[x]||''} ${x}</span>`).join('')}</div></div>`).join('')}</div>`).join('');
@@ -2188,8 +2366,8 @@ function showDex(tab){
     body=`<div class="dgrid syn">${Object.entries(SYN).map(([k,v])=>{const list=AUGS.filter(a=>a.tags.includes(k));return `<div class="dcard syncard"><div class="sic">${SYN_IC[k]||'#'}</div><div class="dn">#${k}</div><div class="dd">${SYN_DESC[k]||''}</div><div class="stiers">${v.map(x=>`<div><b>${x[0]}개</b> ${x[2]}</div>`).join('')}</div><div class="slist">이 태그 증강 ${list.length}개: ${list.map(a=>`<span class="aug ${a.t}">${a.n}</span>`).join('')}</div></div>`}).join('')}</div>`;
   }else{
     body=`<h3>등급 확률 (실버 / 골드 / 프리즘, %)</h3><table>${TIER_P.map((x,k)=>`<tr><td>${k+1}번째 선택</td><td>${x.join(' / ')}</td></tr>`).join('')}</table>
-    <p style="margin-top:8px">총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정. 새로고침은 카드마다 1회이고, 바꿔도 등급은 그대로입니다. 모든 수치는 합연산이며 상한이 있습니다.</p>
-    <h3>🎯 주사위 컨트롤</h3><p>주사위 버튼을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 ${CTRL_BASE}% 확률로 게이지 위치의 숫자(왼쪽 끝 2 ~ 오른쪽 끝 12)가 그대로 나옵니다. #컨트롤 증강·시너지로 확률을 최대 ${CTRL_CAP}%까지 올릴 수 있습니다. 실패하면 평소처럼 무작위로 나옵니다.</p>`;
+    <p style="margin-top:8px">실버는 단순 수치, 골드는 발동·특수 효과, 프리즘은 판도를 바꾸는 효과입니다. 총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정. 새로고침은 카드마다 1회이고, 바꿔도 등급은 그대로입니다. 모든 수치는 합연산이며 상한이 있습니다.</p>
+    <h3>🎯 주사위 컨트롤</h3><p>주사위 버튼을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 ${CTRL_BASE}% 확률로 게이지 위치의 숫자(왼쪽 끝 2 ~ 오른쪽 끝 12)가 그대로 나옵니다. #컨트롤 증강으로 확률을 최대 ${CTRL_CAP}%까지 올릴 수 있습니다. 실패하면 평소처럼 무작위로 나옵니다.</p>`;
   }
   md.innerHTML=`<div class="panel">${tabs}${body}<div style="text-align:center;margin-top:16px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
   md.classList.add('on');
@@ -2201,8 +2379,8 @@ function showHelp(){
   <h3>땅과 건설</h3>빈 땅에 멈추면 살 수 있습니다. 건물은 바퀴 수에 따라 지을 수 있는 단계가 늘어납니다: 1바퀴째는 별장까지, 2바퀴째는 별장+빌딩까지 한 번에, 3바퀴째부터는 별장+빌딩+호텔까지 한 번에 지을 수 있습니다. 별장·빌딩·호텔을 모두 지은 땅에 다시 멈추면 랜드마크를 지을 수 있고, 랜드마크가 있는 땅은 인수되지 않습니다. 관광지는 건설·인수가 안 되는 대신 많이 가질수록 통행료가 오릅니다.
   <h3>인수</h3>상대 땅에서 통행료를 낸 뒤, 투자액의 1.5배를 주인에게 주고 빼앗을 수 있습니다.
   <h3>특수 칸</h3>🏝️ 무인도: ${ISLAND_TURNS}턴 동안 갇힘 (더블이면 탈출) · 🔑 황금열쇠: 랜덤 카드 · 🎉 축제: 사회복지기금 획득 + 내 땅 하나 통행료 ×2 · 🚀 우주여행: 다음 턴에 원하는 칸으로 이동 · 🤝 사회복지기금: ${QA_FINE}을 기금에 냄
-  <h3>🎯 주사위 게이지 & 컨트롤</h3>주사위 버튼(또는 스페이스바)을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 10% 확률로 게이지 위치의 숫자(2~12)가 그대로 나오고, 실패하면 무작위입니다. #컨트롤 증강과 시너지로 확률을 올릴 수 있습니다.
-  <h3>증강</h3>게임 시작 시 1개를 고르고, 출발 칸을 지날 때마다 1개씩 더 고릅니다 (최대 ${MAX_PICKS}개 + 카드 보너스). 후보 3개 중 1개를 고르며, 카드마다 새로고침을 1회씩 쓸 수 있습니다 (그 카드만 같은 등급의 다른 증강으로 바뀜). 같은 태그가 쌓이면 시너지가 켜집니다. 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
+  <h3>🎯 주사위 게이지 & 컨트롤</h3>주사위 버튼(또는 스페이스바)을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 10% 확률로 게이지 위치의 숫자(2~12)가 그대로 나오고, 실패하면 무작위입니다. #컨트롤 증강으로 확률을 올릴 수 있습니다.
+  <h3>증강</h3>1라운드와 이후 5라운드마다(1·6·11·16·21라운드) 모든 플레이어가 동시에 1개씩 고릅니다. 후보 3개 중 1개를 고르며, 카드마다 새로고침을 1회씩 쓸 수 있습니다 (그 카드만 같은 등급의 다른 증강으로 바뀜). 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
   <h3>승리 조건</h3>① 나머지 전원 파산 ② 트리플 독점 (게임 그룹 3개 독점) ③ 라인 독점 (보드 한 변의 땅·관광지 전부) ④ 관광지 4곳 독점 ⑤ 라운드 제한 도달 시 총자산 1등
   <div style="text-align:center;margin-top:12px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
   md.classList.add('on');
