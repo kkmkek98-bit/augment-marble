@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v7</title>
+<title>증강 부루마블 v8</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -309,6 +309,17 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 .aq{color:rgba(255,255,255,.22);text-shadow:0 0 30px rgba(255,255,255,.25)}
 #rrBtn{min-width:260px}
 
+
+/* ===== 2.5D 보드 (원근 기울기 + 두께) ===== */
+#game{perspective:2200px;perspective-origin:500px 30%}
+#boardWrap{position:absolute;left:20px;top:-6px;width:960px;height:960px;transform-style:preserve-3d;transform:rotateX(24deg) scale(.95);transform-origin:50% 100%}
+#boardWrap::before{content:'';position:absolute;left:3%;right:3%;bottom:-34px;height:60px;border-radius:50%;background:radial-gradient(ellipse,rgba(60,40,10,.35),transparent 70%);transform:translateZ(-40px);pointer-events:none}
+#board{left:0;top:0;box-shadow:0 8px 0 #d8ccb0,0 16px 0 #c4b691,0 24px 0 #a99a72,0 40px 50px rgba(60,40,10,.35),inset 0 2px 0 #fff8}
+.cell{box-shadow:0 5px 0 #d4c9b1,0 7px 10px rgba(0,0,0,.08)}
+.cell.owned{box-shadow:inset 0 0 0 3px var(--oc),0 5px 0 color-mix(in srgb,var(--oc) 55%,#8a7a5a),0 7px 12px rgba(0,0,0,.1)}
+.cell.corner{box-shadow:0 5px 0 #cfc3ef,0 7px 12px rgba(0,0,0,.08)}
+.cell:hover{transform:translateY(-6px)}
+#center{box-shadow:inset 0 3px 14px rgba(120,100,60,.16)}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 </head>
@@ -326,7 +337,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v7</div>
+    <div class="ver">v8</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -354,7 +365,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
   </div>
 
   <div id="game" class="screen">
-    <div id="board"></div><div id="tokLayer"></div>
+    <div id="boardWrap"><div id="board"></div></div><div id="tokLayer"></div>
     <div id="side">
       <div id="plist" style="display:flex;flex-direction:column;gap:8px"></div>
       <div id="log"></div>
@@ -1693,13 +1704,16 @@ async function offerBuy(p,i){
 }
 async function offerBuild(p,i,fresh){
   const c=G.cells[i];if(c.level>=4)return;
-  const maxLv=c.level>=3?4:3;
+  // 바퀴 수 제한: 1바퀴째 별장까지, 2바퀴째 빌딩까지, 3바퀴째부터 호텔까지 / 호텔까지 다 지은 땅에 다시 오면 랜드마크
+  const lapCap=Math.min(3,p.laps+1);
+  const maxLv=c.level>=3?4:lapCap;
+  if(maxLv<=c.level){if(p.human&&c.level<3)toast(`${p.laps+1}바퀴째에는 ${LV_NAMES[lapCap]}까지만 지을 수 있어요`,'#cfe3ff');return}
   const opts=[];let cum=0;
   for(let lv=c.level+1;lv<=maxLv;lv++){cum+=lvCost(p,i,lv);opts.push({lv,cost:cum})}
   if(!opts.length)return;
   let target=0;
   if(p.human){
-    target=await ask(`<b>${CELLS[i].n}</b>에 건설할까요? (현금 ${p.cash})`,[...opts.map(o=>({label:`${LV_IC[o.lv]} ${LV_NAMES[o.lv]}까지 ${o.cost}`,v:o.lv,disabled:o.cost>p.cash,tip:o.cost>p.cash?`현금이 ${o.cost-p.cash} 부족합니다`:'',cls:o.lv===4?'gold':''})),{label:'건설 안 함',v:0,cls:'gray'}]);
+    target=await ask(`<b>${CELLS[i].n}</b>에 건설할까요? (현금 ${p.cash})<br><span style="font-size:14px;color:#7a738c">${c.level>=3?'🗼 호텔까지 완성! 랜드마크 건설 가능':`🏁 ${p.laps+1}바퀴째 — ${LV_NAMES[lapCap]}까지 한 번에 건설 가능`}</span>`,[...opts.map(o=>({label:`${LV_IC[o.lv]} ${LV_NAMES[o.lv]}까지 ${o.cost}`,v:o.lv,disabled:o.cost>p.cash,tip:o.cost>p.cash?`현금이 ${o.cost-p.cash} 부족합니다`:'',cls:o.lv===4?'gold':''})),{label:'건설 안 함',v:0,cls:'gray'}]);
   }else target=aiBuild(p,opts);
   if(!target)return;
   const o=opts.find(x=>x.lv===target);await pay(p,o.cost,null);c.level=target;c.invested+=o.cost;
@@ -1915,7 +1929,7 @@ function showHelp(){
   const md=document.getElementById('infoModal');
   md.innerHTML=`<div class="panel"><h2>게임 방법</h2>
   <h3>기본</h3>주사위 2개를 굴려 이동합니다. 더블이면 한 번 더 굴리고, 3연속 더블이면 무인도에 갇힙니다. 출발 칸을 지나면 월급 ${SALARY}을 받습니다. 시작 자금은 ${START_CASH}입니다.
-  <h3>땅과 건설</h3>빈 땅에 멈추면 살 수 있고, 산 직후 호텔까지 한 번에 지을 수 있습니다. 랜드마크는 호텔이 있는 내 땅에 다시 멈췄을 때만 지을 수 있고, 랜드마크가 있는 땅은 인수되지 않습니다. 관광지는 건설·인수가 안 되는 대신 많이 가질수록 통행료가 오릅니다.
+  <h3>땅과 건설</h3>빈 땅에 멈추면 살 수 있습니다. 건물은 바퀴 수에 따라 지을 수 있는 단계가 늘어납니다: 1바퀴째는 별장까지, 2바퀴째는 별장+빌딩까지 한 번에, 3바퀴째부터는 별장+빌딩+호텔까지 한 번에 지을 수 있습니다. 별장·빌딩·호텔을 모두 지은 땅에 다시 멈추면 랜드마크를 지을 수 있고, 랜드마크가 있는 땅은 인수되지 않습니다. 관광지는 건설·인수가 안 되는 대신 많이 가질수록 통행료가 오릅니다.
   <h3>인수</h3>상대 땅에서 통행료를 낸 뒤, 투자액의 1.5배를 주인에게 주고 빼앗을 수 있습니다.
   <h3>특수 칸</h3>🏝️ 무인도: ${ISLAND_TURNS}턴 동안 갇힘 (더블이면 탈출) · 🔑 황금열쇠: 랜덤 카드 · 🎉 축제: 사회복지기금 획득 + 내 땅 하나 통행료 ×2 · 🚀 우주여행: 다음 턴에 원하는 칸으로 이동 · 🤝 사회복지기금: ${QA_FINE}을 기금에 냄
   <h3>증강</h3>게임 시작 시 1개를 고르고, 출발 칸을 지날 때마다 1개씩 더 고릅니다 (최대 ${MAX_PICKS}개 + 카드 보너스). 후보 3개 중 1개를 고르며, 선택할 때마다 새로고침을 1회 쓸 수 있습니다. 같은 태그가 쌓이면 시너지가 켜집니다. 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
