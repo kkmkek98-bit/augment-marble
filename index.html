@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v8</title>
+<title>증강 부루마블 v9</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -320,7 +320,120 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 .cell.corner{box-shadow:0 5px 0 #cfc3ef,0 7px 12px rgba(0,0,0,.08)}
 .cell:hover{transform:translateY(-6px)}
 #center{box-shadow:inset 0 3px 14px rgba(120,100,60,.16)}
+:root{--disp:'Black Han Sans','Pretendard','Malgun Gothic',sans-serif}
+/* ---- 보드 크기·기울기 ---- */
+#boardWrap{left:14px;top:4px;width:980px;height:980px;transform:rotateX(13deg) scale(1)!important}
+#board{width:980px;height:980px;grid-template-columns:124px repeat(7,1fr) 124px;grid-template-rows:124px repeat(7,1fr) 124px}
+#side{left:1010px;width:575px}
+/* ---- 칸 가독성 ---- */
+.cell{padding:23px 3px 4px}
+.cell .band{height:20px;line-height:20px;font-size:12.5px;font-weight:900;letter-spacing:0}
+.cell .band.dark{color:#4a3200;text-shadow:none}
+.cell .nm{font-family:var(--disp);font-size:19px;font-weight:400;letter-spacing:-.2px;color:#1f1d33;margin-top:1px}
+.cell .price{font-size:13px;font-weight:800;color:#7d7462;margin-top:3px}
+.cell .toll{font-size:14px;padding:2px 9px;margin-top:2px}
+.cell .bgw{height:50px}
+.cell .sic{display:flex;justify-content:center;margin:0 0 1px;pointer-events:none}
+.cell.corner .sic svg{width:56px;height:56px}
+.cell.corner{padding-top:14px}
+.cell.corner .nm{font-size:20px}
+.cell.tour .sic svg{width:44px;height:44px}
+.cell .flag{display:none}
+/* ---- 중앙 대시보드 ---- */
+#center{gap:10px;padding:16px 22px}
+#ctitle{font-family:var(--disp);font-weight:400;font-size:40px;letter-spacing:0;text-shadow:0 4px 0 #e2dbf7}
+#cinfo{display:flex;gap:12px;align-items:center;justify-content:center}
+.rbar{position:relative;width:300px;height:30px;border-radius:999px;background:#e9e4d8;box-shadow:inset 0 2px 4px rgba(0,0,0,.12);overflow:hidden}
+.rbf{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#845ef7,#339af0);border-radius:999px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
+.rbar span{position:relative;display:block;text-align:center;line-height:30px;font-size:15px;font-weight:800;color:#2b2140;text-shadow:0 0 6px #fff}
+.curp{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:3px 16px 3px 4px;font-size:16px;color:#2b2b3a;box-shadow:0 3px 0 color-mix(in srgb,var(--pc) 50%,#ccc),0 0 0 3px var(--pc)}
+.curp .cav{width:34px;height:34px;display:inline-block}
+#potline{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+#potline .chip{background:#fff;border-radius:999px;padding:5px 14px;font-size:15px;color:#4a4360;box-shadow:0 2px 0 #e2dccb}
+#potline .chip.mine{background:linear-gradient(90deg,#fff3bf,#ffe8cc);color:#7a4a00}
+#prompt{min-height:190px;padding:16px 20px}
+#ptext{font-size:21px;line-height:1.45}
+.rtext{font-size:21px;font-weight:800;margin-bottom:8px}
+.gauge{position:relative;width:560px;height:30px;margin:4px auto 2px;border-radius:999px;background:linear-gradient(90deg,#d3f9d8,#fff3bf 50%,#ffc9c9);box-shadow:inset 0 2px 5px rgba(0,0,0,.15);overflow:visible}
+.gfill{position:absolute;inset:0;border-radius:999px;background:linear-gradient(90deg,#40c057,#fab005 50%,#fa5252);transform-origin:left;transform:scaleX(0);opacity:.9}
+.gmark{position:absolute;left:0;top:-6px;width:100%;height:42px;pointer-events:none}
+.gmark::after{content:'';position:absolute;left:-3px;top:0;width:6px;height:42px;border-radius:3px;background:#2b2140;box-shadow:0 0 0 2px #fff}
+.gticks{position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 6px;font-size:13px;font-weight:900;color:#2b2140;line-height:30px;pointer-events:none}
+.cell .bgw{height:40px!important;margin-top:0}
+.cell:not(.corner) .sic svg{width:34px!important;height:34px!important}
+.cell{padding-top:22px}
+.cell .nm{font-size:18px}
+#dice{margin-top:10px}
+#cell9,#cell10,#cell11,#cell12,#cell13,#cell14,#cell15,#cell25,#cell26,#cell27,#cell28,#cell29,#cell30,#cell31{padding-top:20px}
+#cell9 .bgw,#cell10 .bgw,#cell11 .bgw,#cell12 .bgw,#cell13 .bgw,#cell14 .bgw,#cell15 .bgw,#cell25 .bgw,#cell26 .bgw,#cell27 .bgw,#cell28 .bgw,#cell29 .bgw,#cell30 .bgw,#cell31 .bgw{height:30px!important}
+#cell9 .bgw svg,#cell10 .bgw svg,#cell11 .bgw svg,#cell12 .bgw svg,#cell13 .bgw svg,#cell14 .bgw svg,#cell15 .bgw svg,#cell25 .bgw svg,#cell26 .bgw svg,#cell27 .bgw svg,#cell28 .bgw svg,#cell29 .bgw svg,#cell30 .bgw svg,#cell31 .bgw svg{width:32px;height:32px}
+#cell9 .nm,#cell10 .nm,#cell11 .nm,#cell12 .nm,#cell13 .nm,#cell14 .nm,#cell15 .nm,#cell25 .nm,#cell26 .nm,#cell27 .nm,#cell28 .nm,#cell29 .nm,#cell30 .nm,#cell31 .nm{font-size:17px}
+#cell9 .band,#cell10 .band,#cell11 .band,#cell12 .band,#cell13 .band,#cell14 .band,#cell15 .band,#cell25 .band,#cell26 .band,#cell27 .band,#cell28 .band,#cell29 .band,#cell30 .band,#cell31 .band{height:18px;line-height:18px}
+#cell9 .sic svg,#cell10 .sic svg,#cell11 .sic svg,#cell12 .sic svg,#cell13 .sic svg,#cell14 .sic svg,#cell15 .sic svg,#cell25 .sic svg,#cell26 .sic svg,#cell27 .sic svg,#cell28 .sic svg,#cell29 .sic svg,#cell30 .sic svg,#cell31 .sic svg{width:28px!important;height:28px!important}
+#cell9 .toll,#cell10 .toll,#cell11 .toll,#cell12 .toll,#cell13 .toll,#cell14 .toll,#cell15 .toll,#cell25 .toll,#cell26 .toll,#cell27 .toll,#cell28 .toll,#cell29 .toll,#cell30 .toll,#cell31 .toll{margin-top:0}
+.gch{font-size:14px;color:#6b6480;margin-top:6px}
+.rollbtn{min-width:340px!important;min-height:74px!important;font-size:24px!important;touch-action:none;user-select:none}
+.rollbtn.hold{transform:translateY(4px) scale(.98);border-bottom-width:3px!important;filter:brightness(1.1)}
+/* ---- 플레이어 카드 ---- */
+.pcard{padding:10px 14px}
+.pcard .top{display:flex;align-items:center;gap:8px}
+.pcard .rankb{min-width:42px;text-align:center;font-size:13px;color:#7a738c;font-weight:800}
+.pcard .rankb b{font-family:var(--disp);font-weight:400;font-size:26px;color:var(--pc)}
+.pcard .pav{width:40px;height:40px;flex:none}
+.pcard .pn{flex:1;font-size:20px}
+.pcard .pm{font-family:var(--disp);font-weight:400;font-size:28px;color:#e07b00}
+.pcard .meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13.5px;color:#6b6480;margin:4px 0 6px}
+.pcard .meta b{color:#2b2b3a}
+.aug{font-size:14px;padding:3px 9px;border-radius:9px;margin:3px 4px 0 0;font-weight:700}
+.aug i{font-style:normal;margin-right:4px}
+.noaug{color:#a09cad;font-size:13px}
+.syn{font-size:13px;padding:3px 9px;border-radius:999px;margin:4px 4px 0 0;font-weight:800}
+.syn i{font-style:normal;margin-right:3px}
+.syn small{opacity:.6;font-weight:700}
+/* ---- 로그 ---- */
+#log{font-size:14px;line-height:1.5;padding:8px 12px}
+#log div{opacity:.62;font-size:13.5px;padding:2px 0}
+#log div.new{opacity:.9}
+#log div.imp{opacity:1;font-size:15.5px;font-weight:700;background:linear-gradient(90deg,#fff3bf,#fffaf0);border-left:4px solid #fab005;border-radius:8px;padding:7px 10px;margin:4px 0;box-shadow:0 2px 0 #f1e3b5}
+/* ---- 말 ---- */
+.tok{width:34px;height:34px;border:none!important;background:none!important;box-shadow:none!important;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.tok .rk{font-size:26px}
+.tok.cur::after{inset:-5px}
+/* ---- 메뉴·로비 밝은 톤 ---- */
+#menu,#lobby{background:radial-gradient(circle at 50% 25%,#ffffff,transparent 55%),linear-gradient(160deg,#dfe8ff,#efe6ff 50%,#ffeedd)}
+#menu h1{font-family:var(--disp);font-weight:400;font-size:110px;background:linear-gradient(180deg,#845ef7,#3b2f7a);-webkit-background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 6px 0 #d0c4f7)}
+#menu .sub{color:#6b6480;font-size:24px}
+#menu .opt,.lbox .opt,.codebox,.lrow{background:#fff;color:#2b2b3a;box-shadow:0 3px 0 #e2dccb,0 6px 14px rgba(0,0,0,.05)}
+#menu .ver{color:#9a93b0}
+.lbox h2{color:#3b2f7a;font-family:var(--disp);font-weight:400}
+.codebox b{color:#845ef7}
+.lrow.empty{color:#a09cad}
+#waitMsg{color:#6b6480!important}
+/* ---- 도감 ---- */
+.panel{background:#fffdf8;color:#2b2b3a;width:1300px}
+.panel h2,.panel h3{color:#3b2f7a}
+.panel td,.panel th{border-bottom:1px solid #ece6d8}
+.dtabs{display:flex;gap:10px;justify-content:center;margin-bottom:10px}
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.dgrid.syn{grid-template-columns:repeat(3,1fr)}
+.dcard{background:#fff;border-radius:14px;padding:10px 12px;border:3px solid #ced4da;box-shadow:0 3px 0 #e2dccb}
+.dcard.G{border-color:#fab005}.dcard.P{border-color:#b197fc;background:linear-gradient(135deg,#fff,#f3f0ff)}
+.dcard .dn{font-weight:900;font-size:17px}
+.dcard .dd{font-size:14px;color:#4a4360;margin:4px 0}
+.dtags span{display:inline-block;font-size:12px;background:#f1efff;border-radius:999px;padding:1px 8px;margin:2px 3px 0 0}
+.syncard{border-color:#b2f2bb}
+.syncard .sic{font-size:42px}
+.stiers div{font-size:14px;padding:2px 0}
+.slist{font-size:12px;color:#7a738c;margin-top:6px}
+.dtS{color:#868e96!important}.dtG{color:#e67700!important}.dtP{color:#7048e8!important}
+
+
+/* 관광지: 땅과 완전히 다른 스타일 (금색 리본 + 별무늬 배경 + 금테) */
+.cell.tour{background:radial-gradient(circle at 20% 80%,#fff3bf 0 2px,transparent 3px),radial-gradient(circle at 75% 70%,#fff3bf 0 2px,transparent 3px),linear-gradient(180deg,#fffbea,#fff3c4)!important;box-shadow:inset 0 0 0 3px #e8b923,0 5px 0 #c9a227,0 7px 10px rgba(0,0,0,.08)}
+.cell.tour.owned{box-shadow:inset 0 0 0 3px #e8b923,inset 0 0 0 6px var(--oc),0 5px 0 #c9a227,0 7px 12px rgba(0,0,0,.1)}
+.cell .band.tourband{background:linear-gradient(90deg,#b8860b,#f5c542,#b8860b);color:#3d2600;text-shadow:0 1px 0 rgba(255,255,255,.5);letter-spacing:.5px}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 </head>
 <body>
@@ -337,7 +450,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v8</div>
+    <div class="ver">v9</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -370,7 +483,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <div id="plist" style="display:flex;flex-direction:column;gap:8px"></div>
       <div id="log"></div>
       <div id="sidebtns">
-        <button class="btn gray" onclick="showDex()">도감</button>
+        <button class="btn gray" onclick="showDex()">증강 도감</button><button class="btn gray" onclick="showDex('syn')">시너지</button>
         <button class="btn gray" onclick="showHelp()">규칙</button>
         <button class="btn gray" onclick="toggleFast()" id="fastBtn">AI 빠르게: OFF</button>
         <button class="btn gray" onclick="if(confirm('메인으로 나갈까요?'))location.reload()">나가기</button>
@@ -929,8 +1042,8 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 <script>
 // ================= 데이터 =================
 const GROUPS={
-  sub:{n:'강원',c:'#FCC419'}, fps:{n:'충청',c:'#FCC419'}, liar:{n:'전라',c:'#20C997'},
-  bump:{n:'경상',c:'#339AF0'}, ani:{n:'부산·울산',c:'#FF6B6B'}, rsv:{n:'경기',c:'#845EF7'}, tax:{n:'서울',c:'#845EF7'}
+  sub:{n:'강원',c:'#FCC419'}, fps:{n:'충청',c:'#FF922B'}, liar:{n:'전라',c:'#20C997'},
+  bump:{n:'경상',c:'#339AF0'}, ani:{n:'부산·울산',c:'#FF6B6B'}, rsv:{n:'경기',c:'#845EF7'}, tax:{n:'서울',c:'#C2255C'}
 };
 const C=(t,n,g,price,ic)=>({t,n,g,price,ic});
 const CELLS=[
@@ -1031,6 +1144,13 @@ A('그림자 정부','P',['방해'],'다른 플레이어끼리 통행료가 오�
 A('마스터 키','P',['이동','경제'],'점쟁이 예언 효과, 월급 +100, 더블 +8%',{keyGood:1,salary:100,dbl:8});
 A('전국 일주','P',['테마'],'[4개 이상 게임 그룹의 땅 보유 시] 받는 통행료 +40%',{tollIn:40},null,p=>groupsOwned(p)>=4);
 A('완판 신화','P',['건설','방어'],'건설비 -20%, 인수 2회 방어',{buildDisc:20,toProt:2});
+// 주사위 컨트롤 증강
+A('손목 스냅','S',['컨트롤'],'주사위 컨트롤 확률 +8%p',{ctrl:8});
+A('집중 모드','S',['컨트롤','이동'],'주사위 컨트롤 +5%p, 더블 확률 +4%',{ctrl:5,dbl:4});
+A('프로 게이머','G',['컨트롤'],'주사위 컨트롤 확률 +15%p',{ctrl:15});
+A('정밀 조준','G',['컨트롤','경제'],'주사위 컨트롤 +10%p, 월급 +80',{ctrl:10,salary:80});
+A('신의 손','P',['컨트롤'],'주사위 컨트롤 확률 +28%p',{ctrl:28});
+A('타짜','P',['컨트롤','도박'],'주사위 컨트롤 +18%p, 블랙잭 효과',{ctrl:18,tollGamble:1});
 
 // ---- 시너지 ----
 const SYN={
@@ -1043,9 +1163,10 @@ const SYN={
  '방해':[[2,{rentSkim:3},'소매치기 +3%'],[3,{rentSkim:6},'+6%'],[4,{rentSkim:10},'+10%']],
  '관광':[[2,{tourIn:15},'관광 +15%'],[3,{tourIn:30},'+30%'],[4,{tourIn:50},'+50%']],
  '테마':[[2,{tollIn:5},'받는 통행료 +5%'],[3,{tollIn:10},'+10%'],[4,{tollIn:15},'+15%']],
- '축제':[[2,{festX:0.5},'축제 배율 +0.5'],[3,{festX:1},'+1']]
+ '축제':[[2,{festX:0.5},'축제 배율 +0.5'],[3,{festX:1},'+1']],
+ '컨트롤':[[2,{ctrl:5},'컨트롤 +5%p'],[3,{ctrl:10},'컨트롤 +10%p'],[4,{ctrl:18},'컨트롤 +18%p']]
 };
-const CAPS={tollIn:100,tollOut:50,buyDisc:50,buildDisc:50,lmDisc:50,toCost:50,toBonus:30,dbl:30,interest:10,rentSkim:20,tourIn:120,sellRate:40,festX:3};
+const CAPS={tollIn:100,tollOut:50,buyDisc:50,buildDisc:50,lmDisc:50,toCost:50,toBonus:30,dbl:30,interest:10,rentSkim:20,tourIn:120,sellRate:40,festX:3,ctrl:50};
 
 // ---- 황금열쇠 카드 ----
 const KEYS=[
@@ -1065,9 +1186,9 @@ const KEYS=[
 
 // ---- AI 성격 ----
 const PERS=[
- {k:'land',n:'땅부자',res:150,toP:0.35,w:{'건설':2,'경제':1.5,'관광':1.2,'테마':1.2}},
+ {k:'land',n:'땅부자',res:150,toP:0.35,w:{'건설':2,'경제':1.5,'관광':1.2,'테마':1.2,'컨트롤':1.3}},
  {k:'raid',n:'인수왕',res:250,toP:0.9,w:{'인수':2.2,'경제':1.2,'방어':1}},
- {k:'gamb',n:'도박꾼',res:200,toP:0.5,w:{'도박':2.5,'이동':1.4,'축제':1.3}},
+ {k:'gamb',n:'도박꾼',res:200,toP:0.5,w:{'도박':2.5,'이동':1.4,'축제':1.3,'컨트롤':1.6}},
  {k:'jam',n:'방해꾼',res:300,toP:0.6,w:{'방해':2.2,'방어':1.6,'인수':1.2}}
 ];
 const AI_NAMES=['철수','영희','민수','지영'];
@@ -1084,7 +1205,7 @@ function ownsGroup(p,g){return G.cells.some((c,i)=>CELLS[i].g===g&&c.owner===p.i
 function groupsOwned(p){return Object.keys(GROUPS).filter(g=>ownsGroup(p,g)).length}
 function synCounts(p){const c={};for(const id of p.augs)for(const t of AUGS[id].tags)c[t]=(c[t]||0)+1;return c}
 function mods(p){
-  const m={salary:0,tollIn:0,tollOut:0,buyDisc:0,buildDisc:0,lmDisc:0,toCost:0,toBonus:0,dbl:0,interest:0,tourIn:0,festX:0,rentSkim:0,sellRate:0,lowReroll:0,islandOut:0,keyGood:0,lapGamble:0,tollGamble:0,liarFree:0};
+  const m={salary:0,tollIn:0,tollOut:0,buyDisc:0,buildDisc:0,lmDisc:0,toCost:0,toBonus:0,dbl:0,interest:0,tourIn:0,festX:0,rentSkim:0,sellRate:0,lowReroll:0,islandOut:0,keyGood:0,lapGamble:0,tollGamble:0,liarFree:0,ctrl:0};
   const add=o=>{for(const k in o)if(k in m)m[k]+=o[k]};
   for(const id of p.augs){const a=AUGS[id];if(a.cond&&!a.cond(p))continue;add(a.m)}
   const sc=synCounts(p);
@@ -1113,7 +1234,7 @@ function gridPos(i){
   if(i<=8)return[9,9-i]; if(i<=16)return[9-(i-8),1]; if(i<=24)return[1,1+(i-16)]; return[1+(i-24),9];
 }
 const PREVLV=[];
-const TOUR_C={'제주도':'#FF6B6B'};
+const TOUR_C={};
 const KOREA_WM=`<svg class="watermark" viewBox="0 0 700 700" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
   <g opacity=".09" fill="#6b5a3a" stroke="#6b5a3a" stroke-width="3" stroke-linejoin="round">
     <path d="M338 92 L372 84 L398 98 L426 92 L446 112 L432 136 L412 156 L424 178 L438 206 L448 240 L456 280 L458 318 L450 356 L432 392 L406 418 L374 432 L342 438 L312 430 L292 412 L284 388 L268 374 L274 350 L260 330 L268 306 L282 292 L270 270 L286 252 L300 230 L294 206 L280 190 L266 172 L282 150 L306 128 Z"/>
@@ -1146,7 +1267,7 @@ function buildBoard(){
   <div id="prompt"><div id="ptext"></div><div id="pbtns"></div></div>`;
   b.appendChild(ce);
   const tl=document.getElementById('tokLayer');tl.innerHTML='';
-  G.players.forEach(p=>{const t=document.createElement('div');t.className='tok';t.id='tok'+p.id;t.style.background=p.color;t.textContent=isMe(p)?'★':'';tl.appendChild(t)});
+  G.players.forEach(p=>{const t=document.createElement('div');t.className='tok';t.id='tok'+p.id;t.style.background=p.color;t.innerHTML=tokFace(p);tl.appendChild(t)});
   buildPlayers();
 }
 function cellTip(i){
@@ -1165,8 +1286,12 @@ function cellTip(i){
 function render(){
   if(!G)return;
   renderCells();positionTokens();renderPlayers();
-  document.getElementById('cinfo').innerHTML=`라운드 <b>${G.round}</b> / ${G.limit} · 현재 차례: <b style="color:${cur().color}">${cur().name}</b>`;
-  document.getElementById('potline').innerHTML=`<span>🤝 사회복지기금: <b>${G.pot}</b></span><span>🎉 축제: <b>${G.fest>=0?CELLS[G.fest].n:'없음'}</b></span>`;
+  const cp=cur(),pct=Math.min(100,(G.round-1)/G.limit*100);
+  const me=G.players.find(q=>isMe(q));
+  const ranked=G.players.filter(q=>q.alive).sort((a,b)=>asset(b)-asset(a));
+  setIf(document.getElementById('cinfo'),`<div class="rbar"><div class="rbf" style="width:${pct.toFixed(1)}%"></div><span>라운드 <b>${G.round}</b> / ${G.limit}</span></div>
+    <div class="curp" style="--pc:${cp.color}"><span class="cav">${tokFace(cp)}</span><span><b>${cp.name}</b>의 차례</span></div>`);
+  setIf(document.getElementById('potline'),`<span class="chip">🤝 사회복지기금 <b>${G.pot}</b></span><span class="chip">🎉 축제 <b>${G.fest>=0?CELLS[G.fest].n:'없음'}</b></span>${me?`<span class="chip mine">내 자산 <b>${asset(me).toLocaleString()}</b> · ${me.alive?ranked.indexOf(me)+1+'위':'파산'}</span>`:''}`);
 }
 function renderCells(){
   CELLS.forEach((cell,i)=>{
@@ -1181,11 +1306,12 @@ function renderCells(){
       CELLCACHE[i]=key;
       const grew=PREVLV[i]!==undefined&&PREVLV[i]!==c.level&&c.level>0;
       let h='';
-      if(cell.t==='land')h+=`<div class="band" style="background:${GROUPS[cell.g].c}">${GROUPS[cell.g].n}</div>`;
-      if(cell.t==='tour')h+=`<div class="band" style="background:${TOUR_C[cell.n]||'#F59F00'}">관광지</div>`;
-      if(cell.ic)h+=`<div class="ic">${cell.ic}</div>`;
+      if(cell.t==='land')h+=`<div class="band${GROUPS[cell.g].c==='#FCC419'?' dark':''}" style="background:${GROUPS[cell.g].c}">${GROUPS[cell.g].n}</div>`;
+      if(cell.t==='tour')h+=`<div class="band tourband">⭐ 관광지</div>`;
+      if(SPECIAL_SVG[cell.t])h+=`<div class="sic">${SPECIAL_SVG[cell.t]}</div>`;
+      else if(cell.t==='tour')h+=`<div class="sic">${BuildingGraphic({type:'landmark',cityName:cell.n,ownerColor:owner?owner.color:'#ced4da',size:36,animate:false})}</div>`;
       h+=`<div class="nm">${cell.n}</div>`;
-      if(cell.t==='land'&&owner&&c.level>0)h+=`<div class="bgw">${BuildingGraphic({type:BuildingGraphic.typeFromLevel(c.level),cityName:cell.n,ownerColor:owner.color,size:46,animate:grew})}</div>`;
+      if(cell.t==='land'&&owner&&c.level>0)h+=`<div class="bgw">${BuildingGraphic({type:BuildingGraphic.typeFromLevel(c.level),cityName:cell.n,ownerColor:owner.color,size:40,animate:grew})}</div>`;
       if(cell.price){if(owner)h+=`<span class="toll">₩ ${toll.toLocaleString()}</span>`;else h+=`<span class="price">${cell.price}</span>`}
       if(i===29&&G.pot)h+=`<div class="price">기금 ${G.pot}</div>`;
       if(G.fest===i)h+=`<div class="fest">🎉</div>`;
@@ -1198,19 +1324,25 @@ function renderCells(){
   });
 }
 function buildPlayers(){
-  document.getElementById('plist').innerHTML=G.players.map(p=>`<div class="pcard" id="pc${p.id}" style="--pc:${p.color}"><div class="top"><span class="pn">${p.name}${isMe(p)&&p.name!=='나'?' (나)':''}<span class="turnb">${isMe(p)?'MY TURN':'TURN'}</span></span><span class="pm"></span></div><div class="meta"></div><div class="augs"></div><div class="syns"></div></div>`).join('');
+  document.getElementById('plist').innerHTML=G.players.map(p=>`<div class="pcard" id="pc${p.id}" style="--pc:${p.color}">
+    <div class="top"><span class="rankb"></span><span class="pav">${tokFace(p)}</span><span class="pn">${p.name}${isMe(p)&&p.name!=='나'?' (나)':''}<span class="turnb">${isMe(p)?'MY TURN':'TURN'}</span></span><span class="pm"></span></div>
+    <div class="meta"></div><div class="augs"></div><div class="syns"></div></div>`).join('');
 }
 function renderPlayers(){
+  const ranked=G.players.filter(q=>q.alive).sort((a,b)=>asset(b)-asset(a));
   G.players.forEach(p=>{
     const el=cardEl(p);if(!el)return;
     const cls='pcard'+(isMe(p)?' me':'')+(p.id===G.turn&&!G.over&&p.alive?' active':'')+(p.alive?'':' dead broken');
     if(el.className!==cls)el.className=cls;
     tweenMoney(p,el.querySelector('.pm'));
+    const rk=p.alive?ranked.indexOf(p)+1:0;
+    setIf(el.querySelector('.rankb'),p.alive?`<b>${rk}</b>위`:'💀');
     const m=mods(p),sc=synCounts(p);
-    const st=[];if(p.toProt)st.push(`🛡인수방어 ${p.toProt}`);if(p.shield)st.push(`💖파산방지 ${p.shield}`);if(p.island)st.push(`🏝️무인도 ${p.island}`);if(p.express)st.push('🚀우주여행 대기');if(m.liarFree&&p.liarCharge)st.push('📒외상 1');
-    setIf(el.querySelector('.meta'),`총자산 ${asset(p).toLocaleString()} · 땅 ${G.cells.filter(c=>c.owner===p.id).length}칸 · 증강 ${p.augs.length}/${MAX_PICKS}+ ${st.join(' · ')}${p.alive?'':' · 파산'}`);
-    setIf(el.querySelector('.augs'),p.augs.map(id=>{const a=AUGS[id];const off=a.cond&&!a.cond(p);return `<span class="aug ${a.t}${off?' off':''}" data-tip="${esc(`<b>${a.n}</b> (${TIER_NAME[a.t]})<br>${a.d}<br><i>${a.tags.map(t=>'#'+t).join(' ')}</i>${off?'<br><span style=color:#ff9>조건 미충족 — 비활성</span>':''}`)}">${a.n}</span>`}).join('')||'<span style="color:#666;font-size:12px">증강 없음</span>');
-    setIf(el.querySelector('.syns'),Object.keys(sc).filter(t=>SYN[t]).map(t=>{const lvl=synLv(p,t);const tip=SYN[t].map(x=>`${x[0]}개: ${x[2]}`).join('<br>');return `<span class="syn${lvl?'':' lo'}${p._synFlash===t?' pop':''}" data-tip="${esc('<b>#'+t+' 시너지</b><br>'+tip)}">#${t} ${sc[t]}</span>`}).join(''));
+    const st=[];if(p.toProt)st.push(`🛡️ 인수방어 ${p.toProt}`);if(p.shield)st.push(`💖 파산방지 ${p.shield}`);if(p.island)st.push(`🏝️ 무인도 ${p.island}`);if(p.express)st.push('🚀 우주여행 대기');if(m.liarFree&&p.liarCharge)st.push('📒 외상 1');
+    st.push(`🎯 컨트롤 ${ctrlChance(p)}%`);
+    setIf(el.querySelector('.meta'),`<span>총자산 <b>${asset(p).toLocaleString()}</b></span><span>땅 <b>${G.cells.filter(c=>c.owner===p.id).length}</b>칸</span><span>${p.laps+1}바퀴째</span>${st.map(x=>`<span>${x}</span>`).join('')}${p.alive?'':'<span>파산</span>'}`);
+    setIf(el.querySelector('.augs'),p.augs.map(id=>{const a=AUGS[id];const off=a.cond&&!a.cond(p);return `<span class="aug ${a.t}${off?' off':''}" data-tip="${esc(`<b>${a.n}</b> (${TIER_NAME[a.t]})<br>${a.d}<br><i>${a.tags.map(t=>(SYN_IC[t]||'')+'#'+t).join(' ')}</i>${off?'<br><span style=color:#ff9>조건 미충족 — 비활성</span>':''}`)}"><i>${SYN_IC[a.tags[0]]||'✨'}</i>${a.n}</span>`}).join('')||'<span class="noaug">증강 없음</span>');
+    setIf(el.querySelector('.syns'),Object.keys(sc).filter(t=>SYN[t]).sort((x,y)=>sc[y]-sc[x]).map(t=>{const lvl=synLv(p,t);const tip=SYN[t].map((x,k)=>`${k<lvl?'✅':'⬜'} ${x[0]}개: ${x[2]}`).join('<br>');return `<span class="syn${lvl?'':' lo'}${p._synFlash===t?' pop':''}" data-tip="${esc(`<b>${SYN_IC[t]} #${t} 시너지</b> — ${SYN_DESC[t]||''}<br>${tip}`)}"><i>${SYN_IC[t]||'#'}</i>${t} ${sc[t]}<small>/${SYN[t][SYN[t].length-1][0]}</small></span>`}).join(''));
   });
 }
 function esc(s){return s.replace(/"/g,'&quot;')}
@@ -1268,7 +1400,7 @@ const FX={
     const cs=[document.getElementById('d1'),document.getElementById('d2')];
     await Promise.all([a,b].map((v,k)=>{const[x,y]=SHOW[v];const c=cs[k];c.getAnimations().forEach(z=>z.cancel());
       const sx=360*(2+k)+x,sy=360*(2-k)+y;c.style.transform=`rotateX(${x}deg) rotateY(${y}deg)`;
-      return c.animate([{transform:'translateY(0) rotateX(0deg) rotateY(0deg)'},{transform:`translateY(-95px) rotateX(${sx*0.5}deg) rotateY(${sy*0.6}deg)`,offset:.45},{transform:`translateY(0) rotateX(${sx}deg) rotateY(${sy}deg)`,offset:.8},{transform:`translateY(-14px) rotateX(${sx}deg) rotateY(${sy}deg)`,offset:.9},{transform:`translateY(0) rotateX(${sx}deg) rotateY(${sy}deg)`}],{duration:FX.d(750),easing:'ease-out'}).finished.catch(()=>{})}));
+      return c.animate([{transform:'translateY(0) rotateX(0deg) rotateY(0deg)'},{transform:`translateY(-55px) rotateX(${sx*0.5}deg) rotateY(${sy*0.6}deg)`,offset:.45},{transform:`translateY(0) rotateX(${sx}deg) rotateY(${sy}deg)`,offset:.8},{transform:`translateY(-14px) rotateX(${sx}deg) rotateY(${sy}deg)`,offset:.9},{transform:`translateY(0) rotateX(${sx}deg) rotateY(${sy}deg)`}],{duration:FX.d(750),easing:'ease-out'}).finished.catch(()=>{})}));
     const dz=document.getElementById('dice');dz.classList.remove('land');void dz.offsetWidth;dz.classList.add('land');
   },
   banner(text,kind){
@@ -1306,9 +1438,9 @@ const FX={
   },
   async fly(p,rocket){
     const t=document.getElementById('tok'+p.id);const x0=p._tx,y0=p._ty;const[x1,y1]=tokPos(p);p._anim=true;
-    t.style.transition='none';t.style.transform=`translate(${x1}px,${y1}px)`;if(rocket)t.textContent='🚀';
+    t.style.transition='none';t.style.transform=`translate(${x1}px,${y1}px)`;if(rocket)t.innerHTML='<span class="rk">🚀</span>';
     await t.animate([{transform:`translate(${x0}px,${y0}px)`},{transform:`translate(${(x0+x1)/2}px,${Math.min(y0,y1)-220}px) scale(1.9) rotate(${rocket?-35:0}deg)`,offset:.5},{transform:`translate(${x1}px,${y1}px) scale(1.3,.7)`,offset:.88},{transform:`translate(${x1}px,${y1}px)`}],{duration:FX.d(900),easing:'ease-in-out'}).finished.catch(()=>{});
-    t.textContent=isMe(p)?'★':'';p._tx=x1;p._ty=y1;p._anim=false;requestAnimationFrame(()=>t.style.transition='');
+    t.innerHTML=tokFace(p);p._tx=x1;p._ty=y1;p._anim=false;requestAnimationFrame(()=>t.style.transition='');
     FX.burst(x1+12,y1+12,10,['#fff',p.color],{sp:4});render();
   },
   wave(i){const el=cellEl(i);el.animate([{transform:'rotate(0)'},{transform:'rotate(-4deg) scale(1.05)'},{transform:'rotate(4deg) scale(1.05)'},{transform:'rotate(-2deg)'},{transform:'rotate(0)'}],{duration:FX.d(750)});const c=FX.center(el);FX.burst(c.x,c.y,14,['#4dd4ff','#a5f3fc','#fff'],{sp:4,up:3})},
@@ -1500,6 +1632,12 @@ function installHostProxies(){
     say(`${pname(p)} 증강 고르는 중...`);
     return remoteReq(p,'aug',{tier,opts},opts[0]).then(v=>(AUGS[v]&&AUGS[v].t===tier&&!p.augs.includes(v))?v:opts[0]);
   };
+  const oRoll=rollPrompt;
+  window.rollPrompt=function(p,first,text){
+    if(!p.remote)return oRoll(p,first,text);
+    say(`${pname(p)} 주사위 게이지 조절 중...`);
+    return remoteReq(p,'roll',{first,text},Math.random()).then(v=>(typeof v==='number'&&v>=0&&v<=1)?v:Math.random());
+  };
   window.pickCell=function(p,set,text){
     if(!p.remote)return oPick(p,set,text);
     say(`${pname(p)} 칸 고르는 중...`);
@@ -1538,12 +1676,80 @@ async function handleReq(d){
   if(d.kind==='ask')v=await ask(d.payload.text,d.payload.opts);
   else if(d.kind==='aug')v=await augModal(me,d.payload.tier,d.payload.opts);
   else if(d.kind==='pick')v=await pickCell(me,d.payload.set,d.payload.text);
+  else if(d.kind==='roll')v=await rollPrompt(me,d.payload.first,d.payload.text);
   if(NET.hostConn&&NET.hostConn.open)NET.hostConn.send({t:'ans',rid:d.rid,v});
 }
 function cancelLocalPrompt(){
   document.getElementById('augModal').classList.remove('on');say('');
   if(G){G.pickSet=null;G.pickCell=null;render()}
   toast('시간 초과 — 자동으로 선택됐습니다','#ffcf8a');
+}
+
+// ================= SVG 아이콘 / 동물 말 / 시너지 아이콘 =================
+const SYN_IC={'경제':'💰','건설':'🏗️','인수':'⚔️','방어':'🛡️','도박':'🎰','이동':'👟','방해':'🗡️','관광':'📸','테마':'🗺️','축제':'🎉','컨트롤':'🎯'};
+const SYN_DESC={'경제':'월급과 현금 흐름','건설':'건설비 절감','인수':'싸게 빼앗고 환급','방어':'통행료 감소','도박':'고위험 고수익','이동':'더블 확률','방해':'남의 거래에서 떼먹기','관광':'관광지 수입','테마':'지역 땅 보유 연동','축제':'축제 배율','컨트롤':'주사위 컨트롤 확률'};
+const SPECIAL_SVG={
+  start:`<svg viewBox="0 0 64 64" width="46" height="46"><rect x="14" y="8" width="4" height="50" rx="2" fill="#6b5a3a"/><path d="M18 10 h34 l-8 10 l8 10 h-34z" fill="#fff" stroke="#3b2f7a" stroke-width="2"/>${[0,1,2,3].map(r=>[0,1,2,3,4].map(c=>(r+c)%2?`<rect x="${18+c*6.8}" y="${10+r*5}" width="6.8" height="5" fill="#3b2f7a"/>`:'').join('')).join('')}<ellipse cx="16" cy="58" rx="10" ry="3" fill="#000" opacity=".15"/></svg>`,
+  island:`<svg viewBox="0 0 64 64" width="46" height="46"><ellipse cx="32" cy="52" rx="28" ry="8" fill="#4dabf7"/><ellipse cx="32" cy="48" rx="18" ry="6" fill="#ffe8a3"/><path d="M33 47 Q31 32 36 20" stroke="#8b5a2b" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M36 20 Q24 14 16 22 Q26 18 36 22 Q30 10 20 8 Q32 8 37 19 Q44 8 54 12 Q42 12 38 21 Q50 18 56 28 Q46 20 37 22z" fill="#2f9e44"/><circle cx="38" cy="24" r="2.4" fill="#8b5a2b"/></svg>`,
+  key:`<svg viewBox="0 0 64 64" width="42" height="42"><defs><linearGradient id="kg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#fab005"/><stop offset="1" stop-color="#c77700"/></linearGradient></defs><circle cx="22" cy="24" r="13" fill="url(#kg)" stroke="#8a5d00" stroke-width="2"/><circle cx="22" cy="24" r="5" fill="#fff8e1" stroke="#8a5d00" stroke-width="1.5"/><path d="M31 33 L52 54 M44 46 l5 -5 M48 50 l4 -4" stroke="#c77700" stroke-width="6" stroke-linecap="round"/><path d="M31 33 L52 54" stroke="#ffd43b" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  fest:`<svg viewBox="0 0 64 64" width="46" height="46"><path d="M14 54 L26 22 L42 38 Z" fill="#845ef7" stroke="#5f3dc4" stroke-width="2" stroke-linejoin="round"/><path d="M19 41 L33 30 M22 48 L38 35" stroke="#ffd43b" stroke-width="3"/>${[[40,12,'#ff6b6b'],[52,22,'#20c997'],[48,8,'#fcc419'],[56,36,'#339af0'],[34,8,'#f06595']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="${c}"/>`).join('')}<path d="M44 24 q4 -6 10 -4 M38 18 q-2 -8 4 -12" stroke="#ff6b6b" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>`,
+  express:`<svg viewBox="0 0 64 64" width="46" height="46"><path d="M44 8 Q58 6 56 20 L34 42 L22 30 Z" fill="#f1f3f5" stroke="#495057" stroke-width="2" stroke-linejoin="round"/><circle cx="42" cy="22" r="5" fill="#74c0fc" stroke="#495057" stroke-width="2"/><path d="M22 30 L12 30 L20 22 L30 22 Z M34 42 L34 52 L42 44 L42 34 Z" fill="#ff6b6b" stroke="#c92a2a" stroke-width="1.5"/><path d="M24 40 L12 52 M28 44 L20 56 M20 36 L8 44" stroke="#ff922b" stroke-width="4" stroke-linecap="round"/></svg>`,
+  qa:`<svg viewBox="0 0 64 64" width="44" height="44"><path d="M32 54 C10 40 8 26 16 18 C23 11 30 16 32 21 C34 16 41 11 48 18 C56 26 54 40 32 54Z" fill="#ff6b6b" stroke="#c92a2a" stroke-width="2"/><circle cx="32" cy="32" r="9" fill="#ffd43b" stroke="#c77700" stroke-width="2"/><text x="32" y="36.5" text-anchor="middle" font-size="12" font-weight="900" fill="#8a5d00" font-family="Arial">₩</text></svg>`
+};
+const ANIMALS=['고양이','토끼','곰','여우'];
+function tokFace(p){
+  const c=p.color,k=p.id%4,dk='#2b2b3a';
+  const ears=[
+    `<path d="M5 12 L8 2 L13 9Z M27 12 L24 2 L19 9Z" fill="${c}" stroke="#fff" stroke-width="1.4"/>`,
+    `<ellipse cx="11" cy="4" rx="3" ry="7" fill="${c}" stroke="#fff" stroke-width="1.4"/><ellipse cx="21" cy="4" rx="3" ry="7" fill="${c}" stroke="#fff" stroke-width="1.4"/>`,
+    `<circle cx="7" cy="8" r="5" fill="${c}" stroke="#fff" stroke-width="1.4"/><circle cx="25" cy="8" r="5" fill="${c}" stroke="#fff" stroke-width="1.4"/>`,
+    `<path d="M3 14 L6 0 L14 8Z M29 14 L26 0 L18 8Z" fill="${c}" stroke="#fff" stroke-width="1.4"/>`][k];
+  const muzzle=k===3?`<path d="M6 18 Q16 30 26 18 Q16 24 6 18Z" fill="#fff"/>`:`<ellipse cx="16" cy="21" rx="6" ry="4.2" fill="#fff" opacity=".9"/>`;
+  return `<svg viewBox="-2 -4 36 38" width="100%" height="100%">${ears}<circle cx="16" cy="17" r="12.5" fill="${c}" stroke="#fff" stroke-width="2"/>${muzzle}<circle cx="11" cy="15" r="2" fill="${dk}"/><circle cx="21" cy="15" r="2" fill="${dk}"/><circle cx="11.7" cy="14.3" r=".7" fill="#fff"/><circle cx="21.7" cy="14.3" r=".7" fill="#fff"/><ellipse cx="16" cy="19.5" rx="1.8" ry="1.3" fill="${dk}"/>${k===0?'<path d="M9 21 h-5 M9 22.5 l-4 1.5 M23 21 h5 M23 22.5 l4 1.5" stroke="#fff" stroke-width=".8"/>':''}${isMe(p)?'<circle cx="28" cy="4" r="4.5" fill="#fff"/><path d="M28 1.2 l.9 1.9 2 .3 -1.5 1.4 .4 2 -1.8 -1 -1.8 1 .4 -2 -1.5 -1.4 2 -.3z" fill="#fab005"/>':''}</svg>`;
+}
+
+// ================= 주사위 파워 게이지 & 컨트롤 =================
+const CTRL_BASE=10, CTRL_CAP=60;
+function ctrlChance(p){return Math.min(CTRL_CAP,CTRL_BASE+mods(p).ctrl)}
+/** 사람: 꾹 눌렀다 떼는 파워 게이지 (0~1 반환) */
+function rollPrompt(p,first,text){
+  return new Promise(res=>{
+    if(first&&isMe(p))FX.banner('내 차례!');
+    const ch=ctrlChance(p);
+    const ticks=[2,3,4,5,6,7,8,9,10,11,12].map(n=>`<span>${n}</span>`).join('');
+    document.getElementById('ptext').innerHTML=`<div class="rtext">${text}</div>
+      <div class="gauge"><div class="gfill"></div><div class="gmark"></div><div class="gticks">${ticks}</div></div>
+      <div class="gch">🎯 주사위 컨트롤 <b>${ch}%</b> — 성공하면 게이지 위치의 숫자가 그대로 나와요</div>`;
+    const bb=document.getElementById('pbtns');bb.innerHTML='';
+    const btn=document.createElement('button');btn.className='btn gold rollbtn';btn.innerHTML='🎲 꾹 눌렀다 떼서 굴리기';bb.appendChild(btn);
+    const fill=document.querySelector('#ptext .gfill'),mark=document.querySelector('#ptext .gmark');
+    let power=0,raf=0,t0=0,holding=false,done=false;
+    const loop=now=>{const ph=((now-t0)/1100)%2;power=ph<1?ph:2-ph;fill.style.transform=`scaleX(${power.toFixed(3)})`;mark.style.transform=`translateX(${(power*100).toFixed(1)}%)`;raf=requestAnimationFrame(loop)};
+    const start=e=>{if(done||holding)return;if(e)e.preventDefault();holding=true;btn.classList.add('hold');t0=performance.now();raf=requestAnimationFrame(loop)};
+    const end=()=>{if(!holding||done)return;done=true;cancelAnimationFrame(raf);btn.classList.remove('hold');
+      window.removeEventListener('pointerup',end);window.removeEventListener('keyup',ku);window.removeEventListener('keydown',kd);
+      setTimeout(()=>{bb.innerHTML='';document.getElementById('ptext').innerHTML='';res(Math.max(0,Math.min(1,power)))},180)};
+    const kd=e=>{if(e.code==='Space'&&!e.repeat){start(e)}};
+    const ku=e=>{if(e.code==='Space')end()};
+    btn.addEventListener('pointerdown',start);window.addEventListener('pointerup',end);
+    window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);
+  });
+}
+/** AI: 원하는 칸을 노려서 게이지를 맞춤 (약간의 손떨림) */
+function aiPower(p){
+  let best=7,bs=-1e9;
+  for(let s=2;s<=12;s++){
+    const i=(p.pos+s)%N,cell=CELLS[i],c=G.cells[i];let v=0;
+    if(cell.t==='land'||cell.t==='tour'){
+      if(c.owner<0)v=p.cash>buyCost(p,i)?cell.price:0;
+      else if(c.owner===p.id)v=cell.t==='land'&&c.level<4?cell.price*0.8:10;
+      else v=-baseToll(i);
+    }else if(cell.t==='key')v=40;else if(cell.t==='fest')v=G.pot+50;else if(cell.t==='island')v=-150;else if(cell.t==='qa')v=-QA_FINE;else if(cell.t==='express')v=60;
+    if(p.pos+s>=N)v+=SALARY;
+    v+=Math.random()*20;
+    if(v>bs){bs=v;best=s}
+  }
+  return Math.max(0,Math.min(1,(best-2)/10+(Math.random()-.5)*0.08));
 }
 
 // ================= 게임 흐름 =================
@@ -1578,12 +1784,19 @@ async function gameLoop(){
   }
 }
 
-async function rollDice(p){
+async function rollDice(p,power){
   const m=mods(p);
-  let a=rnd(6)+1,b=rnd(6)+1;
-  if(m.lowReroll&&a+b<=4){await FX.dice(a,b);log(`${pname(p)} 🎲 ${a}+${b} → 자동 재굴림`);a=rnd(6)+1;b=rnd(6)+1}
-  if(a!==b&&Math.random()<m.dbl/100)b=a;
+  if(power==null)power=Math.random();
+  let a,b,ctrl=false;
+  if(Math.random()*100<ctrlChance(p)){
+    ctrl=true;const t=2+Math.round(power*10);const lo=Math.max(1,t-6),hi=Math.min(6,t-1);a=lo+rnd(hi-lo+1);b=t-a;
+  }else{
+    a=rnd(6)+1;b=rnd(6)+1;
+    if(m.lowReroll&&a+b<=4){await FX.dice(a,b);log(`${pname(p)} 🎲 ${a}+${b} → 자동 재굴림`);a=rnd(6)+1;b=rnd(6)+1}
+    if(a!==b&&Math.random()<m.dbl/100)b=a;
+  }
   await FX.dice(a,b);
+  if(ctrl){log(`🎯 ${pname(p)} 주사위 컨트롤 성공! (게이지 ${Math.round(power*100)}% → ${a+b})`);await FX.banner('🎯 컨트롤 성공!','syn')}
   return[a,b];
 }
 
@@ -1597,9 +1810,10 @@ async function takeTurn(p){
   }
   let dbl=0;
   while(true){
-    if(p.human)await ask(p.island?`🏝️ 무인도 (${p.island}턴 남음) — 더블이면 탈출`:'당신의 차례입니다',[{label:'🎲 주사위 굴리기',v:1,cls:'gold'}]);
-    else{say(`${pname(p)} 생각 중...`);await sleep(300)}
-    const[a,b]=await rollDice(p);const isD=a===b;
+    let power;
+    if(p.human)power=await rollPrompt(p,dbl===0,p.island?`🏝️ 무인도 (${p.island}턴 남음) — 더블이면 탈출`:(dbl?'더블! 한 번 더 굴리세요':'당신의 차례입니다'));
+    else{say(`${pname(p)} 생각 중...`);await sleep(300);power=aiPower(p)}
+    const[a,b]=await rollDice(p,power);const isD=a===b;
     if(p.island>0){
       if(isD){p.island=0;log(`${pname(p)} 더블! 무인도 탈출`);await FX.banner('탈출!');await moveSteps(p,a+b);await resolve(p);return}
       p.island--;log(`${pname(p)} 🏝️ 탈출 실패 (${a}+${b})`);FX.wave(8);render();await sleep(300);return;
@@ -1914,15 +2128,21 @@ function endGame(reason,winner){
 }
 
 // ---- 도감 / 규칙 ----
-function showDex(){
+function showDex(tab){
+  tab=tab||'aug';
   const md=document.getElementById('infoModal');
-  const row=a=>`<tr><td><span class="aug ${a.t}">${a.n}</span></td><td>${TIER_NAME[a.t]}</td><td>${a.d}</td><td>${a.tags.map(t=>'#'+t).join(' ')}</td></tr>`;
-  md.innerHTML=`<div class="panel"><h2>증강 도감 (${AUGS.length}개)</h2>
-  ${['S','G','P'].map(t=>`<h3>${TIER_NAME[t]}</h3><table><tr><th>이름</th><th>등급</th><th>효과</th><th>태그</th></tr>${AUGS.filter(a=>a.t===t).map(row).join('')}</table>`).join('')}
-  <h2 style="margin-top:18px">시너지 (${Object.keys(SYN).length}종)</h2><table><tr><th>태그</th><th>단계별 보너스</th></tr>${Object.entries(SYN).map(([k,v])=>`<tr><td>#${k}</td><td>${v.map(x=>x[0]+'개: '+x[2]).join(' / ')}</td></tr>`).join('')}</table>
-  <h3>등급 확률 (실버/골드/프리즘, %)</h3><table>${TIER_P.map((x,k)=>`<tr><td>${k+1}번째 선택</td><td>${x.join(' / ')}</td></tr>`).join('')}</table>
-  <p style="color:#aab3e8;margin-top:8px">총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정을 받습니다. 새로고침해도 등급은 그대로입니다. 모든 수치는 합연산이고 상한이 있습니다.</p>
-  <div style="text-align:center;margin-top:12px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
+  const tabs=`<div class="dtabs">${[['aug','✨ 증강 도감'],['syn','🔗 시너지 도감'],['prob','🎲 확률·규칙']].map(([k,n])=>`<button class="btn ${k===tab?'gold':'gray'}" onclick="showDex('${k}')">${n}</button>`).join('')}</div>`;
+  let body='';
+  if(tab==='aug'){
+    body=['S','G','P'].map(t=>`<h3 class="dt${t}">${TIER_NAME[t]} (${AUGS.filter(a=>a.t===t).length}개)</h3><div class="dgrid">${AUGS.filter(a=>a.t===t).map(a=>`<div class="dcard ${a.t}"><div class="dn">${SYN_IC[a.tags[0]]||'✨'} ${a.n}</div><div class="dd">${a.d}</div><div class="dtags">${a.tags.map(x=>`<span>${SYN_IC[x]||''} ${x}</span>`).join('')}</div></div>`).join('')}</div>`).join('');
+  }else if(tab==='syn'){
+    body=`<div class="dgrid syn">${Object.entries(SYN).map(([k,v])=>{const list=AUGS.filter(a=>a.tags.includes(k));return `<div class="dcard syncard"><div class="sic">${SYN_IC[k]||'#'}</div><div class="dn">#${k}</div><div class="dd">${SYN_DESC[k]||''}</div><div class="stiers">${v.map(x=>`<div><b>${x[0]}개</b> ${x[2]}</div>`).join('')}</div><div class="slist">이 태그 증강 ${list.length}개: ${list.map(a=>`<span class="aug ${a.t}">${a.n}</span>`).join('')}</div></div>`}).join('')}</div>`;
+  }else{
+    body=`<h3>등급 확률 (실버 / 골드 / 프리즘, %)</h3><table>${TIER_P.map((x,k)=>`<tr><td>${k+1}번째 선택</td><td>${x.join(' / ')}</td></tr>`).join('')}</table>
+    <p style="margin-top:8px">총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정. 새로고침해도 등급은 그대로입니다. 모든 수치는 합연산이며 상한이 있습니다.</p>
+    <h3>🎯 주사위 컨트롤</h3><p>주사위 버튼을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 ${CTRL_BASE}% 확률로 게이지 위치의 숫자(왼쪽 끝 2 ~ 오른쪽 끝 12)가 그대로 나옵니다. #컨트롤 증강·시너지로 확률을 최대 ${CTRL_CAP}%까지 올릴 수 있습니다. 실패하면 평소처럼 무작위로 나옵니다.</p>`;
+  }
+  md.innerHTML=`<div class="panel">${tabs}${body}<div style="text-align:center;margin-top:16px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
   md.classList.add('on');
 }
 function showHelp(){
@@ -1932,6 +2152,7 @@ function showHelp(){
   <h3>땅과 건설</h3>빈 땅에 멈추면 살 수 있습니다. 건물은 바퀴 수에 따라 지을 수 있는 단계가 늘어납니다: 1바퀴째는 별장까지, 2바퀴째는 별장+빌딩까지 한 번에, 3바퀴째부터는 별장+빌딩+호텔까지 한 번에 지을 수 있습니다. 별장·빌딩·호텔을 모두 지은 땅에 다시 멈추면 랜드마크를 지을 수 있고, 랜드마크가 있는 땅은 인수되지 않습니다. 관광지는 건설·인수가 안 되는 대신 많이 가질수록 통행료가 오릅니다.
   <h3>인수</h3>상대 땅에서 통행료를 낸 뒤, 투자액의 1.5배를 주인에게 주고 빼앗을 수 있습니다.
   <h3>특수 칸</h3>🏝️ 무인도: ${ISLAND_TURNS}턴 동안 갇힘 (더블이면 탈출) · 🔑 황금열쇠: 랜덤 카드 · 🎉 축제: 사회복지기금 획득 + 내 땅 하나 통행료 ×2 · 🚀 우주여행: 다음 턴에 원하는 칸으로 이동 · 🤝 사회복지기금: ${QA_FINE}을 기금에 냄
+  <h3>🎯 주사위 게이지 & 컨트롤</h3>주사위 버튼(또는 스페이스바)을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 10% 확률로 게이지 위치의 숫자(2~12)가 그대로 나오고, 실패하면 무작위입니다. #컨트롤 증강과 시너지로 확률을 올릴 수 있습니다.
   <h3>증강</h3>게임 시작 시 1개를 고르고, 출발 칸을 지날 때마다 1개씩 더 고릅니다 (최대 ${MAX_PICKS}개 + 카드 보너스). 후보 3개 중 1개를 고르며, 선택할 때마다 새로고침을 1회 쓸 수 있습니다. 같은 태그가 쌓이면 시너지가 켜집니다. 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
   <h3>승리 조건</h3>① 나머지 전원 파산 ② 트리플 독점 (게임 그룹 3개 독점) ③ 라인 독점 (보드 한 변의 땅·관광지 전부) ④ 관광지 4곳 독점 ⑤ 라운드 제한 도달 시 총자산 1등
   <div style="text-align:center;margin-top:12px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
