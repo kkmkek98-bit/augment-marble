@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v6</title>
+<title>증강 부루마블 v7</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -240,6 +240,75 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 #log div.imp{background:#fff6d6}
 #sidebtns .btn.gray{background:linear-gradient(#ffffff,#ece8f6);color:#3b2f7a;box-shadow:0 3px 0 #cfc8e3}
 
+/* ===== Step3: 3D 아케이드 버튼 ===== */
+.btn{--b1:#5c7cfa;--b2:#4263eb;--bd:#2b3fb0;
+  background:linear-gradient(180deg,var(--b1),var(--b2));color:#fff;border:none;border-bottom:5px solid var(--bd);
+  border-radius:16px;min-height:52px;min-width:120px;padding:10px 24px;font-size:18px;font-weight:900;letter-spacing:-.3px;
+  box-shadow:0 6px 14px rgba(40,50,120,.25),inset 0 2px 0 rgba(255,255,255,.35);text-shadow:0 1px 0 rgba(0,0,0,.25);
+  transition:transform .08s ease,border-bottom-width .08s ease,filter .15s,box-shadow .08s;cursor:pointer;position:relative}
+.btn:hover{filter:brightness(1.08) saturate(1.05);transform:translateY(-1px)}
+.btn:active{transform:translateY(3px);border-bottom-width:2px;box-shadow:0 2px 6px rgba(40,50,120,.25),inset 0 2px 0 rgba(255,255,255,.25)}
+.btn.gold{--b1:#ffd43b;--b2:#fab005;--bd:#c77700;color:#4a2a00;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+.btn.gray{--b1:#ffffff;--b2:#ece8f6;--bd:#bdb5d6;color:#3b2f7a;text-shadow:none}
+.btn:disabled,.btn:disabled:hover,.btn:disabled:active{--b1:#e9e7ef;--b2:#dcd9e4;--bd:#c2bfcc;color:#a09cad;transform:none;border-bottom-width:5px;filter:none;cursor:not-allowed;text-shadow:none;box-shadow:none}
+#pbtns{gap:14px}
+#pbtns .btn{min-height:58px;font-size:19px}
+#pbtns .btn.gold:only-child{min-width:280px;min-height:70px;font-size:24px;border-radius:20px;border-bottom-width:7px}
+#pbtns .btn.gold:only-child:active{border-bottom-width:3px;transform:translateY(4px)}
+#pbtns .btn.gold::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);background-size:250% 100%;animation:btnShine 2.4s infinite;pointer-events:none}
+@keyframes btnShine{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
+#sidebtns .btn{min-height:48px;font-size:15px;min-width:0}
+#menu .box .btn,.lbox .btn{min-height:60px}
+/* 주사위 받침 */
+#dice{background:radial-gradient(ellipse at 50% 85%,rgba(120,100,60,.18),transparent 65%);border-radius:50%}
+/* ===== 플레이어 HUD ===== */
+.pcard{border-radius:16px;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.pcard.active{transform:translateX(-6px);background:#fff}
+.pcard.active::before{inset:-4px;border-radius:19px;border:3px solid var(--pc);box-shadow:0 0 0 0 var(--pc);animation:hudPulse 1.5s ease-out infinite}
+@keyframes hudPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pc) 55%,transparent);opacity:1}100%{box-shadow:0 0 0 14px transparent;opacity:.65}}
+.pcard .turnb{display:none;margin-left:8px;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.8px;vertical-align:3px;color:#fff;background:var(--pc);box-shadow:0 2px 0 color-mix(in srgb,var(--pc) 60%,#000)}
+.pcard.active .turnb{display:inline-block;animation:turnPop .5s cubic-bezier(.34,1.8,.64,1)}
+.pcard.active.me .turnb{background:linear-gradient(90deg,#ff6b6b,#fcc419,#20c997,#339af0,#845ef7);background-size:300% 100%;animation:turnPop .5s cubic-bezier(.34,1.8,.64,1),rainbow 3s linear infinite}
+@keyframes turnPop{from{transform:scale(0) rotate(-12deg)}}
+@keyframes rainbow{to{background-position:300% 0}}
+/* ===== 말(토큰) ===== */
+.tok{width:28px;height:28px;border:3px solid #fff;background-image:radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),rgba(255,255,255,0) 45%),linear-gradient(180deg,rgba(255,255,255,0),rgba(0,0,0,.25))!important;box-shadow:0 4px 0 rgba(0,0,0,.25),0 6px 10px rgba(0,0,0,.25);font-size:13px;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.5)}
+.tok.cur{z-index:2}
+.tok.cur::after{content:'';position:absolute;inset:-7px;border-radius:50%;border:3px solid currentColor;color:var(--tc);animation:tokRing 1.2s ease-out infinite;pointer-events:none}
+@keyframes tokRing{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.5);opacity:0}}
+/* ===== 증강 선택 모달 ===== */
+#augModal{background:rgba(14,12,40,.55);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2)}
+#augModal .mtitle{font-size:44px;text-shadow:0 4px 0 rgba(0,0,0,.35),0 0 30px currentColor}
+#augModal .cards{gap:34px;perspective:1400px}
+.awrap{--rx:0deg;--ry:0deg;--gl:#c0c7d6;transition:filter .2s}
+.awrap.tG{--gl:#ffd43b}.awrap.tP{--gl:#d08cff}
+.ain{transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.awrap:hover .ain.open{transform:translateY(-16px) scale(1.07) rotateX(var(--rx)) rotateY(var(--ry))}
+.awrap:hover .ain.open .acard{box-shadow:0 26px 50px rgba(0,0,0,.45),0 0 40px color-mix(in srgb,var(--gl) 70%,transparent)}
+.ain .acard::after{left:-70%!important;width:70%!important;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.28) 50%,transparent 75%)!important}
+.ain .acard.G::after{background:linear-gradient(105deg,transparent 25%,rgba(255,224,102,.45) 50%,transparent 75%)!important}
+.ain .acard.P::after{left:-100%!important;width:300%!important;background:linear-gradient(110deg,#ff9ff322,#7df9ff33,#fff59d22,#c3a6ff33,#ff9ff322)!important}
+.ain .acard{border:5px solid transparent;border-radius:22px;
+  background:linear-gradient(160deg,#2a3270,#161c42) padding-box,linear-gradient(140deg,#f8f9fa,#adb5bd,#f1f3f5,#868e96) border-box;
+  box-shadow:0 14px 30px rgba(0,0,0,.35);transition:box-shadow .25s}
+.ain .acard.G{background:linear-gradient(160deg,#3a2c10,#1d1606) padding-box,linear-gradient(140deg,#fff3bf,#fab005,#fff9db,#e67700) border-box}
+.ain .acard.P{background:linear-gradient(150deg,#3b2a7a,#1b2f66 60%,#12204a) padding-box,conic-gradient(from 0deg,#ff6b6b,#fcc419,#51cf66,#22b8cf,#845ef7,#f06595,#ff6b6b) border-box}
+.ain .acard .tier{display:inline-block;align-self:flex-start;padding:3px 12px;border-radius:999px;font-size:13px;letter-spacing:1px;background:rgba(255,255,255,.12);color:#e9ecef}
+.ain .acard.G .tier{background:linear-gradient(90deg,#fab005,#ffd43b);color:#4a2a00}
+.ain .acard.P .tier{background:linear-gradient(90deg,#f06595,#845ef7,#22b8cf);color:#fff}
+.ain .acard .an{font-size:30px;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.35)}
+.ain .acard.G .an{color:#ffe066}
+.ain .acard.P .an{background:linear-gradient(90deg,#ffc9c9,#ffec99,#b2f2bb,#a5d8ff,#d0bfff);-webkit-background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 3px 0 rgba(0,0,0,.35))}
+.ain .acard .ad{color:#e9ecef;background:rgba(0,0,0,.22);border-radius:12px;padding:12px;font-size:17px}
+.ain .acard .tg{background:rgba(255,255,255,.12);color:#fff}
+.ain .acard .glare{position:absolute;inset:0;border-radius:18px;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,30%),rgba(255,255,255,.28),transparent 45%);opacity:0;transition:opacity .2s}
+.awrap:hover .glare{opacity:1}
+.aback{border-radius:22px;border:5px solid #8090ff;background:radial-gradient(circle at 50% 40%,#4c5bd4,#232a6e 70%);box-shadow:0 14px 30px rgba(0,0,0,.35)}
+.awrap.tG .aback{border-color:#fab005;background:radial-gradient(circle at 50% 40%,#b07b00,#3a2c10 70%)}
+.awrap.tP .aback{border-color:#d08cff;background:radial-gradient(circle at 50% 40%,#8e5bf5,#2a1d6b 70%)}
+.aq{color:rgba(255,255,255,.22);text-shadow:0 0 30px rgba(255,255,255,.25)}
+#rrBtn{min-width:260px}
+
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 </head>
@@ -257,7 +326,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v6</div>
+    <div class="ver">v7</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -1118,12 +1187,12 @@ function renderCells(){
   });
 }
 function buildPlayers(){
-  document.getElementById('plist').innerHTML=G.players.map(p=>`<div class="pcard" id="pc${p.id}" style="--pc:${p.color}"><div class="top"><span class="pn">${p.name}${isMe(p)?' (나)':''}</span><span class="pm"></span></div><div class="meta"></div><div class="augs"></div><div class="syns"></div></div>`).join('');
+  document.getElementById('plist').innerHTML=G.players.map(p=>`<div class="pcard" id="pc${p.id}" style="--pc:${p.color}"><div class="top"><span class="pn">${p.name}${isMe(p)&&p.name!=='나'?' (나)':''}<span class="turnb">${isMe(p)?'MY TURN':'TURN'}</span></span><span class="pm"></span></div><div class="meta"></div><div class="augs"></div><div class="syns"></div></div>`).join('');
 }
 function renderPlayers(){
   G.players.forEach(p=>{
     const el=cardEl(p);if(!el)return;
-    const cls='pcard'+(p.id===G.turn&&!G.over&&p.alive?' active':'')+(p.alive?'':' dead broken');
+    const cls='pcard'+(isMe(p)?' me':'')+(p.id===G.turn&&!G.over&&p.alive?' active':'')+(p.alive?'':' dead broken');
     if(el.className!==cls)el.className=cls;
     tweenMoney(p,el.querySelector('.pm'));
     const m=mods(p),sc=synCounts(p);
@@ -1241,8 +1310,10 @@ const FX={
     await new Promise(r=>setTimeout(r,1250));
   }
 };
-function tokPos(p){const r=FX.rect(cellEl(p.pos));const same=G.players.filter(q=>q.alive&&q.pos===p.pos);const k=Math.max(0,same.indexOf(p));const off=[[-14,0],[14,0],[-14,-26],[14,-26]][k];return[Math.round(r.x+r.w/2-12+off[0]),Math.round(r.y+r.h-36+off[1])]}
-function positionTokens(){G.players.forEach(p=>{const t=document.getElementById('tok'+p.id);if(!t)return;if(!p.alive){t.style.opacity=0;return}if(p._anim)return;const[x,y]=tokPos(p);if(p._tx!==x||p._ty!==y){t.style.transform=`translate(${x}px,${y}px)`;p._tx=x;p._ty=y}})}
+function tokPos(p){const r=FX.rect(cellEl(p.pos));const same=G.players.filter(q=>q.alive&&q.pos===p.pos);const k=Math.max(0,same.indexOf(p));
+  const offs=same.length===1?[[0,0]]:same.length===2?[[-15,0],[15,0]]:same.length===3?[[-16,0],[16,0],[0,-22]]:[[-16,0],[16,0],[-16,-24],[16,-24]];
+  const off=offs[Math.min(k,offs.length-1)];return[Math.round(r.x+r.w/2-14+off[0]),Math.round(r.y+r.h-38+off[1])]}
+function positionTokens(){G.players.forEach(p=>{const t=document.getElementById('tok'+p.id);if(!t)return;t.style.setProperty('--tc',p.color);t.classList.toggle('cur',p.id===G.turn&&!G.over&&p.alive);if(!p.alive){t.style.opacity=0;return}if(p._anim)return;const[x,y]=tokPos(p);if(p._tx!==x||p._ty!==y){t.style.transform=`translate(${x}px,${y}px)`;p._tx=x;p._ty=y}})}
 function tweenMoney(p,el){
   const target=p.cash;
   if(p._shown===undefined){p._shown=target;p._tgt=target;el.textContent='💰 '+target.toLocaleString();return}
@@ -1852,6 +1923,21 @@ function showHelp(){
   <div style="text-align:center;margin-top:12px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
   md.classList.add('on');
 }
+</script>
+<script>
+// ---- 증강 카드 3D 기울기 + 광택 (모달 위임 이벤트, 게임 로직과 무관) ----
+(function(){
+  const md=document.getElementById('augModal');
+  md.addEventListener('mousemove',e=>{
+    const w=e.target.closest&&e.target.closest('.awrap');if(!w)return;
+    const r=w.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    w.style.setProperty('--ry',((x-.5)*16).toFixed(1)+'deg');w.style.setProperty('--rx',((.5-y)*12).toFixed(1)+'deg');
+    const c=w.querySelector('.acard');if(c){c.style.setProperty('--mx',(x*100).toFixed(0)+'%');c.style.setProperty('--my',(y*100).toFixed(0)+'%')}
+  });
+  md.addEventListener('mouseout',e=>{const w=e.target.closest&&e.target.closest('.awrap');if(w&&!w.contains(e.relatedTarget)){w.style.setProperty('--rx','0deg');w.style.setProperty('--ry','0deg')}});
+  // 등급 클래스 + 광택 레이어 자동 부착 (카드가 그려질 때마다)
+  new MutationObserver(()=>{md.querySelectorAll('.awrap:not([data-t])').forEach(w=>{const a=AUGS[+w.dataset.id];if(!a)return;w.dataset.t=a.t;w.classList.add('t'+a.t);const c=w.querySelector('.acard');if(c&&!c.querySelector('.glare'))c.insertAdjacentHTML('beforeend','<div class="glare"></div>')})}).observe(md,{childList:true,subtree:true});
+})();
 </script>
 </body>
 </html>
