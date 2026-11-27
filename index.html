@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v5</title>
+<title>증강 부루마블 v6</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -193,6 +193,53 @@ body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothi
 .lrow{background:#161d3d;border-left:7px solid var(--pc);border-radius:10px;padding:10px 14px;font-size:19px;animation:rin .35s backwards}
 .lrow.empty{border-left-color:#333a5c;color:#6870a0;font-size:15px}
 #lobMsg{text-align:center;color:#ffb3b3;font-size:17px;min-height:24px}
+/* ===== Step2: 라이트 캐주얼 보드 디자인 ===== */
+body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
+#game{background:radial-gradient(circle at 30% 20%,#ffffffaa,transparent 60%),linear-gradient(160deg,#dfe8ff 0%,#efe6ff 50%,#ffeedd 100%)}
+#board{background:linear-gradient(#efe9db,#e4dcc8);padding:6px;gap:4px;border-radius:22px;
+  box-shadow:0 10px 0 #c9bea4,0 14px 0 #b3a787,0 30px 50px rgba(60,40,10,.28),inset 0 2px 0 #fff8}
+.cell{background:#fffdf8;color:#2b2b3a;border-radius:10px;padding:19px 3px 4px;box-shadow:0 3px 0 #d9d0bc,0 4px 8px rgba(0,0,0,.06);font-family:'Pretendard','Malgun Gothic',sans-serif}
+.cell .band{height:16px;line-height:16px;font-size:10px;font-weight:800;letter-spacing:.3px;border-radius:10px 10px 0 0;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.cell .nm{font-size:14.5px;font-weight:900;letter-spacing:-.4px;color:#22223a;line-height:1.12}
+.cell .price{display:inline-block;margin-top:2px;font-size:11px;font-weight:800;color:#8a8170}
+.cell .toll{display:inline-block;margin-top:2px;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:900;color:#fff;background:var(--oc,#555);box-shadow:0 2px 0 rgba(0,0,0,.18)}
+.cell .bgw{height:46px;display:flex;justify-content:center;align-items:flex-end;margin-top:-2px;pointer-events:none}
+.cell .bgw svg{filter:drop-shadow(0 2px 1px rgba(0,0,0,.12))}
+.cell.owned{background:linear-gradient(180deg,color-mix(in srgb,var(--oc) 20%,#fff) 0%,color-mix(in srgb,var(--oc) 8%,#fffdf8) 100%);
+  box-shadow:inset 0 0 0 3px var(--oc),0 3px 0 color-mix(in srgb,var(--oc) 55%,#8a7a5a),0 4px 10px rgba(0,0,0,.08)}
+.cell.special{background:#f3f6ff}
+.cell.tour{background:#fff8e6}
+.cell.corner{background:linear-gradient(150deg,#ffffff,#f1ecff);color:#3b2f7a;padding-top:22px;box-shadow:0 3px 0 #cfc3ef,0 4px 10px rgba(0,0,0,.08)}
+.cell.corner .nm{font-size:17px;color:#3b2f7a}
+.cell.corner .ic{font-size:34px}
+.cell .ic{font-size:22px}
+.cell .fest{top:18px;right:3px;font-size:17px;z-index:3}
+.cell .flag{top:19px}
+.cell.pickable{outline:3px dashed #845EF7}
+#center{background:#F8F6F0;border-radius:16px;box-shadow:inset 0 2px 10px rgba(120,100,60,.12);overflow:hidden}
+#center>*{position:relative;z-index:1}
+#center .watermark{position:absolute;inset:0;z-index:0;pointer-events:none}
+#ctitle{color:#3b2f7a;font-size:34px;letter-spacing:-1.5px;text-shadow:0 3px 0 #e2dbf7}
+#cinfo{color:#6b6480}
+#cinfo b{color:#3b2f7a}
+#potline{color:#5d5670}
+#prompt{background:#ffffffe6;border-radius:16px;box-shadow:0 4px 0 #e6dfcd,0 8px 24px rgba(0,0,0,.08);color:#2b2b3a}
+#ptext{color:#2b2b3a}
+.face{background:linear-gradient(145deg,#fff,#f1eee6);border-color:#e0d9c6}
+/* 사이드 패널 라이트 톤 */
+.pcard{background:#ffffffd9;color:#2b2b3a;box-shadow:0 3px 0 #e2dccb,0 6px 16px rgba(0,0,0,.06)}
+.pcard .pm{color:#e07b00}
+.pcard .meta{color:#7a738c}
+.aug{background:#f1efff;color:#3b2f7a;border-color:#b9b2d6}
+.aug.G{background:#fff6d6;color:#8a5d00;border-color:#f5c542}
+.aug.P{background:linear-gradient(90deg,#f3e3ff,#dff1ff);color:#6b2fb3;border-color:#c77dff}
+.syn{background:#d3f9d8;color:#2b8a3e}
+.syn.lo{background:#eeeef4;color:#9a96ad}
+#log{background:#ffffffcc;color:#2b2b3a;box-shadow:inset 0 1px 6px rgba(0,0,0,.06)}
+#log div{border-bottom:1px solid #efeaf7}
+#log div.imp{background:#fff6d6}
+#sidebtns .btn.gray{background:linear-gradient(#ffffff,#ece8f6);color:#3b2f7a;box-shadow:0 3px 0 #cfc8e3}
+
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 </head>
@@ -210,7 +257,7 @@ body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothi
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v5</div>
+    <div class="ver">v6</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -260,10 +307,550 @@ body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothi
 
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
+/* =====================================================================
+   BuildingGraphic v1 — 증강 부루마블 타일용 3D 아이소메트릭 건물 SVG 컴포넌트
+   ---------------------------------------------------------------------
+   - 외부 이미지 없음: 순수 <svg> + CSS 애니메이션
+   - 사용법:
+       const svg = BuildingGraphic({ type:'hotel', cityName:'부산', ownerColor:'#ff5d73' });
+       el.innerHTML = svg;                       // 문자열 반환
+       BuildingGraphic.mount(el, { ... });       // 요소에 바로 렌더 (CSS 자동 주입)
+       BuildingGraphic.typeFromLevel(level);     // 게임 레벨(1~4) → type 변환
+   - props
+       type       : 'villa' | 'building' | 'hotel' | 'landmark'
+       cityName   : 도시 이름 (landmark 일 때 도시별 상징물 선택, 없으면 트로피 기념비)
+       ownerColor : 소유자 색 (바닥 타일·지붕 띠·간판·받침대 강조색)
+       size       : 출력 크기(px, 기본 64)
+       animate    : 마운트 시 bounceDrop 애니메이션 여부 (기본 true)
+   ===================================================================== */
+(function (global) {
+  'use strict';
+
+  /* ---------- CSS (한 번만 주입) ---------- */
+  const CSS = `
+.bg-svg{overflow:visible;display:block;transform-origin:50% 92%}
+.bg-svg.bg-drop{animation:bounceDrop .78s cubic-bezier(.3,.7,.4,1) both}
+@keyframes bounceDrop{
+  0%  {transform:translateY(-70px) scale(.92,1.08);opacity:0}
+  35% {opacity:1}
+  55% {transform:translateY(0) scale(1.14,.82)}
+  70% {transform:translateY(-12px) scale(.96,1.05)}
+  84% {transform:translateY(0) scale(1.05,.95)}
+  100%{transform:translateY(0) scale(1,1)}
+}
+.bg-svg .bg-shadow{animation:bgShadow .78s cubic-bezier(.3,.7,.4,1) both;transform-box:fill-box;transform-origin:center}
+@keyframes bgShadow{0%{transform:scale(.3);opacity:0}55%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+.bg-svg .bg-glow{transform-box:fill-box;transform-origin:center;animation:bgGlow 2.2s ease-in-out infinite}
+@keyframes bgGlow{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
+.bg-svg .bg-shine{animation:bgShine 3.2s ease-in-out infinite}
+@keyframes bgShine{0%,60%,100%{opacity:.15}75%{opacity:.85}}
+.bg-svg .bg-twinkle{transform-box:fill-box;transform-origin:center;animation:bgTwinkle 1.6s ease-in-out infinite}
+@keyframes bgTwinkle{0%,100%{opacity:.3;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+.bg-svg .bg-spin{transform-box:fill-box;transform-origin:center;animation:bgSpin 9s linear infinite}
+@keyframes bgSpin{to{transform:rotate(360deg)}}
+.bg-svg .bg-smoke{animation:bgSmoke 2.4s ease-out infinite}
+@keyframes bgSmoke{0%{opacity:0;transform:translateY(0)}30%{opacity:.7}100%{opacity:0;transform:translateY(-10px)}}
+.bg-svg .bg-wave{animation:bgWave 2s ease-in-out infinite alternate}
+@keyframes bgWave{to{transform:translateX(3px)}}
+`;
+  let cssInjected = false;
+  function injectCSS() {
+    if (cssInjected || typeof document === 'undefined') return;
+    const st = document.createElement('style');
+    st.id = 'building-graphic-css';
+    st.textContent = CSS;
+    document.head.appendChild(st);
+    cssInjected = true;
+  }
+
+  /* ---------- 색 유틸 ---------- */
+  function hexToRgb(h) {
+    h = String(h || '#888').replace('#', '');
+    if (h.length === 3) h = h.split('').map(c => c + c).join('');
+    const n = parseInt(h, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+  }
+  /** amt > 0 : 밝게, amt < 0 : 어둡게 (-1 ~ 1) */
+  function shade(hex, amt) {
+    const [r, g, b] = hexToRgb(hex);
+    if (amt >= 0) return rgbToHex(r + (255 - r) * amt, g + (255 - g) * amt, b + (255 - b) * amt);
+    return rgbToHex(r * (1 + amt), g * (1 + amt), b * (1 + amt));
+  }
+
+  /* ---------- 아이소메트릭 투영 ---------- */
+  // 월드 좌표 (x: 오른쪽 아래, y: 왼쪽 아래, z: 위) → 화면 좌표
+  const C30 = 0.866, S30 = 0.5;
+  const O = { cx: 50, cy: 62 };               // 원점 (타일 중앙)
+  function P(x, y, z) {
+    return [(O.cx + (x - y) * C30).toFixed(2), (O.cy + (x + y) * S30 - z).toFixed(2)];
+  }
+  function poly(pts, fill, extra) {
+    return `<polygon points="${pts.map(p => P(p[0], p[1], p[2]).join(',')).join(' ')}" fill="${fill}" ${extra || ''}/>`;
+  }
+  /** 직육면체: 위·왼쪽(+y면)·오른쪽(+x면) 3면을 명암으로 그림 */
+  function box(x, y, z, w, d, h, col, opt) {
+    opt = opt || {};
+    const top = opt.top || shade(col, 0.28), left = opt.left || col, right = opt.right || shade(col, -0.22);
+    const stroke = opt.stroke === false ? '' : `stroke="${shade(col, -0.45)}" stroke-width="0.6" stroke-linejoin="round"`;
+    return (
+      poly([[x, y + d, z], [x + w, y + d, z], [x + w, y + d, z + h], [x, y + d, z + h]], left, stroke) +
+      poly([[x + w, y, z], [x + w, y + d, z], [x + w, y + d, z + h], [x + w, y, z + h]], right, stroke) +
+      poly([[x, y, z + h], [x + w, y, z + h], [x + w, y + d, z + h], [x, y + d, z + h]], top, stroke)
+    );
+  }
+  /** +y 면(왼쪽 면)에 붙는 사각형 (u: x방향, v: z방향) */
+  function rectY(yPlane, x, z, w, h, fill, extra) {
+    return poly([[x, yPlane, z], [x + w, yPlane, z], [x + w, yPlane, z + h], [x, yPlane, z + h]], fill, extra);
+  }
+  /** +x 면(오른쪽 면)에 붙는 사각형 (u: y방향, v: z방향) */
+  function rectX(xPlane, y, z, d, h, fill, extra) {
+    return poly([[xPlane, y, z], [xPlane, y + d, z], [xPlane, y + d, z + h], [xPlane, y, z + h]], fill, extra);
+  }
+  /** 바닥 마름모 타일 (소유자 색) */
+  function baseTile(ownerColor, r) {
+    r = r || 26;
+    return (
+      `<ellipse class="bg-shadow" cx="${O.cx}" cy="${O.cy + 4}" rx="${r * 1.05}" ry="${r * 0.42}" fill="#000" fill-opacity=".22"/>` +
+      box(-r / 1.73, -r / 1.73, -3, r * 1.155, r * 1.155, 3, ownerColor, { top: shade(ownerColor, 0.55), left: shade(ownerColor, 0.1), right: shade(ownerColor, -0.15) })
+    );
+  }
+
+  let uid = 0;
+
+  /* =====================================================================
+     1) 별장 (villa) — 테라코타 지붕 + 굴뚝 전원주택
+     ===================================================================== */
+  function drawVilla(owner) {
+    const wall = '#fbeedb', roof = '#e07a4f', id = 'v' + (++uid);
+    let s = baseTile(owner);
+    // 잔디 마당
+    s += box(-12, -12, 0, 24, 24, 1.2, '#7fcf6a', { top: '#9be27f', stroke: false });
+    // 본체
+    s += box(-9, -8, 1.2, 18, 15, 12, wall, { top: '#fff7ea', left: '#fbeedb', right: '#e9d6bb' });
+    // 문 (+y면)
+    s += rectY(7, -2.5, 1.2, 5, 8, '#8a5a3c', 'stroke="#5e3a24" stroke-width=".5"');
+    s += `<circle cx="${P(1.6, 7, 5)[0]}" cy="${P(1.6, 7, 5)[1]}" r=".6" fill="#ffd54a"/>`;
+    // 창문 (+y면 / +x면)
+    s += rectY(7, -7.5, 5.5, 3.6, 3.6, '#bfe9ff', 'stroke="#fff" stroke-width=".6"');
+    s += rectY(7, 4, 5.5, 3.6, 3.6, '#bfe9ff', 'stroke="#fff" stroke-width=".6"');
+    s += rectX(9, -5, 5.5, 4, 3.6, '#9fd8f5', 'stroke="#fff" stroke-width=".6"');
+    s += rectX(9, 1.5, 5.5, 4, 3.6, '#9fd8f5', 'stroke="#fff" stroke-width=".6"');
+    // 박공 지붕 (x축 방향 용마루)
+    const z0 = 13.2, zr = 22, y0 = -9.5, y1 = 8.5, ym = -0.5, x0 = -10.5, x1 = 10.5;
+    s += poly([[x0, y0, z0], [x1, y0, z0], [x1, ym, zr], [x0, ym, zr]], shade(roof, 0.25), `stroke="${shade(roof, -0.4)}" stroke-width=".6"`);
+    s += poly([[x1, y0 + 1, z0], [x1, y1 - 1, z0], [x1, ym, zr - 0.8]], '#f3e3c8', `stroke="${shade(roof, -0.4)}" stroke-width=".5"`); // 박공 벽
+    s += poly([[x0, y1, z0], [x1, y1, z0], [x1, ym, zr], [x0, ym, zr]], roof, `stroke="${shade(roof, -0.4)}" stroke-width=".6"`);
+    // 지붕 기와 줄무늬
+    for (let k = 1; k < 4; k++) {
+      const t = k / 4, a = P(x0, y1 + (ym - y1) * t, z0 + (zr - z0) * t), b = P(x1, y1 + (ym - y1) * t, z0 + (zr - z0) * t);
+      s += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${shade(roof, -0.25)}" stroke-width=".6"/>`;
+    }
+    // 소유자 색 지붕 띠 (용마루)
+    const r1 = P(x0, ym, zr), r2 = P(x1, ym, zr);
+    s += `<line x1="${r1[0]}" y1="${r1[1]}" x2="${r2[0]}" y2="${r2[1]}" stroke="${owner}" stroke-width="2" stroke-linecap="round"/>`;
+    // 굴뚝 + 연기
+    s += box(3, 1.5, 15.5, 3.2, 3.2, 9, '#c8634a', { top: '#5a3428' });
+    const cp = P(4.6, 3.1, 25.5);
+    s += `<g class="bg-smoke"><circle cx="${cp[0]}" cy="${cp[1] - 2}" r="1.8" fill="#fff" opacity=".8"/><circle cx="${+cp[0] + 1.6}" cy="${cp[1] - 5}" r="2.3" fill="#fff" opacity=".6"/></g>`;
+    // 작은 나무
+    const tp = P(-11, 9, 1);
+    s += `<rect x="${tp[0] - 0.7}" y="${tp[1] - 6}" width="1.4" height="6" fill="#8a5a3c"/><circle cx="${tp[0]}" cy="${tp[1] - 8}" r="3.6" fill="#4caf50"/><circle cx="${tp[0] - 1}" cy="${tp[1] - 9}" r="1.4" fill="#7ed67f"/>`;
+    return wrap(`<g transform="translate(50 62) scale(1.28) translate(-50 -62)">${s}</g>`, id);
+  }
+
+  /* =====================================================================
+     2) 빌딩 (building) — 유리 반사광 디테일 중층 오피스
+     ===================================================================== */
+  function drawBuilding(owner) {
+    const id = 'b' + (++uid), glass = '#5aa9e6';
+    let s = `<defs>
+      <linearGradient id="${id}gL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd8ff"/><stop offset="1" stop-color="#3b82c4"/></linearGradient>
+      <linearGradient id="${id}gR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6cb6ec"/><stop offset="1" stop-color="#245f99"/></linearGradient>
+    </defs>`;
+    s += baseTile(owner);
+    // 1층 로비 (소유자 색 띠)
+    s += box(-10, -10, 0, 20, 20, 5, '#e8edf5', { top: '#f6f8fc' });
+    s += rectY(10, -8, 0.5, 16, 3.6, '#2b3f5c');
+    s += rectX(10, -8, 0.5, 16, 3.6, '#22344d');
+    s += rectY(10, -10, 4, 20, 1, owner);
+    s += rectX(10, -10, 4, 20, 1, shade(owner, -0.2));
+    // 유리 타워 본체
+    const H = 30, z0 = 5;
+    s += poly([[-8, 8, z0], [8, 8, z0], [8, 8, z0 + H], [-8, 8, z0 + H]], `url(#${id}gL)`, 'stroke="#1f4e7a" stroke-width=".6"');
+    s += poly([[8, -8, z0], [8, 8, z0], [8, 8, z0 + H], [8, -8, z0 + H]], `url(#${id}gR)`, 'stroke="#1f4e7a" stroke-width=".6"');
+    s += poly([[-8, -8, z0 + H], [8, -8, z0 + H], [8, 8, z0 + H], [-8, 8, z0 + H]], '#cfe9ff', 'stroke="#1f4e7a" stroke-width=".6"');
+    // 층 구분선 & 멀리언(세로 프레임)
+    for (let k = 1; k < 6; k++) {
+      const z = z0 + k * (H / 6);
+      let a = P(-8, 8, z), b = P(8, 8, z), c = P(8, -8, z);
+      s += `<polyline points="${a.join(',')} ${b.join(',')} ${c.join(',')}" fill="none" stroke="#e6f4ff" stroke-width=".7" opacity=".8"/>`;
+    }
+    for (let k = 1; k < 4; k++) {
+      const u = -8 + k * 4;
+      let a = P(u, 8, z0), b = P(u, 8, z0 + H), c = P(8, u, z0), d = P(8, u, z0 + H);
+      s += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#1f4e7a" stroke-width=".4" opacity=".7"/>`;
+      s += `<line x1="${c[0]}" y1="${c[1]}" x2="${d[0]}" y2="${d[1]}" stroke="#1f4e7a" stroke-width=".4" opacity=".7"/>`;
+    }
+    // 유리 반사광 (대각선 하이라이트, 반짝 애니메이션)
+    s += `<g class="bg-shine">` +
+      poly([[-6, 8, z0 + 6], [-2, 8, z0 + 6], [2, 8, z0 + 26], [-2, 8, z0 + 26]], '#ffffff', 'opacity=".55"') +
+      poly([[8, -6, z0 + 10], [8, -4, z0 + 10], [8, 0, z0 + 24], [8, -2, z0 + 24]], '#ffffff', 'opacity=".4"') +
+      `</g>`;
+    // 옥상 설비 + 안테나
+    s += box(-4, -4, z0 + H, 7, 6, 3, '#9aa6b8');
+    const an = P(0, 0, z0 + H + 3);
+    s += `<line x1="${an[0]}" y1="${an[1]}" x2="${an[0]}" y2="${an[1] - 9}" stroke="#5b6478" stroke-width="1"/>`;
+    s += `<circle class="bg-twinkle" cx="${an[0]}" cy="${an[1] - 9.5}" r="1.4" fill="#ff4d4d"/>`;
+    // 옥상 소유자 깃발
+    const fp = P(6, -6, z0 + H);
+    s += `<line x1="${fp[0]}" y1="${fp[1]}" x2="${fp[0]}" y2="${fp[1] - 7}" stroke="#333" stroke-width=".7"/><path d="M${fp[0]} ${fp[1] - 7} l5 1.6 l-5 1.6z" fill="${owner}"/>`;
+    return wrap(`<g transform="translate(50 62) scale(1.12) translate(-50 -62)">${s.replace(/^<defs>[\s\S]*?<\/defs>/,'')}</g>`.replace('<g transform','DEFS<g transform').replace('DEFS',(s.match(/^<defs>[\s\S]*?<\/defs>/)||[''])[0]), id);
+  }
+
+  /* =====================================================================
+     3) 호텔 (hotel) — 붉은 카펫 입구 + 황금 왕관 간판 고층 호텔
+     ===================================================================== */
+  function drawHotel(owner) {
+    const id = 'h' + (++uid), wall = '#f4e9ff';
+    let s = `<defs>
+      <linearGradient id="${id}gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#f5c542"/><stop offset="1" stop-color="#c58a00"/></linearGradient>
+      <linearGradient id="${id}wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf8ff"/><stop offset="1" stop-color="#e5d4f7"/></linearGradient>
+    </defs>`;
+    s += baseTile(owner);
+    // 붉은 카펫 (입구 앞 바닥)
+    s += poly([[-2.5, 9, 0.2], [2.5, 9, 0.2], [2.5, 17, 0.2], [-2.5, 17, 0.2]], '#d7263d', 'stroke="#a3172a" stroke-width=".4"');
+    s += poly([[-2.5, 9, 0.25], [-1.9, 9, 0.25], [-1.9, 17, 0.25], [-2.5, 17, 0.25]], '#f5c542');
+    s += poly([[1.9, 9, 0.25], [2.5, 9, 0.25], [2.5, 17, 0.25], [1.9, 17, 0.25]], '#f5c542');
+    // 기단층 (금색 테두리)
+    s += box(-10, -10, 0, 20, 19, 6, '#7a4fb8', { top: '#9b74d6' });
+    s += rectY(9, -10, 5.2, 20, 0.8, `url(#${id}gold)`);
+    s += rectX(10, -10, 5.2, 19, 0.8, '#d9a520');
+    // 회전문 입구 + 차양
+    s += rectY(9, -3, 0, 6, 4.6, '#fff3c4', 'stroke="#c58a00" stroke-width=".5"');
+    s += rectY(9, -0.2, 0, 0.4, 4.6, '#c58a00');
+    s += poly([[-4, 9, 4.8], [4, 9, 4.8], [4, 12, 4], [-4, 12, 4]], '#d7263d', 'stroke="#8f1424" stroke-width=".4"');
+    // 고층 타워
+    const z0 = 6, H = 34;
+    s += poly([[-8, 7, z0], [8, 7, z0], [8, 7, z0 + H], [-8, 7, z0 + H]], `url(#${id}wl)`, 'stroke="#8a6bb5" stroke-width=".6"');
+    s += poly([[8, -8, z0], [8, 7, z0], [8, 7, z0 + H], [8, -8, z0 + H]], '#d9c6f0', 'stroke="#8a6bb5" stroke-width=".6"');
+    s += poly([[-8, -8, z0 + H], [8, -8, z0 + H], [8, 7, z0 + H], [-8, 7, z0 + H]], '#fff', 'stroke="#8a6bb5" stroke-width=".6"');
+    // 객실 창문 (불 켜진 창 랜덤 패턴 고정)
+    const lit = [1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1];
+    let n = 0;
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 4; c++) {
+      const on = lit[n++ % lit.length];
+      s += rectY(7, -7 + c * 3.8, z0 + 2.5 + r * 5.2, 2.4, 3, on ? '#ffe28a' : '#6d5a8f');
+      s += rectX(8, -7 + c * 3.6, z0 + 2.5 + r * 5.2, 2.2, 3, on ? '#f5cd6a' : '#5a4a78');
+    }
+    // 옆면 세로 간판 (HOTEL)
+    s += box(8, -2, z0 + 8, 1.6, 4, 22, '#c58a00', { left: `url(#${id}gold)`, top: '#fff3a8', right: '#d9a520' });
+    const sp = P(9.6, -0.4, z0 + 28);
+    'HOTEL'.split('').forEach((ch, k) => {
+      s += `<text x="${(+sp[0] + 0.3).toFixed(2)}" y="${(+sp[1] + k * 4.2 + 1).toFixed(2)}" font-size="3.6" font-weight="900" font-family="Arial,sans-serif" text-anchor="middle" fill="#7a1020">${ch}</text>`;
+    });
+    // 옥상 왕관
+    const cr = P(0, -0.5, z0 + H);
+    const cx = +cr[0], cy = +cr[1];
+    s += `<g transform="translate(${cx} ${cy - 1})">
+      <path d="M-8 0 L-9 -9 L-4.5 -4.5 L0 -11 L4.5 -4.5 L9 -9 L8 0 Z" fill="url(#${id}gold)" stroke="#8a5d00" stroke-width=".7" stroke-linejoin="round"/>
+      <rect x="-8.4" y="-1.6" width="16.8" height="3" rx="1" fill="${owner}" stroke="#8a5d00" stroke-width=".5"/>
+      <circle cx="0" cy="-11" r="1.5" fill="#ff5d73"/><circle cx="-9" cy="-9" r="1.2" fill="#4dd4ff"/><circle cx="9" cy="-9" r="1.2" fill="#4dd4ff"/>
+      <circle class="bg-twinkle" cx="3" cy="-6" r="1" fill="#fff"/>
+    </g>`;
+    return wrap(s, id);
+  }
+
+  /* =====================================================================
+     4) 랜드마크 — 도시별 상징물 (2D 귀여운 벡터) + 받침대 + 후광
+     ===================================================================== */
+  const LM = {
+    // 서울: 남산타워
+    seoul: () => `
+      <ellipse cx="50" cy="66" rx="24" ry="9" fill="#5cb85c"/><ellipse cx="50" cy="63" rx="17" ry="7" fill="#7fd17f"/>
+      <rect x="47.6" y="24" width="4.8" height="40" rx="1.5" fill="#f2f2f2" stroke="#9aa" stroke-width=".7"/>
+      <rect x="44" y="58" width="12" height="4" rx="1" fill="#d9dfe6" stroke="#9aa" stroke-width=".6"/>
+      <ellipse cx="50" cy="28" rx="8" ry="3.6" fill="#ff8a65" stroke="#c4553a" stroke-width=".7"/>
+      <rect x="43" y="24" width="14" height="4.5" rx="2" fill="#ffffff" stroke="#9aa" stroke-width=".6"/>
+      <rect x="44.5" y="25.3" width="11" height="1.8" rx=".9" fill="#7cc8ff"/>
+      <line x1="50" y1="24" x2="50" y2="8" stroke="#c9ced6" stroke-width="1.6"/>
+      <line x1="50" y1="14" x2="50" y2="8" stroke="#ff5d5d" stroke-width="1.6"/>
+      <circle class="bg-twinkle" cx="50" cy="7" r="1.5" fill="#ff3b3b"/>`,
+    // 부산: 광안대교
+    busan: () => `
+      <rect x="14" y="56" width="72" height="14" rx="5" fill="#4dabf7"/>
+      <path class="bg-wave" d="M16 63 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#d0ebff" stroke-width="1.2"/>
+      <rect x="14" y="48" width="72" height="4" rx="1" fill="#e9ecef" stroke="#868e96" stroke-width=".6"/>
+      <rect x="31" y="20" width="4" height="36" rx="1" fill="#f1f3f5" stroke="#868e96" stroke-width=".6"/>
+      <rect x="65" y="20" width="4" height="36" rx="1" fill="#f1f3f5" stroke="#868e96" stroke-width=".6"/>
+      <path d="M14 46 Q24 46 33 21 Q50 44 67 21 Q76 46 86 46" fill="none" stroke="#748ffc" stroke-width="1.6"/>
+      ${[20, 26, 39, 44, 50, 56, 61, 74, 80].map(x => `<line x1="${x}" y1="48" x2="${x}" y2="${x < 33 ? 46 - (33 - x) * 0.9 : x > 67 ? 46 - (x - 67) * 0.9 : 26 + Math.abs(50 - x) * 1.1}" stroke="#bac8ff" stroke-width=".7"/>`).join('')}
+      ${[24, 38, 50, 62, 76].map((x, k) => `<circle class="bg-twinkle" style="animation-delay:${k * 0.25}s" cx="${x}" cy="50" r="1" fill="#ffd43b"/>`).join('')}`,
+    // 제주: 돌하르방
+    jeju: () => `
+      <ellipse cx="50" cy="68" rx="18" ry="4" fill="#3f8f3f" opacity=".5"/>
+      <path d="M38 68 Q36 44 41 36 L59 36 Q64 44 62 68 Z" fill="#7d7f86" stroke="#4f5157" stroke-width=".8"/>
+      <ellipse cx="50" cy="26" rx="14" ry="5" fill="#6a6c73" stroke="#4f5157" stroke-width=".8"/>
+      <path d="M40 26 Q40 12 50 11 Q60 12 60 26 Z" fill="#6a6c73" stroke="#4f5157" stroke-width=".8"/>
+      <ellipse cx="50" cy="34" rx="11" ry="9" fill="#8b8d94" stroke="#4f5157" stroke-width=".8"/>
+      <circle cx="45" cy="32" r="3" fill="#fff"/><circle cx="55" cy="32" r="3" fill="#fff"/>
+      <circle cx="45.3" cy="32.4" r="1.6" fill="#222"/><circle cx="55.3" cy="32.4" r="1.6" fill="#222"/>
+      <ellipse cx="50" cy="37.5" rx="3" ry="2.2" fill="#6a6c73"/>
+      <path d="M46 41 Q50 43 54 41" fill="none" stroke="#4f5157" stroke-width="1"/>
+      <path d="M41 50 Q50 47 50 52 M59 54 Q50 57 50 52" fill="none" stroke="#4f5157" stroke-width="2" stroke-linecap="round"/>
+      ${[[43, 60], [55, 46], [47, 64], [57, 62]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r=".9" fill="#55575d"/>`).join('')}
+      <circle cx="68" cy="22" r="4" fill="#ffa94d"/><path d="M68 18 l1 -2" stroke="#2f9e44" stroke-width="1.2"/>`,
+    // 경주: 첨성대
+    gyeongju: () => `
+      <rect x="34" y="62" width="32" height="5" rx="1" fill="#c9b18a" stroke="#8c7451" stroke-width=".7"/>
+      <path d="M38 62 Q36 40 42 24 L58 24 Q64 40 62 62 Z" fill="#e2c99c" stroke="#8c7451" stroke-width=".8"/>
+      ${[56, 50, 44, 38, 32, 28].map(y => { const w = 12 + (y - 24) * 0.25; return `<line x1="${50 - w}" y1="${y}" x2="${50 + w}" y2="${y}" stroke="#b89a6b" stroke-width=".8"/>`; }).join('')}
+      <rect x="46.5" y="40" width="7" height="7" fill="#5a4630"/>
+      <rect x="40" y="18" width="20" height="3" fill="#d4b788" stroke="#8c7451" stroke-width=".7"/>
+      <rect x="42" y="21" width="16" height="3" fill="#c9ab7a" stroke="#8c7451" stroke-width=".7"/>
+      <circle class="bg-twinkle" cx="34" cy="14" r="1.4" fill="#fff59d"/><circle class="bg-twinkle" style="animation-delay:.5s" cx="66" cy="10" r="1.2" fill="#fff59d"/><circle class="bg-twinkle" style="animation-delay:1s" cx="58" cy="6" r="1" fill="#fff59d"/>`,
+    // 인천: 월미도 관람차
+    incheon: () => `
+      <path d="M50 38 L38 68 M50 38 L62 68" stroke="#868e96" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="34" y="66" width="32" height="3" rx="1.5" fill="#495057"/>
+      <g class="bg-spin">
+        <circle cx="50" cy="38" r="24" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+        <circle cx="50" cy="38" r="20" fill="none" stroke="#ffd43b" stroke-width=".8"/>
+        ${Array.from({ length: 8 }, (_, k) => { const a = k * Math.PI / 4, x = 50 + Math.cos(a) * 24, y = 38 + Math.sin(a) * 24; return `<line x1="50" y1="38" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#adb5bd" stroke-width=".8"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.4" fill="${['#ff6b6b', '#4dabf7', '#ffd43b', '#69db7c'][k % 4]}" stroke="#fff" stroke-width=".8"/>`; }).join('')}
+      </g>
+      <circle cx="50" cy="38" r="3" fill="#f1f3f5" stroke="#868e96" stroke-width=".8"/>`,
+    // 강릉: 경포대 정자 + 소나무
+    gangneung: () => `
+      <ellipse cx="50" cy="67" rx="30" ry="5" fill="#74c0fc" opacity=".7"/>
+      <rect x="36" y="58" width="28" height="5" fill="#a0522d" stroke="#6b3418" stroke-width=".6"/>
+      ${[38, 46, 54, 62].map(x => `<rect x="${x - 1}" y="42" width="2" height="16" fill="#b5532f"/>`).join('')}
+      <rect x="35" y="40" width="30" height="3" fill="#2f9e44"/>
+      <path d="M28 40 Q38 36 42 28 L58 28 Q62 36 72 40 Q60 38 50 38 Q40 38 28 40 Z" fill="#495057" stroke="#212529" stroke-width=".7"/>
+      <path d="M42 28 Q50 24 58 28" fill="#343a40"/>
+      <path d="M22 66 L22 40" stroke="#8b5a2b" stroke-width="2.4"/>
+      <path d="M12 46 Q22 36 32 46 Z M14 40 Q22 30 30 40 Z M16 34 Q22 26 28 34 Z" fill="#2b8a3e"/>
+      <path d="M80 66 L80 46" stroke="#8b5a2b" stroke-width="2"/>
+      <path d="M72 50 Q80 42 88 50 Z M74 45 Q80 37 86 45 Z" fill="#2f9e44"/>`,
+    // 전주: 한옥 기와
+    jeonju: () => `
+      <rect x="28" y="60" width="44" height="6" fill="#ced4da" stroke="#868e96" stroke-width=".6"/>
+      <rect x="32" y="40" width="36" height="20" fill="#fff4e0" stroke="#8b5a2b" stroke-width=".8"/>
+      ${[32, 44, 56, 68].map(x => `<rect x="${x - 1.2}" y="40" width="2.4" height="20" fill="#8b5a2b"/>`).join('')}
+      <rect x="35" y="45" width="7" height="10" fill="#f8e7c8" stroke="#8b5a2b" stroke-width=".6"/><line x1="38.5" y1="45" x2="38.5" y2="55" stroke="#8b5a2b" stroke-width=".4"/><line x1="35" y1="50" x2="42" y2="50" stroke="#8b5a2b" stroke-width=".4"/>
+      <rect x="58" y="45" width="7" height="10" fill="#f8e7c8" stroke="#8b5a2b" stroke-width=".6"/><line x1="61.5" y1="45" x2="61.5" y2="55" stroke="#8b5a2b" stroke-width=".4"/><line x1="58" y1="50" x2="65" y2="50" stroke="#8b5a2b" stroke-width=".4"/>
+      <rect x="46" y="46" width="8" height="14" fill="#a0522d"/>
+      <path d="M18 41 Q30 38 34 26 L66 26 Q70 38 82 41 Q66 37 50 37 Q34 37 18 41 Z" fill="#3b4250" stroke="#1c2028" stroke-width=".8"/>
+      ${[26, 30, 34].map(y => `<path d="M${36 - (y - 26) * 0.6} ${y + 2} Q50 ${y - 0.5} ${64 + (y - 26) * 0.6} ${y + 2}" fill="none" stroke="#596172" stroke-width=".7"/>`).join('')}
+      <path d="M34 26 Q50 20 66 26" fill="#2a2f3a"/>`,
+    // 대전: 한빛탑
+    daejeon: () => `
+      <rect x="38" y="62" width="24" height="5" rx="1" fill="#adb5bd" stroke="#495057" stroke-width=".6"/>
+      <path d="M46 62 L48 26 L52 26 L54 62 Z" fill="#e9ecef" stroke="#495057" stroke-width=".7"/>
+      <path d="M42 62 L47 40 L49 40 L46 62 Z M58 62 L53 40 L51 40 L54 62 Z" fill="#ced4da" stroke="#495057" stroke-width=".5"/>
+      <ellipse cx="50" cy="26" rx="10" ry="4" fill="#4dabf7" stroke="#1971c2" stroke-width=".8"/>
+      <ellipse cx="50" cy="24.5" rx="7" ry="2.4" fill="#a5d8ff"/>
+      <path d="M50 22 L50 6" stroke="#868e96" stroke-width="1.6"/>
+      <circle class="bg-twinkle" cx="50" cy="5" r="1.8" fill="#ff922b"/>
+      <circle class="bg-twinkle" style="animation-delay:.6s" cx="30" cy="20" r="1.2" fill="#ffe066"/><circle class="bg-twinkle" style="animation-delay:1.1s" cx="70" cy="16" r="1.2" fill="#ffe066"/>`,
+    // 광주: 무등산 (서석대 주상절리 + 산)
+    gwangju: () => `
+      <circle cx="70" cy="20" r="7" fill="#ffd43b"/>
+      <path d="M12 66 L34 30 L46 46 L58 22 L88 66 Z" fill="#40c057" stroke="#2b8a3e" stroke-width=".8"/>
+      <path d="M58 22 L66 34 L62 32 L58 36 L54 31 L50 34 Z" fill="#f1f3f5"/>
+      <path d="M34 30 L39 38 L36 37 L33 39 L30 36 Z" fill="#f1f3f5"/>
+      ${[44, 48, 52, 56].map(x => `<rect x="${x}" y="52" width="3" height="14" fill="#868e96" stroke="#495057" stroke-width=".4"/>`).join('')}
+      <path d="M12 66 Q50 60 88 66 Z" fill="#2f9e44"/>`,
+    // 울산: 고래 (반구대) + 물보라
+    ulsan: () => `
+      <rect x="14" y="58" width="72" height="11" rx="5" fill="#339af0"/>
+      <path class="bg-wave" d="M16 62 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#a5d8ff" stroke-width="1.2"/>
+      <path d="M24 52 Q30 30 54 32 Q72 34 74 48 Q74 58 60 58 L36 58 Q26 58 24 52 Z" fill="#4c6ef5" stroke="#364fc7" stroke-width=".8"/>
+      <path d="M30 54 Q46 60 70 50 Q68 57 58 58 L36 58 Q30 58 30 54 Z" fill="#dbe4ff"/>
+      <path d="M74 46 L84 38 L82 47 L86 54 L75 50 Z" fill="#4c6ef5" stroke="#364fc7" stroke-width=".8"/>
+      <circle cx="36" cy="44" r="2" fill="#fff"/><circle cx="36.4" cy="44.3" r="1.1" fill="#1b1b1b"/>
+      <path d="M32 50 Q36 52 40 50" fill="none" stroke="#364fc7" stroke-width=".8"/>
+      <g class="bg-smoke"><path d="M46 32 Q44 22 38 20 M46 32 Q46 20 46 16 M46 32 Q48 22 54 20" fill="none" stroke="#a5d8ff" stroke-width="1.6" stroke-linecap="round"/></g>`,
+    // 수원: 화성 (장안문)
+    suwon: () => `
+      <rect x="14" y="50" width="72" height="16" fill="#e9d8b4" stroke="#8c7451" stroke-width=".7"/>
+      ${[14, 22, 30, 62, 70, 78].map(x => `<rect x="${x}" y="46" width="5" height="4" fill="#e9d8b4" stroke="#8c7451" stroke-width=".5"/>`).join('')}
+      <path d="M42 66 L42 56 Q50 48 58 56 L58 66 Z" fill="#5a4630"/>
+      <rect x="36" y="38" width="28" height="12" fill="#d9480f" stroke="#7a2a0a" stroke-width=".6"/>
+      ${[38, 44, 50, 56, 62].map(x => `<rect x="${x - 0.8}" y="38" width="1.6" height="12" fill="#7a2a0a"/>`).join('')}
+      <path d="M26 39 Q36 35 40 28 L60 28 Q64 35 74 39 Q62 36 50 36 Q38 36 26 39 Z" fill="#3b4250" stroke="#1c2028" stroke-width=".7"/>
+      <path d="M40 28 Q50 23 60 28" fill="#2a2f3a"/>
+      <path d="M78 46 L78 30" stroke="#5a4630" stroke-width="1"/><path d="M78 30 l7 2.4 l-7 2.4z" fill="#ffd43b"/>`,
+    // 여의도: 63빌딩
+    yeouido: () => `
+      <rect x="18" y="62" width="64" height="6" rx="3" fill="#74c0fc"/>
+      <path d="M38 62 L42 12 L58 12 L62 62 Z" fill="url(#LMGOLD)" stroke="#8a5d00" stroke-width=".8"/>
+      ${Array.from({ length: 12 }, (_, k) => `<line x1="${39 + k * 0.33}" y1="${58 - k * 4}" x2="${61 - k * 0.33}" y2="${58 - k * 4}" stroke="#fff3bf" stroke-width=".6" opacity=".7"/>`).join('')}
+      <path class="bg-shine" d="M44 16 L47 16 L45 58 L42 58 Z" fill="#fff" opacity=".5"/>
+      <text x="50" y="22" text-anchor="middle" font-size="7" font-weight="900" fill="#7a4a00" font-family="Arial,sans-serif">63</text>`,
+    // 명동: 명동성당
+    myeongdong: () => `
+      <rect x="30" y="44" width="40" height="22" fill="#c0563b" stroke="#7a2e1c" stroke-width=".7"/>
+      <path d="M30 44 L50 34 L70 44 Z" fill="#8f3a26" stroke="#5c2014" stroke-width=".6"/>
+      <rect x="44" y="26" width="12" height="40" fill="#cf6448" stroke="#7a2e1c" stroke-width=".7"/>
+      <path d="M43 26 L50 6 L57 26 Z" fill="#5f6b7a" stroke="#343a40" stroke-width=".7"/>
+      <path d="M50 6 L50 1 M48 3 L52 3" stroke="#ffd43b" stroke-width="1.2"/>
+      <path d="M46 66 L46 56 Q50 50 54 56 L54 66 Z" fill="#4a2015"/>
+      <circle cx="50" cy="38" r="3.4" fill="#ffe066" stroke="#7a2e1c" stroke-width=".6"/>
+      ${[34, 39, 61, 66].map(x => `<path d="M${x - 1.6} 58 L${x - 1.6} 51 Q${x} 48 ${x + 1.6} 51 L${x + 1.6} 58 Z" fill="#a5d8ff"/>`).join('')}`,
+    // 대구: 83타워
+    daegu: () => `
+      <ellipse cx="50" cy="66" rx="22" ry="5" fill="#69db7c"/>
+      <rect x="47" y="30" width="6" height="34" fill="#dee2e6" stroke="#868e96" stroke-width=".6"/>
+      <path d="M41 36 L59 36 L56 26 L44 26 Z" fill="#e64980" stroke="#a61e4d" stroke-width=".7"/>
+      <rect x="42" y="28" width="16" height="3" fill="#a5d8ff"/>
+      <path d="M46 26 L50 14 L54 26 Z" fill="#f1f3f5" stroke="#868e96" stroke-width=".6"/>
+      <line x1="50" y1="14" x2="50" y2="6" stroke="#868e96" stroke-width="1.2"/>
+      <circle class="bg-twinkle" cx="50" cy="5.5" r="1.5" fill="#ff6b6b"/>
+      <path d="M18 66 Q22 52 30 58 Q34 50 40 62" fill="#ff8787" opacity=".8"/>`,
+    // 포항: 호미곶 상생의 손
+    pohang: () => `
+      <rect x="12" y="58" width="76" height="11" rx="5" fill="#228be6"/>
+      <path class="bg-wave" d="M14 62 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#a5d8ff" stroke-width="1.2"/>
+      <path d="M40 60 L40 36 Q40 32 43 32 Q46 32 46 36 L46 24 Q46 20 49 20 Q52 20 52 24 L52 22 Q52 18 55 18 Q58 18 58 22 L58 28 Q58 24 61 24 Q64 24 64 28 L64 46 Q64 54 58 60 Z" fill="#adb5bd" stroke="#495057" stroke-width=".9"/>
+      <path d="M40 44 Q34 40 32 34 Q31 30 34 30 Q37 31 40 38" fill="#adb5bd" stroke="#495057" stroke-width=".9"/>
+      <circle cx="76" cy="20" r="7" fill="#ff922b"/><circle cx="76" cy="20" r="10" fill="#ff922b" opacity=".25"/>`,
+    // 춘천: 소양강 스카이워크
+    chuncheon: () => `
+      <rect x="10" y="56" width="80" height="13" rx="5" fill="#4dabf7"/>
+      <path class="bg-wave" d="M12 61 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#d0ebff" stroke-width="1.2"/>
+      <path d="M12 46 L66 46 L72 40 L18 40 Z" fill="#a5d8ff" stroke="#1971c2" stroke-width=".8" opacity=".9"/>
+      ${[22, 34, 46, 58].map(x => `<rect x="${x}" y="46" width="2" height="12" fill="#868e96"/>`).join('')}
+      <path d="M66 46 Q78 30 72 22 Q80 24 84 34 Q84 44 76 46 Z" fill="#e9ecef" stroke="#868e96" stroke-width=".7"/>
+      <circle cx="30" cy="38" r="2" fill="#ffc9c9"/><rect x="28.8" y="32" width="2.4" height="6" rx="1.2" fill="#ff8787"/>`,
+    // 경복궁 (관광지)
+    gyeongbok: () => `
+      <rect x="20" y="58" width="60" height="8" fill="#ced4da" stroke="#868e96" stroke-width=".6"/>
+      <rect x="28" y="40" width="44" height="18" fill="#e03131" stroke="#7a1616" stroke-width=".6"/>
+      ${[30, 38, 46, 54, 62, 70].map(x => `<rect x="${x - 1}" y="40" width="2" height="18" fill="#7a1616"/>`).join('')}
+      <rect x="28" y="38" width="44" height="3" fill="#2f9e44"/>
+      <path d="M14 40 Q26 36 30 26 L70 26 Q74 36 86 40 Q68 36 50 36 Q32 36 14 40 Z" fill="#3b4250" stroke="#1c2028" stroke-width=".7"/>
+      <path d="M24 26 Q34 22 38 14 L62 14 Q66 22 76 26 Q62 23 50 23 Q38 23 24 26 Z" fill="#3b4250" stroke="#1c2028" stroke-width=".7"/>
+      <path d="M38 14 Q50 9 62 14" fill="#2a2f3a"/>`,
+    // 독도 (관광지)
+    dokdo: () => `
+      <rect x="10" y="56" width="80" height="13" rx="5" fill="#1c7ed6"/>
+      <path class="bg-wave" d="M12 61 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#a5d8ff" stroke-width="1.2"/>
+      <path d="M18 58 L28 30 L36 34 L42 58 Z" fill="#868e96" stroke="#495057" stroke-width=".8"/>
+      <path d="M48 58 L60 24 L70 28 L80 58 Z" fill="#7d858e" stroke="#495057" stroke-width=".8"/>
+      <path d="M28 30 L31 38 L26 40 Z M60 24 L64 34 L58 34 Z" fill="#69db7c"/>
+      <path d="M64 24 L64 10" stroke="#495057" stroke-width="1"/>
+      <rect x="64" y="10" width="11" height="7.5" fill="#fff" stroke="#adb5bd" stroke-width=".4"/>
+      <circle cx="69.5" cy="13.75" r="2.4" fill="#e03131"/><path d="M67.1 13.75 A2.4 2.4 0 0 0 71.9 13.75 A1.2 1.2 0 0 0 69.5 13.75 A1.2 1.2 0 0 1 67.1 13.75Z" fill="#1971c2"/>`,
+    // 설악산 (관광지): 울산바위
+    seorak: () => `
+      <path d="M10 66 L30 34 L40 44 L52 20 L66 38 L74 30 L90 66 Z" fill="#adb5bd" stroke="#495057" stroke-width=".8"/>
+      ${[[40, 44], [52, 20], [66, 38]].map(([x, y]) => `<path d="M${x - 4} ${y + 10} Q${x} ${y - 2} ${x + 4} ${y + 10}" fill="#ced4da"/>`).join('')}
+      <path d="M10 66 Q30 54 50 60 Q70 54 90 66 Z" fill="#fd7e14"/>
+      <path d="M14 66 Q24 58 34 64 Q44 58 54 64" fill="#e8590c"/>
+      ${[20, 30, 70, 80].map(x => `<circle cx="${x}" cy="62" r="3.4" fill="${x % 20 ? '#fa5252' : '#fab005'}"/>`).join('')}`,
+    // 기본: 황금 트로피 기념비
+    _default: () => `
+      <rect x="36" y="60" width="28" height="7" rx="1.5" fill="#5f3dc4" stroke="#36207a" stroke-width=".7"/>
+      <rect x="40" y="54" width="20" height="6" rx="1" fill="#7048e8" stroke="#36207a" stroke-width=".7"/>
+      <rect x="47" y="42" width="6" height="12" fill="url(#LMGOLD)" stroke="#8a5d00" stroke-width=".6"/>
+      <path d="M34 16 L66 16 Q66 40 50 42 Q34 40 34 16 Z" fill="url(#LMGOLD)" stroke="#8a5d00" stroke-width=".8"/>
+      <path d="M34 20 Q24 20 26 28 Q28 34 36 33" fill="none" stroke="#e0a800" stroke-width="2.4"/>
+      <path d="M66 20 Q76 20 74 28 Q72 34 64 33" fill="none" stroke="#e0a800" stroke-width="2.4"/>
+      <path class="bg-shine" d="M40 19 L44 19 L42 34 Z" fill="#fff" opacity=".7"/>
+      <path d="M50 22 l1.8 3.7 4 .6 -2.9 2.8 .7 4 -3.6 -1.9 -3.6 1.9 .7 -4 -2.9 -2.8 4 -.6z" fill="#fff3bf"/>`
+  };
+  // 도시 이름 → 랜드마크 키 (게임 보드 도시명 + 관광지 + 별칭)
+  const CITY_KEY = {
+    '서울': 'seoul', '남산': 'seoul', '남산타워': 'seoul',
+    '부산': 'busan', '해운대': 'busan', '광안리': 'busan',
+    '제주': 'jeju', '제주도': 'jeju', '한라산': 'jeju',
+    '경주': 'gyeongju',
+    '인천': 'incheon', '월미도': 'incheon',
+    '강릉': 'gangneung', '경포대': 'gangneung',
+    '전주': 'jeonju',
+    '대전': 'daejeon',
+    '광주': 'gwangju', '무등산': 'gwangju',
+    '울산': 'ulsan',
+    '수원': 'suwon',
+    '여의도': 'yeouido',
+    '명동': 'myeongdong',
+    '대구': 'daegu',
+    '포항': 'pohang',
+    '춘천': 'chuncheon',
+    '경복궁': 'gyeongbok',
+    '독도': 'dokdo',
+    '설악산': 'seorak'
+  };
+  function drawLandmark(cityName, owner) {
+    const id = 'l' + (++uid);
+    const key = CITY_KEY[String(cityName || '').trim()] || '_default';
+    const body = LM[key]().replace(/LMGOLD/g, id + 'gold');
+    let s = `<defs>
+      <radialGradient id="${id}glow"><stop offset="0" stop-color="#fff6c2" stop-opacity=".95"/><stop offset=".45" stop-color="${owner}" stop-opacity=".45"/><stop offset="1" stop-color="${owner}" stop-opacity="0"/></radialGradient>
+      <linearGradient id="${id}gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3a8"/><stop offset=".5" stop-color="#f5c542"/><stop offset="1" stop-color="#c58a00"/></linearGradient>
+    </defs>`;
+    // 후광 (뒤쪽에서 은은하게 맥동)
+    s += `<circle class="bg-glow" cx="50" cy="42" r="40" fill="url(#${id}glow)"/>`;
+    // 받침대 (소유자 색 아이소 단상)
+    s += `<ellipse class="bg-shadow" cx="50" cy="${O.cy + 6}" rx="30" ry="9" fill="#000" fill-opacity=".22"/>`;
+    s += box(-17, -17, -4, 34, 34, 4, owner, { top: shade(owner, 0.45), left: shade(owner, 0.05), right: shade(owner, -0.2) });
+    // 상징물 본체: 받침대 위에 올라가도록 위치 보정
+    s += `<g transform="translate(0 -6)">${body}</g>`;
+    // 반짝이
+    s += `<g fill="#fffbe0"><path class="bg-twinkle" d="M14 18 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5z"/><path class="bg-twinkle" style="animation-delay:.8s" d="M86 30 l1.2 2.8 2.8 1.2 -2.8 1.2 -1.2 2.8 -1.2 -2.8 -2.8 -1.2 2.8 -1.2z"/></g>`;
+    return wrap(s, id, true);
+  }
+
+  /* ---------- 공통 래퍼 ---------- */
+  let curSize = 64, curAnimate = true, curLabel = '';
+  function wrap(inner, id, isLandmark) {
+    return `<svg class="bg-svg${curAnimate ? ' bg-drop' : ''}" data-bg="${id}" width="${curSize}" height="${curSize}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${curLabel}">${inner}</svg>`;
+  }
+
+  /* ---------- 공개 API ---------- */
+  function BuildingGraphic(props) {
+    props = props || {};
+    injectCSS();
+    const type = props.type || 'villa';
+    const owner = props.ownerColor || '#ffd54a';
+    curSize = props.size || 64;
+    curAnimate = props.animate !== false;
+    const label = { villa: '별장', building: '빌딩', hotel: '호텔', landmark: '랜드마크' }[type] || '건물';
+    curLabel = (props.cityName ? props.cityName + ' ' : '') + label;
+    switch (type) {
+      case 'villa': return drawVilla(owner);
+      case 'building': return drawBuilding(owner);
+      case 'hotel': return drawHotel(owner);
+      case 'landmark': return drawLandmark(props.cityName, owner);
+      default: return '';
+    }
+  }
+  /** 요소에 바로 렌더 */
+  BuildingGraphic.mount = function (el, props) {
+    if (!el) return null;
+    el.innerHTML = BuildingGraphic(props);
+    return el.firstElementChild;
+  };
+  /** 게임 레벨(0 땅, 1 별장, 2 빌딩, 3 호텔, 4 랜드마크) → type */
+  BuildingGraphic.typeFromLevel = function (level) {
+    return [null, 'villa', 'building', 'hotel', 'landmark'][level] || null;
+  };
+  /** 전용 랜드마크가 있는 도시 목록 */
+  BuildingGraphic.cities = Object.keys(CITY_KEY);
+  BuildingGraphic.injectCSS = injectCSS;
+
+  global.BuildingGraphic = BuildingGraphic;
+  if (typeof module !== 'undefined' && module.exports) module.exports = BuildingGraphic;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
 // ================= 데이터 =================
 const GROUPS={
-  sub:{n:'강원',c:'#16a34a'}, fps:{n:'충청',c:'#0ea5e9'}, liar:{n:'전라',c:'#f59e0b'},
-  bump:{n:'경상',c:'#ef4444'}, ani:{n:'부산·울산',c:'#ec4899'}, rsv:{n:'경기',c:'#8b5cf6'}, tax:{n:'서울',c:'#111827'}
+  sub:{n:'강원',c:'#FCC419'}, fps:{n:'충청',c:'#FCC419'}, liar:{n:'전라',c:'#20C997'},
+  bump:{n:'경상',c:'#339AF0'}, ani:{n:'부산·울산',c:'#FF6B6B'}, rsv:{n:'경기',c:'#845EF7'}, tax:{n:'서울',c:'#845EF7'}
 };
 const C=(t,n,g,price,ic)=>({t,n,g,price,ic});
 const CELLS=[
@@ -404,7 +991,7 @@ const PERS=[
  {k:'jam',n:'방해꾼',res:300,toP:0.6,w:{'방해':2.2,'방어':1.6,'인수':1.2}}
 ];
 const AI_NAMES=['철수','영희','민수','지영'];
-const COLORS=['#ffd54a','#ff5d73','#4dd4ff','#7dff8a'];
+const COLORS=['#F59F00','#F03E3E','#1C7ED6','#2F9E44'];
 
 // ================= 상태 =================
 let G=null, SPEED=1, FAST=false;
@@ -445,8 +1032,26 @@ addEventListener('resize',fit);fit();
 function gridPos(i){
   if(i<=8)return[9,9-i]; if(i<=16)return[9-(i-8),1]; if(i<=24)return[1,1+(i-16)]; return[1+(i-24),9];
 }
+const PREVLV=[];
+const TOUR_C={'제주도':'#FF6B6B'};
+const KOREA_WM=`<svg class="watermark" viewBox="0 0 700 700" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+  <g opacity=".09" fill="#6b5a3a" stroke="#6b5a3a" stroke-width="3" stroke-linejoin="round">
+    <path d="M338 92 L372 84 L398 98 L426 92 L446 112 L432 136 L412 156 L424 178 L438 206 L448 240 L456 280 L458 318 L450 356 L432 392 L406 418 L374 432 L342 438 L312 430 L292 412 L284 388 L268 374 L274 350 L260 330 L268 306 L282 292 L270 270 L286 252 L300 230 L294 206 L280 190 L266 172 L282 150 L306 128 Z"/>
+    <path d="M300 230 L316 236 L326 262 L318 288 L300 296" fill="none"/>
+    <ellipse cx="318" cy="492" rx="34" ry="14"/>
+    <circle cx="470" cy="268" r="4"/><circle cx="480" cy="262" r="3"/>
+  </g>
+  <g transform="translate(560 560)" opacity=".13" fill="none" stroke="#6b5a3a" stroke-width="3">
+    <circle r="62"/><circle r="48" stroke-dasharray="4 7"/>
+    <path d="M0 -78 L12 0 L0 78 L-12 0 Z" fill="#6b5a3a"/><path d="M-78 0 L0 -12 L78 0 L0 12 Z"/>
+    <text y="-86" text-anchor="middle" font-size="26" font-weight="900" fill="#6b5a3a" stroke="none">N</text>
+  </g>
+  <g transform="translate(130 130)" opacity=".08" fill="#6b5a3a">
+    <path d="M0 -40 l10 30 30 10 -30 10 -10 30 -10 -30 -30 -10 30 -10z"/>
+  </g>
+</svg>`;
 function buildBoard(){
-  const b=document.getElementById('board');b.innerHTML='';CELLCACHE.length=0;PREVOWN.length=0;
+  const b=document.getElementById('board');b.innerHTML='';CELLCACHE.length=0;PREVOWN.length=0;PREVLV.length=0;
   CELLS.forEach((cell,i)=>{
     const d=document.createElement('div');d.id='cell'+i;const[r,c]=gridPos(i);
     d.style.gridRow=r;d.style.gridColumn=c;d.className='cell';
@@ -455,7 +1060,7 @@ function buildBoard(){
     b.appendChild(d);
   });
   const ce=document.createElement('div');ce.id='center';
-  ce.innerHTML=`<div id="ctitle">증강 부루마블</div><div id="cinfo"></div>
+  ce.innerHTML=`${KOREA_WM}<div id="ctitle">증강 부루마블</div><div id="cinfo"></div>
   <div id="dice"><div class="cube" id="d1">${cubeHTML()}</div><div class="cube" id="d2">${cubeHTML()}</div></div>
   <div id="potline"></div>
   <div id="prompt"><div id="ptext"></div><div id="pbtns"></div></div>`;
@@ -486,21 +1091,29 @@ function render(){
 function renderCells(){
   CELLS.forEach((cell,i)=>{
     const d=cellEl(i),c=G.cells[i];
+    const owner=c.owner>=0?G.players[c.owner]:null;
     let cls='cell';if(i%8===0)cls+=' corner';else if(cell.t==='tour')cls+=' tour';else if(cell.t!=='land')cls+=' special';
+    if(owner)cls+=' owned';
     if(G.pickSet&&G.pickSet.includes(i))cls+=' pickable';
-    let h='';
-    if(cell.t==='land')h+=`<div class="band" style="background:${GROUPS[cell.g].c}">${GROUPS[cell.g].n}</div>`;
-    if(cell.t==='tour')h+=`<div class="band" style="background:#c98a00">관광지</div>`;
-    if(cell.ic)h+=`<div class="ic">${cell.ic}</div>`;
-    h+=`<div class="nm">${cell.n}</div>`;
-    if(cell.price){if(c.owner>=0)h+=`<div class="pr">통행료 <b>${baseToll(i)}</b></div>`;else h+=`<div class="pr">${cell.price}</div>`}
-    if(cell.t==='land'&&c.owner>=0&&c.level>0)h+=`<div class="lv">${LV_IC[c.level]} ${LV_NAMES[c.level]}</div>`;
-    if(i===29&&G.pot)h+=`<div class="pr">기금 ${G.pot}</div>`;
-    if(G.fest===i)h+=`<div class="fest">🎉</div>`;
-    if(c.owner>=0){const oc=G.players[c.owner].color;h+=`<div class="flag" style="--fc:${oc}"></div><div class="own" style="background:${oc}"></div>`}
-    const bs=c.owner>=0?`inset 0 0 0 3px ${G.players[c.owner].color}`:'';
-    const key=cls+'|'+h+'|'+bs;
-    if(CELLCACHE[i]!==key){CELLCACHE[i]=key;d.className=cls;d.innerHTML=h;d.style.boxShadow=bs}
+    const toll=(cell.price&&owner)?baseToll(i):0;
+    const key=[cls,c.owner,c.level,toll,G.fest===i?1:0,i===29?G.pot:0].join('|');
+    if(CELLCACHE[i]!==key){
+      CELLCACHE[i]=key;
+      const grew=PREVLV[i]!==undefined&&PREVLV[i]!==c.level&&c.level>0;
+      let h='';
+      if(cell.t==='land')h+=`<div class="band" style="background:${GROUPS[cell.g].c}">${GROUPS[cell.g].n}</div>`;
+      if(cell.t==='tour')h+=`<div class="band" style="background:${TOUR_C[cell.n]||'#F59F00'}">관광지</div>`;
+      if(cell.ic)h+=`<div class="ic">${cell.ic}</div>`;
+      h+=`<div class="nm">${cell.n}</div>`;
+      if(cell.t==='land'&&owner&&c.level>0)h+=`<div class="bgw">${BuildingGraphic({type:BuildingGraphic.typeFromLevel(c.level),cityName:cell.n,ownerColor:owner.color,size:46,animate:grew})}</div>`;
+      if(cell.price){if(owner)h+=`<span class="toll">₩ ${toll.toLocaleString()}</span>`;else h+=`<span class="price">${cell.price}</span>`}
+      if(i===29&&G.pot)h+=`<div class="price">기금 ${G.pot}</div>`;
+      if(G.fest===i)h+=`<div class="fest">🎉</div>`;
+      if(owner)h+=`<div class="flag" style="--fc:${owner.color}"></div>`;
+      d.className=cls;d.innerHTML=h;
+      if(owner)d.style.setProperty('--oc',owner.color);else d.style.removeProperty('--oc');
+    }
+    PREVLV[i]=c.level;
     if(PREVOWN[i]!==c.owner){if(c.owner>=0&&PREVOWN[i]!==undefined){const f=d.querySelector('.flag');if(f)f.classList.add('plant')}PREVOWN[i]=c.owner}
   });
 }
@@ -600,8 +1213,8 @@ const FX={
     if(lv===4){const pl=document.createElement('div');pl.className='pillar';pl.style.left=(cx-40)+'px';pl.style.top=(cy-620)+'px';STAGE().appendChild(pl);
       pl.animate([{transform:'scaleY(0)',opacity:1},{transform:'scaleY(1)',opacity:1,offset:.35},{transform:'scaleY(1)',opacity:0}],{duration:FX.d(1300),easing:'ease-out'}).finished.then(()=>pl.remove());
       shakeBoard();FX.burst(cx,cy,30,['#fff','#ffd54a','#d6b4ff'],{sp:7,up:3})}
-    const b=document.createElement('div');b.className='bfx';b.textContent=LV_IC[lv];b.style.left=cx+'px';b.style.top=(r.y+r.h*0.55)+'px';STAGE().appendChild(b);
-    await FX.anim(b,[{transform:'translate(-50%,0) scale(.2)',opacity:0},{transform:'translate(-50%,-55px) scale(1.7)',opacity:1,offset:.6},{transform:'translate(-50%,-35px) scale(1.2)',opacity:0}],750);b.remove();
+    FX.burst(cx,r.y+r.h*0.6,lv===4?0:10,['#fff','#ffd54a',lv===3?'#d6b4ff':'#9be27f'],{sp:4,up:3});
+    await FX.wait(650);
   },
   async keyCard(k){const el=document.getElementById('keyfx');el.innerHTML=`<div class="kkey">🔑</div><div class="kcard ${k.good?'good':'bad'}"><div class="kt">황금열쇠</div><div class="kn">${k.n}</div><div class="kd">${k.d}</div></div>`;el.classList.add('on');
     setTimeout(()=>FX.burst(500,500,14,k.good?['#ffd54a','#fff']:['#ff6b6b','#555'],{sp:6}),FX.d(400));await FX.wait(1350);el.classList.remove('on')},
