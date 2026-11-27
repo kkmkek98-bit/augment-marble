@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v9</title>
+<title>증강 부루마블 v10</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -450,7 +450,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v9</div>
+    <div class="ver">v10</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -943,6 +943,34 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <path d="M10 66 Q30 54 50 60 Q70 54 90 66 Z" fill="#fd7e14"/>
       <path d="M14 66 Q24 58 34 64 Q44 58 54 64" fill="#e8590c"/>
       ${[20, 30, 70, 80].map(x => `<circle cx="${x}" cy="62" r="3.4" fill="${x % 20 ? '#fa5252' : '#fab005'}"/>`).join('')}`,
+    // 여수: 밤바다 + 엑스포 빅오
+    yeosu: () => `
+      <rect x="10" y="40" width="80" height="30" rx="6" fill="#1c2a5c"/>
+      <circle cx="74" cy="20" r="6" fill="#fff3bf"/>
+      <circle cx="50" cy="44" r="18" fill="none" stroke="#e9ecef" stroke-width="5"/>
+      <circle cx="50" cy="44" r="18" fill="none" stroke="#74c0fc" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <rect x="20" y="58" width="60" height="4" fill="#495057"/>
+      <path class="bg-wave" d="M12 66 q4 -3 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#ffd43b" stroke-width="1.2"/>
+      ${[22,34,66,78].map((x,k)=>`<circle class="bg-twinkle" style="animation-delay:${k*.3}s" cx="${x}" cy="52" r="1.4" fill="#ffd43b"/>`).join('')}`,
+    // 목포: 유달산 + 해상 케이블카
+    mokpo: () => `
+      <rect x="10" y="58" width="80" height="11" rx="5" fill="#4dabf7"/>
+      <path d="M12 60 L34 26 L46 40 L58 22 L74 60 Z" fill="#8ce99a" stroke="#2f9e44" stroke-width=".8"/>
+      <path d="M58 22 L62 30 L56 30 Z M34 26 L37 32 L31 32 Z" fill="#adb5bd"/>
+      <path d="M20 18 L88 42" stroke="#495057" stroke-width="1"/>
+      <rect x="44" y="27" width="9" height="8" rx="2" fill="#ff6b6b" stroke="#c92a2a" stroke-width=".6"/><line x1="48.5" y1="26" x2="48.5" y2="28" stroke="#495057" stroke-width="1"/>
+      <rect x="66" y="35" width="9" height="8" rx="2" fill="#ffd43b" stroke="#e67700" stroke-width=".6"/><line x1="70.5" y1="34" x2="70.5" y2="36" stroke="#495057" stroke-width="1"/>`,
+    // 강남: 테헤란로 유리 빌딩 숲
+    gangnam: () => `
+      <rect x="14" y="62" width="72" height="5" rx="2" fill="#adb5bd"/>
+      <rect x="20" y="34" width="14" height="28" fill="#74c0fc" stroke="#1971c2" stroke-width=".7"/>
+      <rect x="36" y="16" width="16" height="46" fill="#4dabf7" stroke="#1864ab" stroke-width=".7"/>
+      <path d="M36 16 L44 8 L52 16 Z" fill="#a5d8ff" stroke="#1864ab" stroke-width=".7"/>
+      <rect x="54" y="26" width="13" height="36" fill="#339af0" stroke="#1864ab" stroke-width=".7"/>
+      <rect x="69" y="40" width="11" height="22" fill="#a5d8ff" stroke="#1971c2" stroke-width=".7"/>
+      ${[20,26,32,38,44,50,56].map(y=>`<line x1="37" y1="${y}" x2="51" y2="${y}" stroke="#d0ebff" stroke-width=".6"/>`).join('')}
+      <path class="bg-shine" d="M39 18 L42 18 L40 60 L37 60 Z" fill="#fff" opacity=".6"/>
+      <circle class="bg-twinkle" cx="44" cy="7" r="1.4" fill="#ff6b6b"/>`,
     // 기본: 황금 트로피 기념비
     _default: () => `
       <rect x="36" y="60" width="28" height="7" rx="1.5" fill="#5f3dc4" stroke="#36207a" stroke-width=".7"/>
@@ -974,7 +1002,8 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
     '춘천': 'chuncheon',
     '경복궁': 'gyeongbok',
     '독도': 'dokdo',
-    '설악산': 'seorak'
+    '설악산': 'seorak',
+    '여수': 'yeosu', '목포': 'mokpo', '강남': 'gangnam'
   };
   function drawLandmark(cityName, owner) {
     const id = 'l' + (++uid);
@@ -1043,7 +1072,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 // ================= 데이터 =================
 const GROUPS={
   sub:{n:'강원',c:'#FCC419'}, fps:{n:'충청',c:'#FF922B'}, liar:{n:'전라',c:'#20C997'},
-  bump:{n:'경상',c:'#339AF0'}, ani:{n:'부산·울산',c:'#FF6B6B'}, rsv:{n:'경기',c:'#845EF7'}, tax:{n:'서울',c:'#C2255C'}
+  bump:{n:'경상',c:'#339AF0'}, ani:{n:'부산·울산',c:'#FF6B6B'}, rsv:{n:'경기',c:'#845EF7'}, han:{n:'남해안',c:'#A0522D'}, tax:{n:'서울',c:'#C2255C'}
 };
 const C=(t,n,g,price,ic)=>({t,n,g,price,ic});
 const CELLS=[
@@ -1053,8 +1082,8 @@ const CELLS=[
  C('tour','독도',null,170,'🇰🇷'), C('land','경주','bump',180), C('land','포항','bump',180), C('land','대구','bump',200),
  C('fest','축제',null,0,'🎉'), C('land','울산','ani',220), C('land','부산','ani',240), C('tour','제주도',null,190,'🍊'),
  C('key','황금열쇠',null,0,'🔑'), C('land','수원','rsv',260), C('land','성남','rsv',260), C('land','인천','rsv',280),
- C('express','우주여행',null,0,'🚀'), C('key','황금열쇠',null,0,'🔑'), C('land','여의도','tax',300), C('land','강남','tax',330),
- C('tour','경복궁',null,210,'🏯'), C('qa','사회복지기금',null,0,'🤝'), C('land','명동','tax',360), C('land','서울','tax',400)
+ C('express','우주여행',null,0,'🚀'), C('key','황금열쇠',null,0,'🔑'), C('land','목포','han',300), C('land','여수','han',330),
+ C('tour','경복궁',null,210,'🏯'), C('qa','사회복지기금',null,0,'🤝'), C('land','강남','tax',360), C('land','여의도','tax',400)
 ];
 const N=CELLS.length;
 const SIDES=[[1,2,3,5,6,7],[9,10,12,13,14,15],[17,18,19,21,22,23],[26,27,28,30,31]];
