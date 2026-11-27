@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>증강 부루마블 v10</title>
+<title>증강 부루마블 v11</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0b1020;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:#e8ecff;overflow:hidden;width:100vw;height:100vh;user-select:none}
@@ -432,6 +432,11 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 .cell.tour{background:radial-gradient(circle at 20% 80%,#fff3bf 0 2px,transparent 3px),radial-gradient(circle at 75% 70%,#fff3bf 0 2px,transparent 3px),linear-gradient(180deg,#fffbea,#fff3c4)!important;box-shadow:inset 0 0 0 3px #e8b923,0 5px 0 #c9a227,0 7px 10px rgba(0,0,0,.08)}
 .cell.tour.owned{box-shadow:inset 0 0 0 3px #e8b923,inset 0 0 0 6px var(--oc),0 5px 0 #c9a227,0 7px 12px rgba(0,0,0,.1)}
 .cell .band.tourband{background:linear-gradient(90deg,#b8860b,#f5c542,#b8860b);color:#3d2600;text-shadow:0 1px 0 rgba(255,255,255,.5);letter-spacing:.5px}
+
+#augModal .acol{display:flex;flex-direction:column;align-items:center;gap:14px}
+#augModal .rr1{min-width:250px;min-height:50px;font-size:16px}
+#augModal .rr1:disabled{opacity:.8}
+#augModal .rrhint{color:#e9ecef;font-size:16px;opacity:.85}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -440,7 +445,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
 <div id="stage">
   <div id="menu" class="screen on">
     <h1>증강 부루마블</h1>
-    <div class="sub">한국 지도판 · 증강 3택 1 · 선택마다 새로고침 1회</div>
+    <div class="sub">한국 지도판 · 증강 3택 1 · 카드마다 새로고침 1회</div>
     <div class="box">
       <div class="opt">AI 상대 수 <select id="optAI"><option value="1">1명</option><option value="2">2명</option><option value="3" selected>3명</option></select></div>
       <div class="opt">라운드 제한 <select id="optLim"><option value="15">15라운드 (짧게)</option><option value="20" selected>20라운드</option><option value="25">25라운드</option></select></div>
@@ -450,7 +455,7 @@ body{background:linear-gradient(160deg,#e7eeff 0%,#f6efff 45%,#fff3e6 100%)}
       <button class="btn gray" onclick="showHelp()">게임 방법</button>
       <button class="btn gray" onclick="showDex()">증강 · 시너지 도감</button>
     </div>
-    <div class="ver">v10</div>
+    <div class="ver">v11</div>
   </div>
 
   <div id="lobby" class="screen">
@@ -2033,14 +2038,23 @@ function drawAugs(p,tier,exclude){
   if(pool.length<3)pool=AUGS.filter(a=>a.t===tier&&!p.augs.includes(a.id));
   return pool.sort(()=>Math.random()-0.5).slice(0,3).map(a=>a.id);
 }
+/** 카드 한 장만 교체: 같은 등급, 이미 가진 증강·현재 보이는 카드·이미 본 카드 제외 */
+function drawOneAug(p,tier,exclude){
+  let pool=AUGS.filter(a=>a.t===tier&&!p.augs.includes(a.id)&&!exclude.includes(a.id));
+  if(!pool.length)return null;
+  return pool[rnd(pool.length)].id;
+}
 async function doPick(p,bonus){
   if(!bonus)p.pending--;
   const before={};for(const t in SYN)before[t]=synLv(p,t);
   const tier=rollTier(p);let opts=drawAugs(p,tier,[]);let rerolls=1;let choice;
   if(p.human)choice=await augModal(p,tier,opts);
   else{
-    let sc=opts.map(id=>aiAugScore(p,id));
-    if(rerolls&&Math.max(...sc)<tierVal(tier)+0.9){opts=drawAugs(p,tier,opts);rerolls=0;sc=opts.map(id=>aiAugScore(p,id));log(`${pname(p)} 🔄 증강 새로고침`)}
+    let sc=opts.map(id=>aiAugScore(p,id));const seen=[...opts];let used=0;
+    for(let k=0;k<3;k++){
+      if(sc[k]<tierVal(tier)+0.6){const n=drawOneAug(p,tier,seen);if(n!=null){opts[k]=n;seen.push(n);sc[k]=aiAugScore(p,n);used++}}
+    }
+    if(used)log(`${pname(p)} 🔄 증강 카드 ${used}장 새로고침`);
     choice=opts[sc.indexOf(Math.max(...sc))];await sleep(250);
   }
   const a=AUGS[choice];p.augs.push(choice);p.picks++;
@@ -2057,36 +2071,42 @@ async function doPick(p,bonus){
 }
 function augModal(p,tier,opts){
   return new Promise(res=>{
-    const md=document.getElementById('augModal');let rr=1,busy=true;
+    const md=document.getElementById('augModal');let busy=true;
+    const used=[false,false,false],seen=[...opts];
     const front=id=>{const a=AUGS[id];const sc=synCounts(p);
       return `<div class="acard ${a.t}"><div class="tier">${TIER_NAME[a.t]}</div><div class="an">${a.n}</div><div class="ad">${a.d}</div>
       ${a.g?`<div class="cnd">조건: ${GROUPS[a.g].n} 땅 보유 ${ownsGroup(p,a.g)?'✅':'❌ (아직 없음)'}</div>`:''}
-      <div class="tags">${a.tags.map(t=>`<span class="tg">#${t} ${(sc[t]||0)?'('+sc[t]+'→'+(sc[t]+1)+')':''}</span>`).join('')}</div></div>`};
-    const paint=()=>{
-      busy=true;
-      md.innerHTML=`<div class="mtitle" style="color:${tier==='P'?'#e3b3ff':tier==='G'?'#ffd54a':'#e0e6f5'}">${TIER_NAME[tier]} 증강 선택 (${p.picks+1}번째)</div>
-      <div class="cards">${opts.map((id,k)=>`<div class="awrap" data-id="${id}" style="animation-delay:${k*90}ms"><div class="ain"><div class="aback"><div class="aq">?</div></div>${front(id)}</div></div>`).join('')}</div>
-      <button class="btn ${rr?'':'gray'}" id="rrBtn" ${rr?'':'disabled'} ${rr?'':'title="이번 선택의 새로고침을 이미 썼습니다"'}>🔄 새로고침 (${rr}회 남음)</button>`;
-      const wraps=[...md.querySelectorAll('.awrap')];
-      wraps.forEach((w,k)=>setTimeout(()=>{w.querySelector('.ain').classList.add('open');const a=AUGS[+w.dataset.id];const c=FX.center(w);
-        if(a.t==='P')FX.burst(c.x,c.y,14,['#ff9ff3','#7df9ff','#fff59d','#c3a6ff'],{sp:7});else if(a.t==='G')FX.burst(c.x,c.y,6,['#ffd54a','#fff'],{sp:5})},450+k*230));
-      setTimeout(()=>busy=false,450+2*230+300);
-      wraps.forEach(w=>w.onclick=async()=>{
-        if(busy)return;busy=true;const id=+w.dataset.id;
-        wraps.forEach(o=>{if(o!==w)o.animate([{opacity:1},{opacity:0,transform:'translateY(70px)'}],{duration:250,fill:'forwards'})});
-        md.querySelector('#rrBtn').style.visibility='hidden';
-        await w.animate([{transform:'scale(1)'},{transform:'scale(1.15)'}],{duration:220,easing:'cubic-bezier(.34,1.56,.64,1)',fill:'forwards'}).finished;
-        const a=FX.rect(w),b=FX.rect(cardEl(p));
-        await w.animate([{transform:'scale(1.15)',opacity:1},{transform:`translate(${b.x+b.w/2-(a.x+a.w/2)}px,${b.y+b.h/2-(a.y+a.h/2)}px) scale(.06)`,opacity:.3}],{duration:520,easing:'cubic-bezier(.6,0,.8,.4)',fill:'forwards'}).finished;
-        md.classList.remove('on');res(id);
-      });
-      md.querySelector('#rrBtn').onclick=async()=>{
-        if(!rr||busy)return;rr=0;busy=true;
-        await Promise.all(wraps.map(w=>w.querySelector('.ain').animate([{transform:'rotateY(0deg) scale(1)'},{transform:'rotateY(540deg) scale(.8)'}],{duration:450,easing:'ease-in',fill:'forwards'}).finished));
-        opts=drawAugs(p,tier,opts);paint();
-      };
-    };
-    paint();md.classList.add('on');
+      <div class="tags">${a.tags.map(t=>`<span class="tg">${SYN_IC[t]||'#'} ${t} ${(sc[t]||0)?'('+sc[t]+'→'+(sc[t]+1)+')':''}</span>`).join('')}</div></div>`};
+    const inner=id=>`<div class="ain"><div class="aback"><div class="aq">?</div></div>${front(id)}</div>`;
+    const reveal=(w,delay)=>setTimeout(()=>{w.querySelector('.ain').classList.add('open');const a=AUGS[+w.dataset.id];const c=FX.center(w);
+      if(a.t==='P')FX.burst(c.x,c.y,14,['#ff9ff3','#7df9ff','#fff59d','#c3a6ff'],{sp:7});else if(a.t==='G')FX.burst(c.x,c.y,6,['#ffd54a','#fff'],{sp:5})},delay);
+    md.innerHTML=`<div class="mtitle" style="color:${tier==='P'?'#e3b3ff':tier==='G'?'#ffd54a':'#e0e6f5'}">${TIER_NAME[tier]} 증강 선택 (${p.picks+1}번째)</div>
+      <div class="cards">${opts.map((id,k)=>`<div class="acol"><div class="awrap" data-k="${k}" data-id="${id}" style="animation-delay:${k*90}ms">${inner(id)}</div>
+        <button class="btn gray rr1" data-k="${k}">🔄 이 카드 새로고침 (1회)</button></div>`).join('')}</div>
+      <div class="rrhint">카드마다 새로고침을 1번씩 쓸 수 있어요 · 등급은 그대로 유지</div>`;
+    const wraps=[...md.querySelectorAll('.awrap')],btns=[...md.querySelectorAll('.rr1')];
+    wraps.forEach((w,k)=>reveal(w,450+k*230));
+    setTimeout(()=>busy=false,450+2*230+300);
+    wraps.forEach(w=>w.onclick=async()=>{
+      if(busy)return;busy=true;const id=+w.dataset.id;
+      wraps.forEach(o=>{if(o!==w)o.animate([{opacity:1},{opacity:0,transform:'translateY(70px)'}],{duration:250,fill:'forwards'})});
+      btns.forEach(x=>x.style.visibility='hidden');md.querySelector('.rrhint').style.visibility='hidden';
+      await w.animate([{transform:'scale(1)'},{transform:'scale(1.15)'}],{duration:220,easing:'cubic-bezier(.34,1.56,.64,1)',fill:'forwards'}).finished;
+      const a=FX.rect(w),b=FX.rect(cardEl(p));
+      await w.animate([{transform:'scale(1.15)',opacity:1},{transform:`translate(${b.x+b.w/2-(a.x+a.w/2)}px,${b.y+b.h/2-(a.y+a.h/2)}px) scale(.06)`,opacity:.3}],{duration:520,easing:'cubic-bezier(.6,0,.8,.4)',fill:'forwards'}).finished;
+      md.classList.remove('on');res(id);
+    });
+    btns.forEach(bt=>bt.onclick=async e=>{
+      e.stopPropagation();const k=+bt.dataset.k;if(busy||used[k])return;
+      const n=drawOneAug(p,tier,[...seen,...wraps.map(w=>+w.dataset.id)]);
+      if(n==null){bt.disabled=true;bt.textContent='바꿀 카드가 없어요';return}
+      used[k]=true;busy=true;bt.disabled=true;bt.textContent='✔ 새로고침 사용함';bt.title='이 카드의 새로고침을 이미 썼습니다';
+      const w=wraps[k];
+      await w.querySelector('.ain').animate([{transform:'rotateY(0deg) scale(1)'},{transform:'rotateY(540deg) scale(.8)'}],{duration:420,easing:'ease-in',fill:'forwards'}).finished;
+      seen.push(n);w.dataset.id=n;delete w.dataset.t;w.className='awrap';w.innerHTML=inner(n);
+      reveal(w,60);setTimeout(()=>busy=false,400);
+    });
+    md.classList.add('on');
   });
 }
 
@@ -2168,7 +2188,7 @@ function showDex(tab){
     body=`<div class="dgrid syn">${Object.entries(SYN).map(([k,v])=>{const list=AUGS.filter(a=>a.tags.includes(k));return `<div class="dcard syncard"><div class="sic">${SYN_IC[k]||'#'}</div><div class="dn">#${k}</div><div class="dd">${SYN_DESC[k]||''}</div><div class="stiers">${v.map(x=>`<div><b>${x[0]}개</b> ${x[2]}</div>`).join('')}</div><div class="slist">이 태그 증강 ${list.length}개: ${list.map(a=>`<span class="aug ${a.t}">${a.n}</span>`).join('')}</div></div>`}).join('')}</div>`;
   }else{
     body=`<h3>등급 확률 (실버 / 골드 / 프리즘, %)</h3><table>${TIER_P.map((x,k)=>`<tr><td>${k+1}번째 선택</td><td>${x.join(' / ')}</td></tr>`).join('')}</table>
-    <p style="margin-top:8px">총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정. 새로고침해도 등급은 그대로입니다. 모든 수치는 합연산이며 상한이 있습니다.</p>
+    <p style="margin-top:8px">총자산 꼴찌는 2번째 선택부터 실버 -10%p, 골드 +6%p, 프리즘 +4%p 보정. 새로고침은 카드마다 1회이고, 바꿔도 등급은 그대로입니다. 모든 수치는 합연산이며 상한이 있습니다.</p>
     <h3>🎯 주사위 컨트롤</h3><p>주사위 버튼을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 ${CTRL_BASE}% 확률로 게이지 위치의 숫자(왼쪽 끝 2 ~ 오른쪽 끝 12)가 그대로 나옵니다. #컨트롤 증강·시너지로 확률을 최대 ${CTRL_CAP}%까지 올릴 수 있습니다. 실패하면 평소처럼 무작위로 나옵니다.</p>`;
   }
   md.innerHTML=`<div class="panel">${tabs}${body}<div style="text-align:center;margin-top:16px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
@@ -2182,7 +2202,7 @@ function showHelp(){
   <h3>인수</h3>상대 땅에서 통행료를 낸 뒤, 투자액의 1.5배를 주인에게 주고 빼앗을 수 있습니다.
   <h3>특수 칸</h3>🏝️ 무인도: ${ISLAND_TURNS}턴 동안 갇힘 (더블이면 탈출) · 🔑 황금열쇠: 랜덤 카드 · 🎉 축제: 사회복지기금 획득 + 내 땅 하나 통행료 ×2 · 🚀 우주여행: 다음 턴에 원하는 칸으로 이동 · 🤝 사회복지기금: ${QA_FINE}을 기금에 냄
   <h3>🎯 주사위 게이지 & 컨트롤</h3>주사위 버튼(또는 스페이스바)을 꾹 눌렀다 떼면 게이지가 멈춥니다. 기본 10% 확률로 게이지 위치의 숫자(2~12)가 그대로 나오고, 실패하면 무작위입니다. #컨트롤 증강과 시너지로 확률을 올릴 수 있습니다.
-  <h3>증강</h3>게임 시작 시 1개를 고르고, 출발 칸을 지날 때마다 1개씩 더 고릅니다 (최대 ${MAX_PICKS}개 + 카드 보너스). 후보 3개 중 1개를 고르며, 선택할 때마다 새로고침을 1회 쓸 수 있습니다. 같은 태그가 쌓이면 시너지가 켜집니다. 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
+  <h3>증강</h3>게임 시작 시 1개를 고르고, 출발 칸을 지날 때마다 1개씩 더 고릅니다 (최대 ${MAX_PICKS}개 + 카드 보너스). 후보 3개 중 1개를 고르며, 카드마다 새로고침을 1회씩 쓸 수 있습니다 (그 카드만 같은 등급의 다른 증강으로 바뀜). 같은 태그가 쌓이면 시너지가 켜집니다. 테마 증강은 해당 게임 그룹 땅을 갖고 있어야 작동합니다.
   <h3>승리 조건</h3>① 나머지 전원 파산 ② 트리플 독점 (게임 그룹 3개 독점) ③ 라인 독점 (보드 한 변의 땅·관광지 전부) ④ 관광지 4곳 독점 ⑤ 라운드 제한 도달 시 총자산 1등
   <div style="text-align:center;margin-top:12px"><button class="btn" onclick="document.getElementById('infoModal').classList.remove('on')">닫기</button></div></div>`;
   md.classList.add('on');
